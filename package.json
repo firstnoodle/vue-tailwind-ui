@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "sebastian thielke <seb@firstnoodle.io>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "echo 'No tests have been created yet'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
