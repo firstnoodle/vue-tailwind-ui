@@ -1,5 +1,5 @@
 {
-  "name": "vue-tailwind-ui",
+  "name": "@firstnoodle/vue-tailwind-ui",
   "description": "Vue component library built with tailwindcss",
   "version": "0.1.1",
   "author": "sebastian thielke <seb@firstnoodle.io>",
