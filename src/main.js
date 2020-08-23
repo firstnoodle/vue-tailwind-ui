@@ -1,7 +1,8 @@
-import Vue from 'vue'
-import App from './App.vue'
 
-new Vue({
-  el: '#app',
-  render: h => h(App)
-})
+import Test from '~/components/Test.vue';
+
+export default {
+  install(Vue) {
+    Vue.component("test", Test);
+  }
+};
