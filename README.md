@@ -1,8 +1,8 @@
 # vue-tailwind-ui
+My first attempt at creating a vue-tailwind-ui (not to be confused with the product [tailwindui](https://tailwindui.com/)) ui component library as a GithubPackage.
 
-My first attempt at creating a ui library GithubPackage.
-It is built using Vue (and soon tailwindcss), but is not working yet.
-So far I'm just figuring out how to set everything up.
+Below are some notes on how to create and consume a GithubPackage (or at least how I made it work).
+In the bottom is a setup guide for this repository.
 
 ## Steps to publish and consume a GithubPackage
 
