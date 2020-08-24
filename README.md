@@ -1,18 +1,31 @@
 # Vue Tailwind UI Package
 My first attempt at creating a vue-tailwind-ui (not to be confused with the product [tailwindui](https://tailwindui.com/)) ui component library as a GithubPackage.
 
-Below are some notes on how to [create, publish](#create-and-publish-a-github-package), and [consume a GithubPackage](#consume-a-github-package) (or at least how I made it work).
+## Index
+- [Create and publish a Github Package](#create-and-publish-a-github-package)
+- [Consume a GithubPackage](#consume-a-github-package)
+- [Setup guide for this repo](#project-setup)
 
-In the bottom is a [setup guide](#project-setup) for this repository.
+<br><br>
 
+# Create and publish a Github Package
+<br>
 
-## Create and publish a Github Package
-### GithubAction
-Created action to publish a package on `release`
-File `.github/workflows/gpr-publish.yml`
+## GithubAction that publishes package on `release`
+Created github action action file `gpr-publish.yml`
+Find it in .github/workflows
+<br>
+<br>
 
-### Package.json
-Setup the right configurations and fields:
+## Build-script in package.json
+``` json
+{
+    "build-lib": "vue-cli-service build --target lib --name vue-tailwind-ui src/main.js",
+}
+```
+<br>
+
+## Package.json - Setup the right configurations and fields
 - package name should be scoped (@username/package-name)
 - version number is required
 - private should be false
@@ -35,7 +48,9 @@ Setup the right configurations and fields:
 }
 ```
 
-## Publish a Github Package
+<br><br>
+
+# Consume a Github Package
 ### GITHUB_TOKEN
 [Generating access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
@@ -52,7 +67,9 @@ registry=https://npm.pkg.github.com/firstnoodle
 }
 ```
 
-## Project setup
+<br><br>
+
+# Project setup
 ```
 npm install
 ```
