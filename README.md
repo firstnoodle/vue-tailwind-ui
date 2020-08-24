@@ -1,17 +1,17 @@
-# vue-tailwind-ui
+# Vue Tailwind UI Package
 My first attempt at creating a vue-tailwind-ui (not to be confused with the product [tailwindui](https://tailwindui.com/)) ui component library as a GithubPackage.
 
-Below are some notes on how to create and consume a GithubPackage (or at least how I made it work).
-In the bottom is a setup guide for this repository.
+Below are some notes on how to [create, publish](#create-and-publish-a-github-package), and [consume a GithubPackage](#consume-a-github-package) (or at least how I made it work).
 
-## Steps to publish and consume a GithubPackage
+In the bottom is a [setup guide](#project-setup) for this repository.
 
-### Package repo
-#### GithubAction
+
+## Create and publish a Github Package
+### GithubAction
 Created action to publish a package on `release`
 File `.github/workflows/gpr-publish.yml`
 
-#### Package.json
+### Package.json
 Setup the right configurations and fields:
 - package name should be scoped (@username/package-name)
 - version number is required
@@ -35,11 +35,11 @@ Setup the right configurations and fields:
 }
 ```
 
-### Consumer repo
-#### GITHUB_TOKEN
+## Publish a Github Package
+### GITHUB_TOKEN
 [Generating access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
-#### .npmrc file
+### .npmrc file
 ```
 registry=https://npm.pkg.github.com/firstnoodle
 //npm.pkg.github.com/:_authToken=GITHUB_TOKEN
