@@ -1,5 +1,5 @@
 <template>
-    <div>Test {{ message }}</div>
+    <div class="bg-page text-default">Test {{ message }}</div>
 </template>
 
 <script>
