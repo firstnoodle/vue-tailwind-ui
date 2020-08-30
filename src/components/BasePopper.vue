@@ -7,7 +7,7 @@
             @after-leave="doDestroy"
         >
             <span ref="popper" :class="rootClass" v-show="!disabled && showPopper">
-                <slot>{{ content }}</slot>
+                <slot />
             </span>
         </transition>
         <slot name="reference"></slot>
@@ -16,7 +16,7 @@
 
 <script>
 import { createPopper } from "@popperjs/core";
-import { on, off } from "~/utils/dom.js";
+import { elementContains, on, off } from "~/utils/dom.js";
 
 export default {
     props: {
@@ -48,7 +48,6 @@ export default {
             type: Boolean,
             default: false
         },
-        content: String,
         enterActiveClass: String,
         leaveActiveClass: String,
         boundariesSelector: String,
@@ -324,14 +323,14 @@ export default {
             }, this.delayOnMouseOut);
         },
 
-        handleDocumentClick(e) {
+        handleDocumentClick(event) {
             if (
                 !this.$el ||
                 !this.referenceElm ||
-                this.elementContains(this.$el, e.target) ||
-                this.elementContains(this.referenceElm, e.target) ||
                 !this.popper ||
-                this.elementContains(this.popper, e.target)
+                elementContains(this.$el, event.target) ||
+                elementContains(this.referenceElm, event.target) ||
+                elementContains(this.popper, event.target)
             ) {
                 return;
             }
@@ -344,14 +343,6 @@ export default {
 
             this.showPopper = false;
         },
-
-        elementContains(elm, otherElm) {
-            if (typeof elm.contains === "function") {
-                return elm.contains(otherElm);
-            }
-
-            return false;
-        }
     },
 
     destroyed() {
