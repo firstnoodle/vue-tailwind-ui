@@ -2,6 +2,14 @@ import Vue from 'vue';
 
 const isServer = Vue.prototype.$isServer;
 
+export const elementContains = (element, otherElement) => {
+    if (typeof element.contains === "function") {
+        return element.contains(otherElement);
+    }
+
+    return false;
+};
+
 export const on = (function () {
     if (!isServer && document.addEventListener) {
         return function (element, event, handler) {
