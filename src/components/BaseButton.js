@@ -11,7 +11,7 @@ const sizes = {
 };
 
 const types = {
-    plain: ' border-granite-grey-15 bg-white text-gray-700 shadow-sm hover:text-blue-500 hover:bg-gray-100 focus:outline-none focus:text-blue-500 focus:border-light-blue focus:shadow-outline',
+    plain: ' border-gray-400 bg-white text-action shadow-sm hover:text-blue-500 hover:bg-gray-100 focus:outline-none focus:text-blue-500 focus:border-blue-500 focus:shadow-outline',
     primary: ' bg-light-blue border-transparent text-white hover:bg-light-blue-darker focus:border-light-blue-darker focus:shadow-outline',
     error: ' bg-lava-red border-transparent text-white hover:bg-lava-red-darker focus:border-lava-red-darker focus:shadow-outline',
     warning: ' bg-golden-sun border-transparent text-white hover:bg-golden-sun-darker focus:border-golden-sun-darker focus:shadow-outline',
@@ -61,7 +61,7 @@ export default Vue.component('base-button', {
         }
         if (this.$listeners.click) {
             options.on = {
-                click: event => this.$emit('click')
+                click: event => this.$emit('click', event)
             }
         }
         options.class = baseStyle + sizes[this.size || 'sm'] + types[this.type || 'plain'];
