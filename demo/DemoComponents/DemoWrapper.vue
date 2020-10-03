@@ -5,6 +5,7 @@
                 {{ 'theme ' + theme }}
             </base-button>
         </div>
+        <h1 class="mb-4 text-xl font-bold">{{ title }}</h1>
         <!-- demo content -->
         <slot />
     </div>
@@ -20,6 +21,11 @@ import BaseButton from '~/components/BaseButton';
 export default {
     name: 'DemoWrapper',
     components: { BaseButton },
+    props: { 
+        title: {
+            type: String
+        }
+    },
     data() {
         return {
             theme: 'light'

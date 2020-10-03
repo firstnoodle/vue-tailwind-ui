@@ -1,11 +1,11 @@
 <template>
-    <demo-wrapper>
+    <demo-wrapper title="Buttons">
         Button demo
     </demo-wrapper> 
 </template>
 
 <script>
-import DemoWrapper from './DemoWrapper';
+import DemoWrapper from './DemoComponents/DemoWrapper';
 export default {
     name: 'ButtonDemo',
     components: { DemoWrapper }
