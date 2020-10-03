@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --true-blue: #001965;
+    --true-white: #FFF;
+    --light-blue-darker: #1F7EC7;
+    --light-blue-default: #3B97DE;
+    --light-blue-15: #B1D5F2;
+    --light-blue-40: #E2F0FA;
+
+    --sea-blue-darker: #00449E;
+    --sea-blue-default: #005AD2;
+    --sea-blue-15: #99BDED;
+    --sea-blue-40: #D9E6F8;
+
+    --ocean-green-darker: #18726C;
+    --ocean-green-default: #2A918B;
+    --ocean-green-15: #AAD3D1;
+    --ocean-green-40: #DFEFEE;
+
+    --rose-pink-darker: #DC7497;
+    --rose-pink-default: #EEA7BF;
+    --rose-pink-15: #F8DCE5;
+    --rose-pink-40: #FCF2F5;
+
+    --sand-grey-darker: #B0A69C;
+    --sand-grey-default: #CCC5BD;
+    --sand-grey-15: #EBE8E5;
+    --sand-grey-40: #F7F6F5;
+
+    --granite-grey-darker: #757C8A;
+    --granite-grey-default: #939AA7;
+    --granite-grey-15: #D4D7DC;
+    --granite-grey-40: #EFF0F2;
+
+    --golden-sun-lighter: #F6D06A;
+    --golden-sun-default: #EAAB00;
+    --golden-sun-darker: #D09801;
+
+    --lava-red-lighter: #F29A8C;
+    --lava-red-default: #E6553F;
+    --lava-red-darker: #D0442F;
+
+    --forest-green-lighter: #74BC6C;
+    --forest-green-default: #3F9C35;
+    --forest-green-darker: #2E8924;
+}
+
+.theme-light {
+    // background colors
+    // --button-error-background-color: ;
+    // --button-plain-background-color: ;
+    // --button-primary-background-color: ;
+    // --button-success-background-color: ;
+    // --button-warning-background-color: ;
+    --page-background-color: var(--sand-grey-40);
+
+    // border colors
+
+    --text-action-color: var(--light-blue-default);
+    --text-primary-color: #333;
+    --text-secondary-color: #555;
+}
+
+.theme-dark {
+    --page-background-color: #333;
+
+    --text-action-color: var(--light-blue-default);
+    --text-primary-color: #DDD;
+    --text-secondary-color: #BBB;
+}
