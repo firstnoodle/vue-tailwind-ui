@@ -94,5 +94,10 @@ npm run build-lib
 npm run lint
 ```
 
+### Run (demo) specific components
+```
+vue serve [path/to/component]
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
