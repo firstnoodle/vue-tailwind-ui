@@ -1,4 +1,4 @@
-import './css/main.css';
+import './css/main.scss';
 import Test from '~/components/Test.vue';
 
 export default {
