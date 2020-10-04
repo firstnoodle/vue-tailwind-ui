@@ -5,7 +5,7 @@
                 {{ 'theme ' + theme }}
             </base-button>
         </div>
-        <h1 class="mb-4 text-xl font-bold">{{ title }}</h1>
+        <h1 class="mb-4 text-primary text-xl font-bold">{{ title }}</h1>
         <!-- demo content -->
         <slot />
     </div>
