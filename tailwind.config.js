@@ -7,7 +7,9 @@ module.exports = {
     }),
     textColor: theme => ({
       ...theme('colors'), // keeping the default colors for now
-      default: 'var(--text-default-color)'
+      primary: 'var(--text-primary-color)',
+      secondary: 'var(--text-secondary-color)',
+      action: 'var(--text-action-color)'
     })
   },
   variants: {},
