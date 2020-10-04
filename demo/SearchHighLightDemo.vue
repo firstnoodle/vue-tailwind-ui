@@ -1,5 +1,5 @@
 <template>
-    <demo-wrapper title="SearchHighlight">
+    <demo-wrapper title="Search highlight demo">
         <div class="mb-4">
             <input v-model="highlight" class="border border-gray-400 rounded px-2 py-1 text-primary">
         </div>
