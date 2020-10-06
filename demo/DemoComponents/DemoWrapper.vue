@@ -1,8 +1,8 @@
 <template>
     <div :class="computedThemeClass" class="h-screen p-4 bg-page">
         <div class="mb-4">
-            <base-button size="sm" @click="toggleTheme">
-                {{ 'theme ' + theme }}
+            <base-button size="sm" :icon="computedThemeIcon" @click="toggleTheme">
+                {{ theme }}
             </base-button>
         </div>
         <h1 class="mb-4 text-primary text-xl font-bold">{{ title }}</h1>
@@ -34,6 +34,9 @@ export default {
     computed: {
         computedThemeClass() {
             return `theme-${this.theme}`;
+        },
+        computedThemeIcon() {
+            return this.theme === 'light' ? 'sun' : 'moon';
         }
     },
     methods: {
