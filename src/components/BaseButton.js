@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Icon from '~/components/Icon';
 
 const baseStyle = 'inline-flex items-center justify-center shadow-sm border focus:outline-none transition ease-in-out duration-150';
 
@@ -19,6 +20,7 @@ const types = {
 }
 
 export default Vue.component('base-button', {
+    components: { Icon },
     props: {
         href: {
             type: String,
@@ -44,11 +46,6 @@ export default Vue.component('base-button', {
         }
     },
 
-    created() {
-        console.log(this.icon !== undefined);
-    },
-
-
     render: function (createElement) {
         const tag = this.href ? 'a' : 'button';
 
@@ -66,6 +63,15 @@ export default Vue.component('base-button', {
         }
         options.class = baseStyle + sizes[this.size || 'sm'] + types[this.type || 'plain'];
 
-        return createElement(tag, options, this.$slots.default);
+        const buttonContent = [];
+
+        if(this.icon) {
+            const iconComponent = createElement('icon', { class: { 'mr-2': true }, props: { value: this.icon }});
+            buttonContent.push(iconComponent);
+        }
+
+        buttonContent.push(this.$slots.default);
+
+        return createElement(tag, options, buttonContent);
     }
 });
