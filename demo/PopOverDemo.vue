@@ -4,9 +4,9 @@
             <template #popover>
                 <div class="w-20">
                     <div>
-                        <base-button @click="onCancel" class="w-full mb-2">Cancel</base-button>
+                        <base-button plain type="primary" @click="onCancel" class="w-full mb-2">Cancel</base-button>
                     </div>
-                    <base-button @click="onDelete" class="w-full">Delete</base-button>
+                    <base-button plain type="error" @click="onDelete" class="w-full">Delete</base-button>
                 </div>
             </template>
             <template #reference>
