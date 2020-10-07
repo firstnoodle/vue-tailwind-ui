@@ -10,7 +10,7 @@
                 <slot />
             </span>
         </transition>
-        <slot name="reference"></slot>
+        <slot name="reference" />
     </component>
 </template>
 
