@@ -12,6 +12,8 @@ module.exports = {
       action: 'var(--text-action-color)'
     })
   },
-  variants: {},
+  variants: {
+    margin: ['first', 'last', 'responsive']
+  },
   plugins: [],
 }
