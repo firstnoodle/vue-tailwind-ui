@@ -34,7 +34,7 @@
      * Types
      */
     &.type-default {
-        @apply border-gray-400 bg-white text-secondary shadow-sm;
+        @apply border-gray-400 bg-white text-gray-600 shadow-sm;
 
         &:hover {
             @apply text-blue-500 bg-gray-100;
