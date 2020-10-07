@@ -5,6 +5,12 @@ module.exports = {
       ...theme('colors'), // keeping the default colors for now
       page: 'var(--page-background-color)',
     }),
+    borderColor: theme => ({
+      ...theme('colors'),
+      subtle: 'var(--border-subtle-color)',
+      default: 'var(--border-default-color)',
+      strong: 'var(--border-strong-color)'
+    }),
     textColor: theme => ({
       ...theme('colors'), // keeping the default colors for now
       primary: 'var(--text-primary-color)',

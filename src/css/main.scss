@@ -54,25 +54,25 @@
 }
 
 .theme-light {
-    // background colors
-    // --button-error-background-color: ;
-    // --button-plain-background-color: ;
-    // --button-primary-background-color: ;
-    // --button-success-background-color: ;
-    // --button-warning-background-color: ;
     --page-background-color: white;
 
-    // border colors
-
     --text-action-color: var(--light-blue-default);
-    --text-primary-color: #333;
+    --text-primary-color: #444;
     --text-secondary-color: #555;
+
+    --border-subtle-color: var(--sand-grey-15);
+    --border-default-color: var(--sand-grey-default);
+    --border-strong-color: var(--sand-grey-darker);
 }
 
 .theme-dark {
-    --page-background-color: #333;
+    --page-background-color: #222;
 
     --text-action-color: var(--light-blue-default);
-    --text-primary-color: #DDD;
+    --text-primary-color: #EEE;
     --text-secondary-color: #BBB;
+
+    --border-subtle-color: #333;
+    --border-default-color: #444;
+    --border-strong-color: #555;
 }
