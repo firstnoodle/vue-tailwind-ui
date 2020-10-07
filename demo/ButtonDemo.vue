@@ -1,13 +1,14 @@
 <template>
     <demo-wrapper title="Buttons">
-        Button demo
+        <base-button icon="plus" type="text">text button</base-button>
     </demo-wrapper> 
 </template>
 
 <script>
 import DemoWrapper from './DemoComponents/DemoWrapper';
+import BaseButton from '~/components/BaseButton';
 export default {
     name: 'ButtonDemo',
-    components: { DemoWrapper }
+    components: { BaseButton, DemoWrapper }
 }
 </script>
