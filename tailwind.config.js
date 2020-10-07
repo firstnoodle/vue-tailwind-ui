@@ -10,7 +10,12 @@ module.exports = {
       primary: 'var(--text-primary-color)',
       secondary: 'var(--text-secondary-color)',
       action: 'var(--text-action-color)'
-    })
+    }),
+    extend: {
+      cursor: {
+        grab: 'grab',
+      }
+    }
   },
   variants: {
     margin: ['first', 'last', 'responsive']
