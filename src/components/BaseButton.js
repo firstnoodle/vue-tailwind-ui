@@ -1,25 +1,6 @@
 import Vue from 'vue';
 import Icon from '~/components/Icon';
 
-const baseStyle = 'inline-flex items-center justify-center shadow-sm border focus:outline-none transition ease-in-out duration-150';
-
-const sizes = {
-    xs: ' text-xs leading-none px-2 py-2 rounded-md',
-    sm: ' text-sm leading-tight px-3 py-2 rounded-md',
-    md: ' text-md leading-snug px-4 py-2 rounded-lg',
-    lg: ' text-lg leading-normal px-6 py-3 rounded-lg',
-    xl: ' text-xl leading-relaxed px-8 py-4 rounded-lg'
-};
-
-const types = {
-    default: ' border-gray-400 bg-white text-action shadow-sm hover:text-blue-500 hover:bg-gray-100 focus:outline-none focus:text-blue-500 focus:border-blue-500 focus:shadow-outline',
-    primary: ' bg-light-blue border-transparent text-white hover:bg-light-blue-darker focus:border-light-blue-darker focus:shadow-outline',
-    error: ' bg-lava-red border-transparent text-white hover:bg-lava-red-darker focus:border-lava-red-darker focus:shadow-outline',
-    warning: ' bg-golden-sun border-transparent text-white hover:bg-golden-sun-darker focus:border-golden-sun-darker focus:shadow-outline',
-    success: ' bg-forest-green border-transparent text-white hover:bg-forest-green-darker focus:border-forest-green-darker focus:shadow-outline',
-    text: ' bg-transparent border-transparent text-action focus:border-blue-500 focus:shadow-outline shadow-none',
-}
-
 export default Vue.component('base-button', {
     components: { Icon },
     props: {
@@ -32,6 +13,10 @@ export default Vue.component('base-button', {
             required: false
         },
         plain: {
+            type: Boolean,
+            default: false
+        },
+        rounded: {
             type: Boolean,
             default: false
         },
@@ -66,16 +51,24 @@ export default Vue.component('base-button', {
                 click: event => this.$emit('click', event)
             }
         }
-        options.class = baseStyle + sizes[this.size || 'sm'] + types[this.type || 'plain'];
+
+        options.class = [
+            'button', 
+            `size-${this.size}`, 
+            `type-${this.type}`
+        ].join(' ');
+        options.class += this.rounded ? ' is-rounded' : '',
+        options.class += this.plain ? ' is-plain' : '';
 
         const buttonContent = [];
 
         if(this.icon) {
-            const iconComponent = createElement('icon', { class: { 'mr-2': true }, props: { value: this.icon }});
+            const iconComponent = createElement('icon', { props: { value: this.icon }});
             buttonContent.push(iconComponent);
         }
-
-        buttonContent.push(this.$slots.default);
+        if(this.$slots.default) {
+            buttonContent.push(createElement('span', { class: 'label' }, this.$slots.default));
+        }
 
         return createElement(tag, options, buttonContent);
     }
