@@ -1,26 +1,44 @@
 <template>
     <demo-wrapper title="ListItem demo">
-        <list-item 
-            v-for="item in items"
-            :key="item.id"
-            :draggable="true" 
-            :selectable="true"
-            @delete="onItemDelete(item.id)"
+        <draggable 
+            v-model="items" 
+            v-bind="dragOptions"
+            handle=".drag-handle"
+            @start="drag = true"
+            @end="drag = false"
             >
-            {{ item.description }}
-        </list-item>
+            <transition-group type="transition">
+                <list-item 
+                    v-for="item in items"
+                    :key="item.id"
+                    :draggable="true" 
+                    :selectable="true"
+                    @delete="onItemDelete(item.id)"
+                    >
+                    {{ item.description }}
+                </list-item>
+            </transition-group>
+        </draggable>
     </demo-wrapper> 
 </template>
 
 <script>
 import DemoWrapper from './DemoComponents/DemoWrapper';
 import ListItem from '~/components/ListItem';
+import draggable from 'vuedraggable';
 
 export default {
     name: 'ListItemDemo',
-    components: { DemoWrapper, ListItem },
+    components: { DemoWrapper, draggable, ListItem },
     data() {
         return {
+            drag: false,
+            dragOptions: {
+                animation: 200,
+                group: "description",
+                disabled: false,
+                ghostClass: "drag-ghost"
+            },
             items: [
                 {
                     id: 1,
