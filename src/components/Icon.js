@@ -13,7 +13,7 @@ export default Vue.component('icon', {
         },
         size: {
             type: String,
-            default: ''
+            default: 'base'
         }
     },
     render(createElement) {
