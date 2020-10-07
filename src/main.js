@@ -1,6 +1,6 @@
 import './css/main.scss';
 
-import BaseButton from '~/components/BaseButton.vue';
+import BaseButton from '~/components/BaseButton.js';
 import BasePopper from '~/components/BasePopper.vue';
 import CheckBox from '~/components/CheckBox.vue';
 import Icon from '~/components/Icon.js';
