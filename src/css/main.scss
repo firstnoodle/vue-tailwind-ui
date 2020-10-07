@@ -1,8 +1,9 @@
-@import '../assets/fonts/firstnoodle/style.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import '../assets/fonts/firstnoodle/style.css';
+@import './popper-arrows.scss';
 
 :root {
     --true-blue: #001965;
