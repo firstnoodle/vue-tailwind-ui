@@ -20,6 +20,10 @@ module.exports = {
     extend: {
       cursor: {
         grab: 'grab',
+      },
+      maxWidth: {
+        '7xl': '80rem',
+        '8xl': '90rem',
       }
     }
   },
