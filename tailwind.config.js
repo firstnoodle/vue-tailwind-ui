@@ -28,7 +28,12 @@ module.exports = {
     }
   },
   variants: {
-    margin: ['first', 'last', 'responsive']
+    backgroundColor: ['active', 'focus', 'group-focus', 'responsive', 'hover', 'group-hover'],
+    borderColor: ['first', 'focus', 'group-focus', 'last', 'responsive', 'focus-within'],
+    boxShadow: ['focus', 'focus-within', 'responsive'],
+    margin: ['first', 'last', 'responsive'],
+    textColor: ['group-hover', 'hover'],
+    zIndex: ['focus', 'hover']
   },
   plugins: [],
 }
