@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: 'NnSelectOption',
+    name: 'SelectOption',
     props: {
         value: {
             type: Object,
@@ -44,14 +44,14 @@ export default {
         computedClass() {
             let classString = this.disabled 
                 ? 'cursor-not-allowed text-gray-400' 
-                : 'cursor-pointer hover:bg-light-blue-40 focus:bg-light-blue-40';
-            if(this.focus) classString += ' bg-light-blue-40';
+                : 'cursor-pointer hover:bg-blue-200 focus:bg-blue-200';
+            if(this.focus) classString += ' bg-blue-200';
 
             return classString;
         }
     },
     methods: {
-        onOptionClick(event) {
+        onOptionClick() {
             if(this.disabled) return;
             this.$emit('optionClicked', this.value || this.label);
         },
