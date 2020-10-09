@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Icon from '~/components/Icon';
+import LoadSpinner from '~/components/LoadSpinner';
 
 export default Vue.component('base-button', {
-    components: { Icon },
+    components: { Icon, LoadSpinner },
     props: {
         href: {
             type: String,
@@ -11,6 +12,14 @@ export default Vue.component('base-button', {
         icon: {
             type: String,
             required: false
+        },
+        loading: {
+            type: Boolean,
+            default: false
+        },
+        loadingText: {
+            type: String,
+            default: 'Loading'
         },
         plain: {
             type: Boolean,
@@ -62,7 +71,9 @@ export default Vue.component('base-button', {
 
         const buttonContent = [];
 
-        if(this.icon) {
+        if(this.loading) {
+            buttonContent.push(createElement('load-spinner'));
+        } else if(this.icon) {
             const iconComponent = createElement('icon', { props: { value: this.icon }});
             buttonContent.push(iconComponent);
         }
