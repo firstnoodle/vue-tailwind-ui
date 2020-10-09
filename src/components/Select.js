@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import BaseButton from '~/components/BaseButton';
 import BasePopper from '~/components/BasePopper';
-import Icon from '~/components/Icon';
-import SelectOption from '~/components/SelectOption';
+import Icon from '~/components/Icon.js';
+import FnSelectOption from '~/components/SelectOption';
 import { loopRange } from '~/utils/array';
 import { sameWidth } from '~/utils/popper-modifiers';
 
@@ -29,7 +29,7 @@ import { sameWidth } from '~/utils/popper-modifiers';
 
 
 export default Vue.component('select', {
-    components: { BaseButton, BasePopper, Icon, SelectOption },
+    components: { BaseButton, BasePopper, Icon, FnSelectOption },
     props: {
         value: {
             default: null,
@@ -41,6 +41,10 @@ export default Vue.component('select', {
         filterable: {
             type: Boolean,
             default: false
+        },
+        focusOnMounted: {
+            type: Boolean,
+            default: false,
         },
         loading: {
             type: Boolean,
@@ -82,7 +86,7 @@ export default Vue.component('select', {
     },
 
     watch: {
-        value(newValue, oldValue) {
+        value(newValue) {
             if(typeof newValue === 'string') {
                 this.$refs.input.value = newValue;
             }
@@ -98,6 +102,10 @@ export default Vue.component('select', {
 
     mounted() {
         this.currentInputValue = this.$refs.input.value;
+
+        if(this.focusOnMounted) {
+            this.$refs.input.focus();
+        }
     },
 
     methods: {
@@ -107,7 +115,7 @@ export default Vue.component('select', {
             if(this.$slots.default) {
                 this.$slots.default.forEach(vnode => {
                     if(vnode.componentOptions) {
-                        if(vnode.componentOptions.tag === 'select-option') {
+                        if(vnode.componentOptions.tag === 'fn-select-option') {
                             count++;
                         }
                     }
@@ -149,7 +157,7 @@ export default Vue.component('select', {
                 this.$nextTick(() => {
                     this.$refs.input.value = this.value ? this.value.label : '';
                 })
-            };
+            }
         },
 
         onInputFocus() {
@@ -171,7 +179,7 @@ export default Vue.component('select', {
             if(event.key === 'Enter' && this.highlightedOption !== null) {
                 let values = [];
                 this.$slots.default.forEach(vnode => {
-                    if(vnode.componentOptions.tag === 'select-option') {
+                    if(vnode.componentOptions.tag === 'fn-select-option') {
                         values.push(vnode);
                     }
                 });
@@ -199,7 +207,7 @@ export default Vue.component('select', {
                 if(vnode.componentOptions) {
                     vnode.componentOptions.propsData.highlighted = index === this.highlightedOption;
                     // TODO: this check is done because in a future version labeled groups will be implemented
-                    if(vnode.componentOptions.tag === 'select-option') {
+                    if(vnode.componentOptions.tag === 'fn-select-option') {
                         vnode.componentOptions.listeners = {
                             'optionClicked': value => {
                                 this.$refs.popper.doClose();
@@ -268,7 +276,7 @@ export default Vue.component('select', {
                 if(value) {
                     let itemCount = 0;
                     this.$slots.default.forEach(vnode => {
-                        if(vnode.componentOptions.tag === 'select-option') {
+                        if(vnode.componentOptions.tag === 'fn-select-option') {
                             itemCount++;
                         }
                     });
@@ -285,7 +293,7 @@ export default Vue.component('select', {
 
                 // trigger re-render
                 this.$slots.default.forEach((vnode, index) => {
-                    if(vnode.componentOptions.tag === 'select-option') {
+                    if(vnode.componentOptions.tag === 'fn-select-option') {
                         vnode.componentInstance.setFocus(index === this.highlightedOption);
                     }
                 });
@@ -300,7 +308,7 @@ export default Vue.component('select', {
             'div', 
             { 
                 style: 'max-height: 160px',
-                class: 'popper overflow-y-scroll block text-sm border border-granite-grey-15 rounded shadow-lg overflow-hidden',
+                class: 'popper overflow-y-scroll block text-sm border border-subtle rounded shadow-lg overflow-hidden',
             }, 
             this.renderPopperContent(createElement)
         );
@@ -308,7 +316,7 @@ export default Vue.component('select', {
         const inputSuffixInner = createElement(
             'span', 
             { 
-                class: 'nn-icon nn-icon-angle-down text-xs text-granite-grey transform transition-all duration-100 ' + this.computedCaretRotation, 
+                class: 'icon icon-angle-down text-xs text-granite-grey transform transition-all duration-100 ' + this.computedCaretRotation, 
             }
         );
         const inputSuffix = createElement('div', { class: 'absolute top-0 right-0 pl-1 pr-3 h-full flex items-center rounded-lg bg-transparent cursor-pointer' }, [inputSuffixInner]);
@@ -336,7 +344,7 @@ export default Vue.component('select', {
         const inputOuter = createElement(
             'div', 
             { 
-                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-granite-grey-15 bg-white text-gray-700 shadow-sm hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-light-blue focus-within:shadow-outline cursor-pointer',
+                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-subtle bg-white text-gray-700 shadow-sm hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-blue-500 focus-within:shadow-outline cursor-pointer',
                 slot: 'reference', 
             }, 
             [inputInner, inputSuffix]
