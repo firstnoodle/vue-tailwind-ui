@@ -351,6 +351,8 @@ export default Vue.component('select', {
                     hide: this.onPopperHide,
                 },
                 props: { 
+                    tagName: 'div',
+                    rootClass: "w-full",
                     appendToBody: true,
                     trigger: 'clickToOpen', 
                     options: { 
