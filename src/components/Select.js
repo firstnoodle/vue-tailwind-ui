@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import BaseButton from '~/components/BaseButton';
 import BasePopper from '~/components/BasePopper';
-import { sameWidth } from '~/utils/popper-modifiers';
-import FnIcon from '~/components/Icon';
-import FnSelectOption from '~/components/SelectOption';
+import Icon from '~/components/Icon';
+import SelectOption from '~/components/SelectOption';
 import { loopRange } from '~/utils/array';
+import { sameWidth } from '~/utils/popper-modifiers';
 
 /**
  * PROPS:
@@ -28,8 +28,8 @@ import { loopRange } from '~/utils/array';
  */
 
 
-export default Vue.component('fn-select', {
-    components: { BaseButton, BasePopper, FnIcon, FnSelectOption },
+export default Vue.component('select', {
+    components: { BaseButton, BasePopper, Icon, SelectOption },
     props: {
         value: {
             default: null,
@@ -107,7 +107,7 @@ export default Vue.component('fn-select', {
             if(this.$slots.default) {
                 this.$slots.default.forEach(vnode => {
                     if(vnode.componentOptions) {
-                        if(vnode.componentOptions.tag === 'fn-select-option') {
+                        if(vnode.componentOptions.tag === 'select-option') {
                             count++;
                         }
                     }
@@ -171,7 +171,7 @@ export default Vue.component('fn-select', {
             if(event.key === 'Enter' && this.highlightedOption !== null) {
                 let values = [];
                 this.$slots.default.forEach(vnode => {
-                    if(vnode.componentOptions.tag === 'fn-select-option') {
+                    if(vnode.componentOptions.tag === 'select-option') {
                         values.push(vnode);
                     }
                 });
@@ -199,7 +199,7 @@ export default Vue.component('fn-select', {
                 if(vnode.componentOptions) {
                     vnode.componentOptions.propsData.highlighted = index === this.highlightedOption;
                     // TODO: this check is done because in a future version labeled groups will be implemented
-                    if(vnode.componentOptions.tag === 'fn-select-option') {
+                    if(vnode.componentOptions.tag === 'select-option') {
                         vnode.componentOptions.listeners = {
                             'optionClicked': value => {
                                 this.$refs.popper.doClose();
@@ -234,7 +234,7 @@ export default Vue.component('fn-select', {
                         'div', 
                         { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.noMatchOption.bind(this, this.$refs.input.value) }}, 
                         [
-                            createElement('fn-icon', { props: { value: 'plus' } }),
+                            createElement('icon', { props: { value: 'plus' } }),
                             createElement('span', { attrs: { class: 'ml-1'}}, `${this.noMatchOptionText} `),
                             createElement('span', {class: 'font-bold'}, `"${this.noMatchValue}"`)
                         ]
@@ -268,7 +268,7 @@ export default Vue.component('fn-select', {
                 if(value) {
                     let itemCount = 0;
                     this.$slots.default.forEach(vnode => {
-                        if(vnode.componentOptions.tag === 'fn-select-option') {
+                        if(vnode.componentOptions.tag === 'select-option') {
                             itemCount++;
                         }
                     });
@@ -285,7 +285,7 @@ export default Vue.component('fn-select', {
 
                 // trigger re-render
                 this.$slots.default.forEach((vnode, index) => {
-                    if(vnode.componentOptions.tag === 'fn-select-option') {
+                    if(vnode.componentOptions.tag === 'select-option') {
                         vnode.componentInstance.setFocus(index === this.highlightedOption);
                     }
                 });
