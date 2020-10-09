@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between items-stretch py-1 bg-white border-b border-subtle text-sm text-primary">
+    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-white border-b border-subtle text-sm text-primary">
         
         <div v-if="draggable" class="flex-none flex items-center h-8 mr-2">
             <icon value="drag" class="drag-handle text-gray-600 cursor-grab" />
@@ -31,6 +31,9 @@
             </pop-over>
         </div>
     </div>
+    <div v-else class="py-4 bg-white border-b border-subtle text-sm text-primary">
+        <slot name="edit"/>
+    </div>
 </template>
 
 <script>
@@ -47,6 +50,10 @@ export default {
         draggable: {
             type: Boolean,
             default: false
+        },
+        edit: {
+            type: Boolean,
+            default: false,
         },
         selectable: {
             type: Boolean,
