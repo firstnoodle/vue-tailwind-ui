@@ -1,12 +1,12 @@
 <template>
-    <component :is="tagName">
+    <component :is="tagName" :class="rootClass">
         <transition
             :name="transition"
             :enter-active-class="enterActiveClass"
             :leave-active-class="leaveActiveClass"
             @after-leave="doDestroy"
         >
-            <span ref="popper" :class="rootClass" v-show="!disabled && showPopper">
+            <span ref="popper" :class="popperClass" v-show="!disabled && showPopper">
                 <slot />
             </span>
         </transition>
@@ -84,6 +84,10 @@ export default {
             default() {
                 return {};
             }
+        },
+        popperClass: {
+            type: String,
+            default: ""
         },
         rootClass: {
             type: String,
