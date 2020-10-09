@@ -29,6 +29,7 @@ module.exports = {
   },
   variants: {
     backgroundColor: ['active', 'focus', 'group-focus', 'responsive', 'hover', 'group-hover'],
+    borderStyle: ['last'],
     borderColor: ['first', 'focus', 'group-focus', 'last', 'responsive', 'focus-within'],
     boxShadow: ['focus', 'focus-within', 'responsive'],
     margin: ['first', 'last', 'responsive'],
