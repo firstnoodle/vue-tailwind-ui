@@ -360,7 +360,7 @@ export default Vue.component('select', {
                 },
                 props: { 
                     tagName: 'div',
-                    rootClass: "w-full",
+                    rootClass: "w-full flex",
                     appendToBody: true,
                     trigger: 'clickToOpen', 
                     options: { 
