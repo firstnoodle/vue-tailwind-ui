@@ -104,7 +104,7 @@ export default Vue.component('select', {
         this.currentInputValue = this.$refs.input.value;
 
         if(this.focusOnMounted) {
-            this.$refs.input.focus();
+            setTimeout(() => this.$refs.input.focus(), 200);
         }
     },
 
