@@ -1,12 +1,12 @@
 <template>
-    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-white border-b border-subtle text-sm text-primary">
+    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-page border-b border-subtle text-sm text-primary">
         
         <div v-if="draggable" class="flex-none flex items-center h-8 mr-2">
             <icon value="drag" class="drag-handle text-gray-600 cursor-grab" />
         </div>
 
         <div v-if="selectable" class="flex-none flex items-center h-8 mr-2">
-            <checkbox :value="selected" @click="selected = !selected" />
+            <checkbox :value="selected" @click="$emit('select')" />
         </div>
 
         <div class="flex-1 flex items-start" style="margin-top: 6px">
@@ -15,13 +15,11 @@
 
         <!-- UI controls -->
         <div class="flex-none h-full pl-2">
-            <icon-button value="edit" />
+            <icon-button v-if="this.editable" value="edit" @click="$emit('edit')" />
             <pop-over ref="popover">
                 <template #popover>
-                    <div class="w-20">
-                        <div>
-                            <base-button plain type="primary" @click="$refs.popover.close()" class="w-full mb-2">Cancel</base-button>
-                        </div>
+                    <div class="w-20 flex flex-col">
+                        <base-button plain type="primary" @click="$refs.popover.close()" class="w-full mb-2">Cancel</base-button>
                         <base-button plain type="error" @click="onDelete" class="w-full">Delete</base-button>
                     </div>
                 </template>
@@ -31,7 +29,7 @@
             </pop-over>
         </div>
     </div>
-    <div v-else class="py-4 bg-white border-b border-subtle text-sm text-primary">
+    <div v-else class="relative py-2 bg-white border-b border-subtle last:border-none text-sm text-primary">
         <slot name="edit"/>
     </div>
 </template>
@@ -55,14 +53,17 @@ export default {
             type: Boolean,
             default: false,
         },
+        editable: {
+            type: Boolean,
+            default: false
+        },
         selectable: {
             type: Boolean,
             default: false
-        }
-    },
-    data() {
-        return {
-            selected: false
+        },
+        selected: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
