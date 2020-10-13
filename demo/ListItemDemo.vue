@@ -28,6 +28,7 @@
                             <fn-select 
                                 v-model="selectCurrentOption" 
                                 filterable
+                                :focus-after-select="false"
                                 focus-on-mounted
                                 :loading="selectLoading"
                                 loading-text="Searching.."
@@ -48,10 +49,11 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <base-button 
+                                ref="addButton"
+                                icon="plus"
+                                type="primary"
                                 :loading="posting" 
                                 @click="saveNewItem" 
-                                type="primary"
-                                icon="plus"
                             >
                                 Add request
                             </base-button>
@@ -201,6 +203,15 @@ export default {
 
         onSelectOption(option) {
             this.selectCurrentOption = option;
+
+            // focus addButton
+            if(this.$refs.addButton.length === 1) {
+                this.$nextTick(() => {
+                    this.$refs.addButton[0].$el.focus();
+                });
+            } else {
+                console.error('[ListItemDemo] too many or few items in $refs.addButton array. Should only contain one');
+            }
         },
 
         selectCreateNew() {
