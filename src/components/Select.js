@@ -42,6 +42,10 @@ export default Vue.component('select', {
             type: Boolean,
             default: false
         },
+        focusAfterSelect: {
+            type: Boolean,
+            default: true
+        },
         focusOnMounted: {
             type: Boolean,
             default: false,
@@ -166,7 +170,7 @@ export default Vue.component('select', {
         },
 
         /**
-         * Handle arrow-key navigation and selection using "enter" key
+         * Handle arrow-key navigation 
          * @param {*} event 
          */
         onKeyDown(event) {
@@ -175,7 +179,13 @@ export default Vue.component('select', {
                 event.stopPropagation();
                 event.preventDefault();
             }
+        },
 
+        /**
+         * Handle selection using "enter" key
+         * @param {*} event 
+         */
+        onKeyUp(event) {
             if(event.key === 'Enter' && this.highlightedOption !== null) {
                 let values = [];
                 this.$slots.default.forEach(vnode => {
@@ -213,7 +223,9 @@ export default Vue.component('select', {
                                 this.$refs.popper.doClose();
                                 this.$emit('select', value);
                                 // this.$refs.input.value = value;
-                                this.$refs.input.focus();
+                                if(this.focusAfterSelect) {
+                                    this.$refs.input.focus();
+                                }
                             },
                             'mouseover': this.updateHighlight.bind(this, null)
                         }
@@ -336,6 +348,7 @@ export default Vue.component('select', {
                     'focus': this.onInputFocus,
                     'input': this.onInput,
                     'keydown': this.onKeyDown,
+                    'keyup': this.onKeyUp,
                 }
             }
         );
