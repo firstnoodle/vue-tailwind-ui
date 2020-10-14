@@ -1,5 +1,6 @@
 <template>
     <demo-wrapper title="ListItem demo">
+        <base-button @click="exportWordDocument">EXPORT</base-button>
         <div v-if="computedSelectCount" class="">
             <base-button size="xs" icon="trash" />
         </div>
@@ -73,6 +74,7 @@
 
 <script>
 import jsonData from './data/requirements.json';
+import { exportRequirements } from '~/utils/docx.js';
 import BaseButton from '~/components/BaseButton.js';
 import DemoWrapper from './DemoComponents/DemoWrapper';
 import draggable from 'vuedraggable';
@@ -157,6 +159,10 @@ export default {
             this.selectCurrentOption = null;
             this.selectOptions = null;
             this.auditRequirementsTable = this.auditRequirementsTable.filter(item => !(item.edit));
+        },
+
+        exportWordDocument() {
+            exportRequirements(this.auditRequirementsTable);
         },
 
         openNewItem() {
