@@ -20,7 +20,6 @@ export const exportRequirements = requirements => {
             newLine,
             ...requirements.map(requirement => {
                 return new Paragraph({
-                    // bullet: { level: 0 },
                     style: "body",
                     text: requirement.description
                 });
@@ -28,7 +27,7 @@ export const exportRequirements = requirements => {
         ]
     });
 
-    Packer.toBlob(doc).then((blob) => {
+    Packer.toBlob(doc).then(blob => {
         saveAs(blob, "requirements.docx");
     });
 }
