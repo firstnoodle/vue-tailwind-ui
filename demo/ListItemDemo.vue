@@ -1,9 +1,30 @@
 <template>
     <demo-wrapper title="ListItem demo">
         <base-button @click="exportWordDocument">EXPORT</base-button>
-        <div v-if="computedSelectCount" class="">
-            <base-button size="xs" icon="trash" />
+
+        <!-- Group select menu -->
+        <div class="flex items-center pl-6 border-b border-subtle mt-6">
+            <div class="py-3 mr-2">
+                <checkbox :value="computedGroupCheck" @click="onGroupCheckClick" />
+            </div>
+            <div v-if="computedSelectCount > 0">
+                <pop-over ref="popover" :message="`Delete ${computedSelectCount} items?`">
+                    <template #popover="{ message }">
+                        <div class="text-sm text-secondary mb-2 text-center">
+                            {{ message }}
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <base-button plain type="primary" @click="$refs.popover.close()" class="mr-2">Cancel</base-button>
+                            <base-button plain type="error" @click="onGroupCheckDelete" class="">Delete</base-button>
+                        </div>
+                    </template>
+                    <template #reference>
+                        <icon-button value="trash" />
+                    </template>
+                </pop-over>
+            </div>
         </div>
+
         <draggable 
             v-model="auditRequirementsTable" 
             v-bind="dragOptions"
@@ -76,15 +97,18 @@
 import jsonData from './data/requirements.json';
 import { exportRequirements } from '~/utils/docx.js';
 import BaseButton from '~/components/BaseButton.js';
+import Checkbox from '~/components/Checkbox.vue';
 import DemoWrapper from './DemoComponents/DemoWrapper';
 import draggable from 'vuedraggable';
 import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
+import IconButton from '~/components/IconButton';
 import ListItem from '~/components/ListItem';
+import PopOver from '~/components/PopOver';
 
 export default {
     name: 'ListItemDemo',
-    components: { BaseButton, DemoWrapper, draggable, FnSelect, FnSelectOption, ListItem },
+    components: { BaseButton, Checkbox, DemoWrapper, draggable, FnSelect, FnSelectOption, IconButton, ListItem, PopOver },
     data() {
         return {
             auditRequirementsTable: null,
@@ -109,6 +133,11 @@ export default {
                 if(item.edit) return true;
             }
             return false;
+        },
+        computedGroupCheck() {
+            if(this.computedSelectCount === this.auditRequirementsTable.length) return 1;
+            if(this.computedSelectCount) return 2;
+            return 0;
         },
         computedSelectCount() {
             let count = 0;
@@ -196,6 +225,22 @@ export default {
             const ids = this.auditRequirementsTable.map(o => o.id);
             const result = ids.includes(option.value.id);
             return result;
+        },
+
+        onGroupCheckClick() {
+            if(!this.computedSelectCount) {
+                this.auditRequirementsTable.forEach(requirement => {
+                    requirement.selected = true;
+                });
+            } else {
+                this.auditRequirementsTable.forEach(requirement => {
+                    requirement.selected = false;
+                });
+            }
+        },
+
+        onGroupCheckDelete() {
+            this.auditRequirementsTable = this.auditRequirementsTable.filter(item => !item.selected);
         },
 
         onItemDelete(id) {
