@@ -18,6 +18,14 @@
             </div>
         </header>
 
+        <!-- page content -->
+        <main class="z-0 p-4 pt-16">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida iaculis tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus vitae ante leo. Nunc blandit felis ut dolor laoreet, eget viverra sapien ullamcorper. Nulla facilisi. In a eros ac diam porttitor suscipit. Suspendisse rutrum, diam sed suscipit dapibus, ipsum risus laoreet est, quis pretium mauris velit eu lectus. Morbi non dolor erat. Nunc viverra fringilla pulvinar. Suspendisse mauris felis, sollicitudin vulputate neque nec, finibus pulvinar ligula. Aenean tristique lobortis sem et fermentum. Morbi nec interdum nibh. Fusce sed enim feugiat, bibendum odio sed, pellentesque velit.
+Duis ultrices accumsan velit, in congue tortor bibendum sit amet. Aenean pretium velit a sem imperdiet pulvinar. Integer bibendum facilisis odio, in dignissim nisl rutrum lacinia. Cras sed nibh orci. Pellentesque tortor mi, ullamcorper iaculis placerat quis, mollis eu mi. Mauris commodo ut sem non placerat. Sed orci urna, laoreet sed posuere ut, vehicula ut orci. Etiam maximus leo erat, vitae posuere massa aliquam elementum. Donec pretium ultricies nibh in interdum. Quisque egestas hendrerit nisl, vitae pulvinar diam vulputate sit amet.
+Vivamus porta odio nec mi malesuada auctor. Quisque tristique rhoncus tellus, quis auctor arcu dignissim volutpat. Phasellus vel mauris in lacus lobortis iaculis. Nullam iaculis, ex quis elementum pharetra, lacus ipsum sodales mauris, mollis sodales purus purus nec nisi. Mauris id tellus vel neque venenatis laoreet. Etiam volutpat, mauris a viverra iaculis, nunc urna lobortis sapien, id eleifend ipsum turpis vitae purus. Donec erat mi, feugiat a mi in, gravida egestas risus. Donec maximus nunc ac arcu pretium, nec semper lacus ornare. Cras laoreet lorem nec pharetra mattis. Praesent congue diam a sem consequat, non ornare sapien consequat. Curabitur malesuada risus ac libero tempor, nec tristique est condimentum. Phasellus euismod nunc eu magna placerat iaculis.
+Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur arcu metus, hendrerit ac lacus non, efficitur vulputate mi. Vivamus sed ligula rhoncus, aliquet lorem non, sodales est. Cras ac aliquet felis, nec pellentesque quam. Sed eu porta augue. Sed laoreet ut est bibendum pretium. Sed vulputate sit amet dolor ut pharetra. Donec non commodo ante.
+        </main>
+
         <!-- ApplicationNav -->
         <div v-if="appNavVisible" class="z-10 fixed top-0 left-0 w-full bg-white" style="height: -webkit-fill-available">
             <header class="z-10 fixed w-screen top-0 left-0 flex items-center justify-end p-2">
@@ -44,10 +52,11 @@
 
         <!-- SidebarNav -->
         <transition name="fade">
-            <div v-if="sidebarVisible" class="fixed w-screen min-h-screen bg-black bg-opacity-25" @click.native="sidebarVisible = !sidebarVisible"></div>
+            <div v-if="sidebarVisible" class="fixed top-0 left-0 w-screen min-h-screen bg-black bg-opacity-25" @click.native="sidebarVisible = !sidebarVisible"></div>
         </transition>
         <transition name="slide">
-            <aside v-if="sidebarVisible" class="fixed w-screen" style="height: -webkit-fill-available">
+            <!-- TODO: verify style -webkit-fill-available -->
+            <aside v-if="sidebarVisible" class="fixed top-0 left-0 w-screen" style="height: -webkit-fill-available">
                 <nav class="bg-white w-56 h-full px-6 pb-6 pt-20 overflow-y-auto">
                     <sidebar-nav-item href="#" icon="phase">Audit details</sidebar-nav-item>
 
@@ -88,7 +97,7 @@ export default {
     components: { IconButton, SidebarNavItem },
     data() {
         return {
-            appNavVisible: true,
+            appNavVisible: false,
             sidebarVisible: false,
         }
     }
