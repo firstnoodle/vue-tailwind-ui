@@ -56,9 +56,11 @@
 }
 
 .theme-light {
-    --page-background-color: white;
+    --brand-color: var(--true-blue);
+    --action-color: var(--light-blue-default);
 
-    --text-action-color: var(--light-blue-default);
+    --page-background-color: #eee;;
+
     --text-primary-color: #444;
     --text-secondary-color: #555;
 
@@ -68,9 +70,11 @@
 }
 
 .theme-dark {
+    --brand-color: var(--light-blue-15);
+    --action-color: var(--light-blue-default);
+
     --page-background-color: #222;
 
-    --text-action-color: var(--light-blue-default);
     --text-primary-color: #EEE;
     --text-secondary-color: #BBB;
 
