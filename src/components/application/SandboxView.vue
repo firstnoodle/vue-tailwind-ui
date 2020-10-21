@@ -1,10 +1,10 @@
 <template>
-    <view-layout>
+    <view-layout :sidebarVisible="sidebarVisible">
         <template #header>
             <desktop-view-header />
         </template>
         <template #sidebar>
-            <nav class="bg-white w-56 h-full px-6 pb-6 pt-20 md:p-6 overflow-y-auto">
+            <nav class="px-6 pb-6 pt-20 md:p-6">
                 <sidebar-nav-item href="#" icon="phase">Audit details</sidebar-nav-item>
 
                 <div class="flex items-center py-2 mt-2">
@@ -36,7 +36,7 @@
             <mobile-app-header>
                 <template #left>
                     <icon-button class="inline-flex md:hidden" value="angle-left" />
-                    <icon-button class="inline-flex md:hidden" value="itenary" @click="mobilePageNavVisible = !mobilePageNavVisible" />
+                    <icon-button class="inline-flex md:hidden" value="itenary" @click="sidebarVisible = !sidebarVisible" />
                 </template>
                 <template #center>
                     <span class="font-bold text-secondary">AU</span>
@@ -49,7 +49,7 @@
             </mobile-app-header>
             <mobile-app-nav v-if="mobileAppNavVisible" @close="mobileAppNavVisible = false" />
 
-            <mobile-view-nav :visible="mobilePageNavVisible" />
+            <!-- <mobile-view-nav :visible="mobilePageNavVisible" /> -->
         </template>
     </view-layout>
 </template>
@@ -59,25 +59,19 @@ import DesktopViewHeader from '~/components/application/DesktopViewHeader';
 import IconButton from '~/components/IconButton';
 import MobileAppHeader from '~/components/application/MobileAppHeader';
 import MobileAppNav from '~/components/application/MobileAppNav';
-import MobileViewNav from '~/components/application/MobileViewNav';
 import SidebarNavItem from '~/components/application/SidebarNavItem';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
     name: 'SandboxView',
-    components: { DesktopViewHeader, IconButton, MobileAppHeader, MobileAppNav, MobileViewNav, SidebarNavItem, ViewLayout },
+    components: { DesktopViewHeader, IconButton, MobileAppHeader, MobileAppNav, SidebarNavItem, ViewLayout },
     data() {
         return {
             mobileAppNavVisible: false,
             mobileNavVisible: false,
             mobilePageNavVisible: false,
-            mobile: window.innerWidth < 768
+            sidebarVisible: false,
         }
-    },
-    mounted() {
-        window.addEventListener('resize', () => {
-            this.mobile = window.innerWidth < 768;
-        });
     }
 }
 </script>
