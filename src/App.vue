@@ -1,17 +1,14 @@
 <template>
     <application-layout theme="light">
-        <template #view>
-            <sandbox-view />
-        </template>
+        <router-view />
     </application-layout>
 </template>
 
 <script>
 import ApplicationLayout from '~/components/application/ApplicationLayout';
-import SandboxView from '~/components/application/SandboxView';
 
 export default {
-name: 'App',
-components: { ApplicationLayout, SandboxView }
+    name: 'App',
+    components: { ApplicationLayout }
 }
 </script>
