@@ -1,5 +1,5 @@
 <template>
-    <div class="z-10 fixed top-0 left-0 w-full bg-white" style="height: -webkit-fill-available">
+    <div class="md:hidden z-10 fixed top-0 left-0 w-full bg-white" style="height: -webkit-fill-available">
         <header class="z-10 fixed w-screen top-0 left-0 flex items-center justify-end p-2">
             <icon-button class="inline-flex" value="close" @click="$emit('close')" />
         </header>
