@@ -1,0 +1,16 @@
+<template>
+    <div class="flex items-center max-w-8xl mx-auto h-12">
+        <div v-if="$slots.sidebar" class="w-56 px-6 border-r border-gray-200">
+            <slot name="sidebar" />
+        </div>
+        <div class="flex-1 flex items-center justify-between px-2">
+            <slot name="main" />
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'ViewHeader'
+}
+</script>
