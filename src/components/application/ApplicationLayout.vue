@@ -6,7 +6,7 @@
                 <main class="relative z-0 flex flex-col flex-1 min-h-0 overflow-y-auto">
                     <div class="flex flex-col items-center overflow-hidden w-full flex-1 min-h-0 z-0">
                         <div class="flex flex-col w-full flex-1 min-h-0 overflow-auto">
-                            <slot name="view" />
+                            <slot />
                         </div>
                     </div>
                 </main> 
