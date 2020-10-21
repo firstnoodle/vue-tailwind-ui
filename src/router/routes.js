@@ -3,7 +3,7 @@ import Audits from '~/views/Audits/index';
 
 export default [
     {
-        path: '/',
+        path: '/audits',
         component: Audits,
         name: 'Audits',
         meta: {
@@ -12,7 +12,7 @@ export default [
         },
     },
     {
-        path: '/:id',
+        path: '/audits/:id',
         component: Audit,
         name: 'Audit',
         meta: {
