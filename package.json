@@ -28,7 +28,7 @@
     "file-saver": "^2.0.2",
     "portal-vue": "^2.1.7",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.3",
+    "vue-router": "^3.4.7",
     "vuedraggable": "^2.24.1"
   },
   "devDependencies": {
