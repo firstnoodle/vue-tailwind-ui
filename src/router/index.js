@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import routes from './routes.js';
-import store from '~/store/index.js';
+// import store from '~/store/index.js';
 
 Vue.use(Router);
 
@@ -21,8 +21,8 @@ function createRouter({ base }) {
         linkActiveClass: 'is-active',
     });
 
-    router.beforeEach(beforeEach);
-    router.afterEach(afterEach);
+    // router.beforeEach(beforeEach);
+    // router.afterEach(afterEach);
 
     return router;
 }
@@ -35,19 +35,19 @@ function createRouter({ base }) {
  * @param {Function} next
  */
 async function beforeEach(to, from, next) {
-    if (window.Laravel.isAuthenticated) {
-        if (!store.getters['app/user']) {
-            store.dispatch('app/fetchUser');
-        }
-        next();
-    } else if (to.meta.requiresAuth) {
-        next({
-            name: 'login',
-            query: { redirect: to.name },
-        });
-    } else {
-        next();
-    }
+    // if (window.Laravel.isAuthenticated) {
+    //     if (!store.getters['app/user']) {
+    //         store.dispatch('app/fetchUser');
+    //     }
+    //     next();
+    // } else if (to.meta.requiresAuth) {
+    //     next({
+    //         name: 'login',
+    //         query: { redirect: to.name },
+    //     });
+    // } else {
+    //     next();
+    // }
 }
 
 /**
