@@ -1,7 +1,9 @@
 <template>
     <view-header>
         <template #sidebar>
-            <base-button plain type="primary" icon="angle-left" class="w-full inline-flex">BACK</base-button>
+            <router-link :to="{ name: 'Audits' }">
+                <base-button plain type="primary" icon="angle-left" class="w-full inline-flex">BACK</base-button>
+            </router-link>
         </template>
         <template #main>
             <div class="flex-1 flex items-center max-w-4xl m-auto">
