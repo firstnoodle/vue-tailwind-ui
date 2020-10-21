@@ -7,15 +7,18 @@ module.exports = {
     }),
     borderColor: theme => ({
       ...theme('colors'),
+      brand: 'var(--brand-color)',
+      action: 'var(--action-color)',
       subtle: 'var(--border-subtle-color)',
       default: 'var(--border-default-color)',
       strong: 'var(--border-strong-color)'
     }),
     textColor: theme => ({
       ...theme('colors'), // keeping the default colors for now
+      brand: 'var(--brand-color)',
+      action: 'var(--action-color)',
       primary: 'var(--text-primary-color)',
       secondary: 'var(--text-secondary-color)',
-      action: 'var(--text-action-color)'
     }),
     extend: {
       cursor: {
