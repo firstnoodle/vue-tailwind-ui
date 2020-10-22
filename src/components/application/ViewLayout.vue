@@ -17,7 +17,7 @@
 
                 <transition name="slide" v-if="$slots.sidebar">
                     <!-- TODO: verify style -webkit-fill-available -->
-                    <aside v-if="computedSidebarVisible" class="fixed top-0 left-0 md:relative flex-0 w-56 bg-white md:bg-page overflow-y-auto" style="height: -webkit-fill-available">
+                    <aside v-if="computedSidebarVisible" class="fixed top-0 left-0 md:relative flex-0 w-56 bg-white border-r border-subtle overflow-y-auto" style="height: -webkit-fill-available">
                         <slot name="sidebar" />
                     </aside>
                 </transition>

@@ -70,7 +70,7 @@ export default {
     @apply flex items-center px-3 py-2 mb-1 bg-transparent font-light text-gray-600 rounded-lg;
 
     &.is-active {
-        @apply bg-white font-medium text-blue-500;
+        @apply bg-gray-200 font-medium text-blue-900;
     }
 }
 
