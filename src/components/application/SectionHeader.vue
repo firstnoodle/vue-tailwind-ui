@@ -1,6 +1,6 @@
-<template>
+<template functional>
     <div class="flex items-center py-2 border-b border-brand">
-        <icon :value="icon" />
+        <icon :value="props.icon" />
         <span class="ml-2 text-sm">
             <slot />
         </span>
