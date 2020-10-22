@@ -67,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 
 .link {
-    @apply flex items-center px-3 py-2 mb-1 bg-transparent text-gray-600 rounded-lg;
+    @apply flex items-center px-3 py-2 mb-1 bg-transparent font-light text-gray-600 rounded-lg;
 
     &.is-active {
         @apply bg-white font-medium text-blue-500;
