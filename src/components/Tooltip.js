@@ -15,6 +15,10 @@ export default Vue.component('tooltip', {
         textcolor: {
             type: String,
             default: 'white'
+        },
+        placement: {
+            type: String,
+            default: 'top'
         }
     },
 
@@ -36,7 +40,7 @@ export default Vue.component('tooltip', {
                 visibleArrow: true,
                 rootClass: 'tooltip',
                 options: {
-                    placement: 'top',
+                    placement: this.placement,
                     modifiers: [
                         {
                             name: 'offset',
