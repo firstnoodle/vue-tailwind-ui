@@ -1,9 +1,12 @@
 <template>
-    <div>Findings</div>
+    <section-header icon="index-finger-right">Findings</section-header>
 </template>
 
 <script>
+import SectionHeader from '~/components/application/SectionHeader';
+
 export default {
-    name: 'Findings'
+    name: 'Findings',
+    components: { SectionHeader }
 }
 </script>

@@ -1,9 +1,12 @@
 <template>
-    <div>Information Requests</div>
+    <section-header icon="information">Information requests</section-header>
 </template>
 
 <script>
+import SectionHeader from '~/components/application/SectionHeader';
+
 export default {
-    name: 'InformationRequests'
+    name: 'InformationRequests',
+    components: { SectionHeader }
 }
 </script>

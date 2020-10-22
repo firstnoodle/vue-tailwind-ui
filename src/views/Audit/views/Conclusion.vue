@@ -1,9 +1,12 @@
 <template>
-    <div>Conclusion</div>
+    <section-header icon="conclusion">Conclusion</section-header>
 </template>
 
 <script>
+import SectionHeader from '~/components/application/SectionHeader';
+
 export default {
-    name: 'Conclusion'
+    name: 'Conclusion',
+    components: { SectionHeader }
 }
 </script>
