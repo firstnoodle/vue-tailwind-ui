@@ -4,6 +4,7 @@ import Audits from '~/views/Audits/Index';
 import Agenda from '~/views/Audit/views/Agenda';
 import Auditee from '~/views/Audit/views/Auditee';
 import Conclusion from '~/views/Audit/views/Conclusion';
+import Details from '~/views/Audit/views/Details';
 import Findings from '~/views/Audit/views/Findings';
 import FocusAreas from '~/views/Audit/views/FocusAreas';
 import InformationRequests from '~/views/Audit/views/InformationRequests';
@@ -31,6 +32,15 @@ export default [
             requiresAuth: true,
         },
         children: [
+            {
+                path: '/',
+                component: Details,
+                name: 'Details',
+                meta: {
+                    title: 'Details',
+                    requiresAuth: true,
+                }
+            },
             {
                 path: 'agenda',
                 component: Agenda,
@@ -70,16 +80,16 @@ export default [
             {
                 path: 'focus-areas',
                 component: FocusAreas,
-                name: 'FocusAreas',
+                name: 'Focus Areas',
                 meta: {
-                    title: 'FocusAreas',
+                    title: 'Focus Areas',
                     requiresAuth: true,
                 }
             },
             {
                 path: 'information-requests',
                 component: InformationRequests,
-                name: 'InformationRequests',
+                name: 'Information Requests',
                 meta: {
                     title: 'Information requests',
                     requiresAuth: true,
