@@ -11,14 +11,10 @@
 import Icon from '~/components/Icon';
 
 export default {
-    name: 'SectionHrader',
+    name: 'SectionHeader',
     components: { Icon },
     props: {
         icon: {
-            type: String,
-            required: true
-        },
-        title: {
             type: String,
             required: true
         }
