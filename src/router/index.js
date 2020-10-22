@@ -34,6 +34,7 @@ function createRouter({ base }) {
  * @param {Route} from
  * @param {Function} next
  */
+// eslint-disable-next-line no-unused-vars
 async function beforeEach(to, from, next) {
     // if (window.Laravel.isAuthenticated) {
     //     if (!store.getters['app/user']) {
@@ -57,6 +58,7 @@ async function beforeEach(to, from, next) {
  * @param {Route} from
  * @param {Function} next
  */
+// eslint-disable-next-line no-unused-vars
 async function afterEach(to, from, next) {
     document.title = 'eeSea - ' + to.meta.title;
 }
@@ -70,6 +72,7 @@ async function afterEach(to, from, next) {
  * @param  {Object|undefined} savedPosition
  * @return {Object}
  */
+// eslint-disable-next-line no-unused-vars
 function scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
         return savedPosition;
