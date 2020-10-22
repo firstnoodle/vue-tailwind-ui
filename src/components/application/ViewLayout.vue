@@ -22,12 +22,10 @@
                     </aside>
                 </transition>
 
-                <!-- 
-                <aside v-if="$slots.sidebar" class="hidden md:flex bg-teal-200 flex-0 w-56"></aside> 
-                -->
-
                 <main class="bg-white flex-1 overflow-x-hidden overflow-y-auto pt-12 md:pt-0">
-                    <slot name="main" />
+                    <div class="max-w-4xl mx-auto">
+                        <slot name="main" />
+                    </div>
                 </main>
             </div>
         </main>
