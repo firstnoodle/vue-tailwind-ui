@@ -1,7 +1,7 @@
 <template>
     <nav class="px-6 pb-6 pt-20 md:p-6">
 
-        <router-link :to="{ name: 'Details' }" tag="a" class="link">
+        <router-link :to="{ name: 'Details' }" tag="a" class="link" exact>
             <icon value="phase" />
             <span class="ml-4 text-sm">Audit details</span>
         </router-link>
@@ -64,10 +64,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .link {
     @apply flex items-center px-3 py-2 mb-1 bg-transparent text-gray-600 rounded-lg;
+
+    &.is-active {
+        @apply bg-white font-medium text-blue-500;
+    }
 }
 
 </style>
