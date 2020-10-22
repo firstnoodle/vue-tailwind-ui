@@ -7,7 +7,7 @@
             </div>
         </header>
 
-        <main class="relative z-0 flex flex-col flex-1 min-h-0 overflow-y-auto max-w-8xl mx-auto">
+        <main class="relative z-0 flex flex-col flex-1 w-full min-h-0 overflow-y-auto max-w-8xl mx-auto">
             <div class="w-full h-full flex">
 
                 <!-- mobile overlay -->
