@@ -1,9 +1,9 @@
 <template>
     <div class="flex items-center max-w-8xl mx-auto h-12">
-        <div v-if="$slots.sidebar" class="w-56 px-6 border-r border-gray-200">
+        <div v-if="$slots.sidebar" class="flex-0 w-56 px-6 border-r border-gray-200">
             <slot name="sidebar" />
         </div>
-        <div class="flex-1 flex items-center justify-between px-2">
+        <div class="relative flex-1 flex items-center px-4">
             <slot name="main" />
         </div>
     </div>
