@@ -160,4 +160,8 @@
     &.is-rounded {
         @apply rounded-full;
     }
+
+    &.is-text {
+        @apply border-none shadow-none;
+    }
 }
