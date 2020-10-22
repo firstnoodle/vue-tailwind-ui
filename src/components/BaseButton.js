@@ -36,6 +36,10 @@ export default Vue.component('base-button', {
                 return ['xs', 'sm', 'md', 'lg', 'xl'].indexOf(value) !== -1;
             }
         },
+        text: {
+            type: Boolean,
+            default: false
+        },
         type: {
             type: String,
             default: 'default',
@@ -66,7 +70,8 @@ export default Vue.component('base-button', {
             `size-${this.size}`, 
             `type-${this.type}`
         ].join(' ');
-        options.class += this.rounded ? ' is-rounded' : '',
+        options.class += this.rounded ? ' is-rounded' : '';
+        options.class += this.text ? ' is-text' : '';
         options.class += this.plain ? ' is-plain' : '';
 
         const buttonContent = [];
