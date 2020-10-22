@@ -49,6 +49,11 @@ export default {
             mobileNavVisible: false,
             sidebarVisible: false,
         }
-    }
+    },
+    watch: {
+        '$route'() {
+            this.sidebarVisible = false;
+        }
+    },
 }
 </script>
