@@ -17,13 +17,11 @@
 
 <script>
 import BaseButton from '~/components/BaseButton';
-import Icon from '~/components/Icon';
 import Pagination from '~/components/Pagination';
-import Tooltip from '~/components/Tooltip';
 import ViewHeader from '~/components/application/ViewHeader';
 
 export default {
     name: 'Header',
-    components: { BaseButton, Icon, Pagination, Tooltip, ViewHeader }
+    components: { BaseButton, Pagination, ViewHeader }
 }
 </script>
