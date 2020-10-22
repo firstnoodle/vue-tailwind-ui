@@ -23,8 +23,10 @@
                 </transition>
 
                 <main class="bg-white flex-1 overflow-x-hidden overflow-y-auto pt-12 md:pt-0">
-                    <div class="max-w-4xl mx-auto">
-                        <slot name="main" />
+                    <div class="px-4 py-4 md:py-8">
+                        <div class="max-w-4xl mx-auto">
+                            <slot name="main" />
+                        </div>
                     </div>
                 </main>
             </div>
@@ -75,7 +77,7 @@ export default {
 }
 
 .slide-enter-active, .slide-leave-active {
-    transition: transform .5s ease-out;
+    transition: transform .3s ease-out;
 }
 
 .slide-enter, .slide-leave-to {
