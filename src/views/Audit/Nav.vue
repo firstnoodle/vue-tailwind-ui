@@ -72,6 +72,10 @@ export default {
     &.is-active {
         @apply bg-gray-200 font-medium text-blue-900;
     }
+
+    &:hover {
+        @apply bg-gray-200;
+    }
 }
 
 </style>
