@@ -7,6 +7,6 @@ import SectionHeader from '~/components/application/SectionHeader';
 
 export default {
     name: 'Agenda',
-    components: { SectionHeader }
+    components: { SectionHeader },
 }
 </script>
