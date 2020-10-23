@@ -23,19 +23,13 @@ import DesktopAppHeader from '~/components/application/DesktopAppHeader';
 export default {
     name: 'ApplicationLayout',
     components: { DesktopAppHeader },
-    props: {
-        theme: {
-            type: String,
-            default: 'light'
-        }
-    },
     data() {
         return {
         }
     },
     computed: {
         computedTheme() {
-            return `theme-${this.theme}`;
+            return `theme-${this.$store.state.theme}`;
         }
     },
 }
