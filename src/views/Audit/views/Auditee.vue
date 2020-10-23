@@ -1,7 +1,7 @@
 <template>
     <view-content title="Auditee" icon="building">
 
-        <div class="py-20">Test</div>
+        Content
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Details' }" icon="phase" label="Audit details" placement="left" />

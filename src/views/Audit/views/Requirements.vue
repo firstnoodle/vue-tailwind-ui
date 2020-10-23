@@ -1,7 +1,7 @@
 <template>
     <view-content title="Requirements" icon="index-finger-up">
 
-        <div class="py-20">Test</div>
+        Content
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Team' }" icon="team" label="Audit team" placement="left" />

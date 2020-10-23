@@ -1,7 +1,7 @@
 <template>
     <view-content title="Audit details" icon="phase">
 
-        <div class="py-20">Test</div>
+        Content
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Auditee' }" icon="building" label="Auditee" placement="right" class="ml-auto" />

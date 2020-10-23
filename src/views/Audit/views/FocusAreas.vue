@@ -1,7 +1,7 @@
 <template>
     <view-content title="Focus Areas" icon="crosshair">
 
-        <div class="py-20">Test</div>
+        Content
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Scope' }" icon="scope" label="Scope" placement="left" />
