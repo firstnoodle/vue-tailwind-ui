@@ -1,21 +1,21 @@
 <template>
-    <page-section title="Auditee" icon="building">
+    <view-content title="Auditee" icon="building">
 
         <div class="py-20">Test</div>
 
         <template #footer>
-            <section-footer-link :to="{ name: 'Details' }" icon="phase" label="Audit details" placement="left" />
-            <section-footer-link :to="{ name: 'Team' }" icon="team" label="Audit team" placement="right" />
+            <view-content-footer-link :to="{ name: 'Details' }" icon="phase" label="Audit details" placement="left" />
+            <view-content-footer-link :to="{ name: 'Team' }" icon="team" label="Audit team" placement="right" />
         </template>
-    </page-section>
+    </view-content>
 </template>
 
 <script>
-import PageSection from '~/components/application/Section';
-import SectionFooterLink from '~/components/application/SectionFooterLink';
+import ViewContent from '~/components/application/ViewContent';
+import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Auditee',
-    components: { PageSection, SectionFooterLink }
+    components: { ViewContent, ViewContentFooterLink }
 }
 </script>

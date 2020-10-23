@@ -1,21 +1,21 @@
 <template>
-    <page-section title="Focus Areas" icon="crosshair">
+    <view-content title="Focus Areas" icon="crosshair">
 
         <div class="py-20">Test</div>
 
         <template #footer>
-            <section-footer-link :to="{ name: 'Scope' }" icon="scope" label="Scope" placement="left" />
-            <section-footer-link :to="{ name: 'Agenda' }" icon="clock" label="Agenda" placement="right" />
+            <view-content-footer-link :to="{ name: 'Scope' }" icon="scope" label="Scope" placement="left" />
+            <view-content-footer-link :to="{ name: 'Agenda' }" icon="clock" label="Agenda" placement="right" />
         </template>
-    </page-section>
+    </view-content>
 </template>
 
 <script>
-import PageSection from '~/components/application/Section';
-import SectionFooterLink from '~/components/application/SectionFooterLink';
+import ViewContent from '~/components/application/ViewContent';
+import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Findings',
-    components: { PageSection, SectionFooterLink }
+    components: { ViewContent, ViewContentFooterLink }
 }
 </script>

@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: 'SectionFooterLink',
+    name: 'ViewContentFooterLink',
     props: {
         icon: {
             type: String,

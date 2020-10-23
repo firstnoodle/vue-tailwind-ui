@@ -1,21 +1,21 @@
 <template>
-    <page-section title="Information Requests" icon="information">
+    <view-content title="Information Requests" icon="information">
 
         <div class="py-20">Test</div>
 
         <template #footer>
-            <section-footer-link :to="{ name: 'Agenda' }" icon="clock" label="Agenda" placement="left" />
-            <section-footer-link :to="{ name: 'Findings' }" icon="index-finger-right" label="Findings" placement="right" />
+            <view-content-footer-link :to="{ name: 'Agenda' }" icon="clock" label="Agenda" placement="left" />
+            <view-content-footer-link :to="{ name: 'Findings' }" icon="index-finger-right" label="Findings" placement="right" />
         </template>
-    </page-section>
+    </view-content>
 </template>
 
 <script>
-import PageSection from '~/components/application/Section';
-import SectionFooterLink from '~/components/application/SectionFooterLink';
+import ViewContent from '~/components/application/ViewContent';
+import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'InformationRequests',
-    components: { PageSection, SectionFooterLink }
+    components: { ViewContent, ViewContentFooterLink }
 }
 </script>

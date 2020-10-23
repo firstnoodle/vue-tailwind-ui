@@ -1,20 +1,20 @@
 <template>
-    <page-section title="Audit details" icon="phase">
+    <view-content title="Audit details" icon="phase">
 
         <div class="py-20">Test</div>
 
         <template #footer>
-            <section-footer-link :to="{ name: 'Auditee' }" icon="building" label="Auditee" placement="right" class="ml-auto" />
+            <view-content-footer-link :to="{ name: 'Auditee' }" icon="building" label="Auditee" placement="right" class="ml-auto" />
         </template>
-    </page-section>
+    </view-content>
 </template>
 
 <script>
-import PageSection from '~/components/application/Section';
-import SectionFooterLink from '~/components/application/SectionFooterLink';
+import ViewContent from '~/components/application/ViewContent';
+import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Details',
-    components: { PageSection, SectionFooterLink }
+    components: { ViewContent, ViewContentFooterLink }
 }
 </script>

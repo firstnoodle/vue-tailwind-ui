@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'Section',
+    name: 'ViewContent',
     props: {
         title: {
             type: String,
