@@ -1,17 +1,19 @@
 <template>
     <section class="flex flex-col h-full">
-        <div class="flex items-center py-2 border-b border-brand">
+        <header class="flex items-center py-2 border-b border-brand">
             <icon :value="icon" />
             <span class="ml-2 text-sm">
                 {{ title }}
             </span>
-        </div>
+        </header>
 
-        <slot />
+        <main class="py-5">
+            <slot />
+        </main>
 
-        <div class="mt-auto flex items-center justify-between py-2 border-t border-brand">
+        <footer class="mt-auto flex items-center justify-between py-2 border-t border-brand">
             <slot name="footer" />
-        </div>
+        </footer>
     </section>
 </template>
 
