@@ -4,7 +4,7 @@
         Content
 
         <template #footer>
-            <view-content-footer-link :to="{ name: 'Suggestions' }" icon="message" label="Suggestions" placement="left" />
+            <view-content-footer-link :to="{ name: 'Audit suggestions' }" icon="message" label="Suggestions" placement="left" />
         </template>
     </view-content>
 </template>

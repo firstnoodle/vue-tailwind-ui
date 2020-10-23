@@ -4,8 +4,8 @@
         Content
 
         <template #footer>
-            <view-content-footer-link :to="{ name: 'Focus Areas' }" icon="crosshair" label="Focus Areas" placement="left" />
-            <view-content-footer-link :to="{ name: 'Information Requests' }" icon="information" label="Info. Requests" placement="right" />
+            <view-content-footer-link :to="{ name: 'Audit focus areas' }" icon="crosshair" label="Focus Areas" placement="left" />
+            <view-content-footer-link :to="{ name: 'Audit information requests' }" icon="information" label="Info. Requests" placement="right" />
         </template>
     </view-content>
 </template>

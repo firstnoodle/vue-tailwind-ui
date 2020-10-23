@@ -1,25 +1,45 @@
+import Dashboard from '~/views/Dashboard/Index';
 import Audit from '~/views/Audit/Index';
 import Audits from '~/views/Audits/Index';
+import Findings from '~/views/Findings/Index';
 
-import Agenda from '~/views/Audit/views/Agenda';
-import Auditee from '~/views/Audit/views/Auditee';
-import Conclusion from '~/views/Audit/views/Conclusion';
-import Details from '~/views/Audit/views/Details';
-import Findings from '~/views/Audit/views/Findings';
-import FocusAreas from '~/views/Audit/views/FocusAreas';
-import InformationRequests from '~/views/Audit/views/InformationRequests';
-import Requirements from '~/views/Audit/views/Requirements';
-import Scope from '~/views/Audit/views/Scope';
-import Suggestions from '~/views/Audit/views/Suggestions';
-import Team from '~/views/Audit/views/Team';
+import AuditAgenda from '~/views/Audit/views/Agenda';
+import AuditAuditee from '~/views/Audit/views/Auditee';
+import AuditConclusion from '~/views/Audit/views/Conclusion';
+import AuditDetails from '~/views/Audit/views/Details';
+import AuditFindings from '~/views/Audit/views/Findings';
+import AuditFocusAreas from '~/views/Audit/views/FocusAreas';
+import AuditInformationRequests from '~/views/Audit/views/InformationRequests';
+import AuditRequirements from '~/views/Audit/views/Requirements';
+import AuditScope from '~/views/Audit/views/Scope';
+import AuditSuggestions from '~/views/Audit/views/Suggestions';
+import AuditTeam from '~/views/Audit/views/Team';
 
 export default [
+    {
+        path: '/',
+        component: Dashboard,
+        name: 'Dashboard',
+        meta: {
+            title: 'Dashboard',
+            requiresAuth: true,
+        },
+    },
     {
         path: '/audits',
         component: Audits,
         name: 'Audits',
         meta: {
             title: 'Audits',
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/findings',
+        component: Findings,
+        name: 'Findings',
+        meta: {
+            title: 'Findings',
             requiresAuth: true,
         },
     },
@@ -34,8 +54,8 @@ export default [
         children: [
             {
                 path: '/',
-                component: Details,
-                name: 'Details',
+                component: AuditDetails,
+                name: 'Audit details',
                 meta: {
                     title: 'Details',
                     requiresAuth: true,
@@ -43,8 +63,8 @@ export default [
             },
             {
                 path: 'agenda',
-                component: Agenda,
-                name: 'Agenda',
+                component: AuditAgenda,
+                name: 'Audit agenda',
                 meta: {
                     title: 'Agenda',
                     requiresAuth: true,
@@ -52,8 +72,8 @@ export default [
             },
             {
                 path: 'auditee',
-                component: Auditee,
-                name: 'Auditee',
+                component: AuditAuditee,
+                name: 'Audit auditee',
                 meta: {
                     title: 'Auditee',
                     requiresAuth: true,
@@ -61,8 +81,8 @@ export default [
             },
             {
                 path: 'conclusion',
-                component: Conclusion,
-                name: 'Conclusion',
+                component: AuditConclusion,
+                name: 'Audit conclusion',
                 meta: {
                     title: 'Conclusion',
                     requiresAuth: true,
@@ -70,8 +90,8 @@ export default [
             },
             {
                 path: 'findings',
-                component: Findings,
-                name: 'Findings',
+                component: AuditFindings,
+                name: 'Audit findings',
                 meta: {
                     title: 'Findings',
                     requiresAuth: true,
@@ -79,8 +99,8 @@ export default [
             },
             {
                 path: 'focus-areas',
-                component: FocusAreas,
-                name: 'Focus Areas',
+                component: AuditFocusAreas,
+                name: 'Audit focus areas',
                 meta: {
                     title: 'Focus Areas',
                     requiresAuth: true,
@@ -88,8 +108,8 @@ export default [
             },
             {
                 path: 'information-requests',
-                component: InformationRequests,
-                name: 'Information Requests',
+                component: AuditInformationRequests,
+                name: 'Audit information requests',
                 meta: {
                     title: 'Information requests',
                     requiresAuth: true,
@@ -97,8 +117,8 @@ export default [
             },
             {
                 path: 'requirements',
-                component: Requirements,
-                name: 'Requirements',
+                component: AuditRequirements,
+                name: 'Audit requirements',
                 meta: {
                     title: 'Requirements',
                     requiresAuth: true,
@@ -106,8 +126,8 @@ export default [
             },
             {
                 path: 'scope',
-                component: Scope,
-                name: 'Scope',
+                component: AuditScope,
+                name: 'Audit scope',
                 meta: {
                     title: 'Scope',
                     requiresAuth: true,
@@ -115,8 +135,8 @@ export default [
             },
             {
                 path: 'suggestions',
-                component: Suggestions,
-                name: 'Suggestions',
+                component: AuditSuggestions,
+                name: 'Audit suggestions',
                 meta: {
                     title: 'Suggestions',
                     requiresAuth: true,
@@ -124,8 +144,8 @@ export default [
             },
             {
                 path: 'team',
-                component: Team,
-                name: 'Team',
+                component: AuditTeam,
+                name: 'Audit team',
                 meta: {
                     title: 'Team',
                     requiresAuth: true,

@@ -1,7 +1,7 @@
 <template>
     <view-header>
         <template #sidebar>
-            <router-link :to="{ name: 'Audit details', params: { id: 123 } }">
+            <router-link :to="{ name: 'Details', params: { id: 123 } }">
                 <base-button plain type="primary" icon="plus" class="w-full inline-flex">NEW AUDIT</base-button>
             </router-link>
         </template>

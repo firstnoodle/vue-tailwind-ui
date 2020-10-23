@@ -1,10 +1,10 @@
 <template>
     <view-layout :sidebarVisible="sidebarVisible">
         <template #header>
-            <audit-view-header />
+            <audits-view-header />
         </template>
         <template #sidebar>
-            <audit-view-nav />
+            <audits-view-nav />
         </template>
         <template #main>
             <div class="w-full min-h-full">
@@ -33,16 +33,16 @@
 </template>
 
 <script>
-import AuditViewHeader from './Header';
-import AuditViewNav from './Nav';
+import AuditsViewHeader from './Header';
+import AuditsViewNav from './Nav';
 import IconButton from '~/components/IconButton';
 import MobileAppHeader from '~/components/application/MobileAppHeader';
 import MobileAppNav from '~/components/application/MobileAppNav';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
-    name: 'AuditView',
-    components: { AuditViewHeader, AuditViewNav, IconButton, MobileAppHeader, MobileAppNav, ViewLayout },
+    name: 'Findings',
+    components: { AuditsViewHeader, AuditsViewNav, IconButton, MobileAppHeader, MobileAppNav, ViewLayout },
     data() {
         return {
             mobileAppNavVisible: false,

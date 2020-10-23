@@ -4,8 +4,8 @@
         Content
 
         <template #footer>
-            <view-content-footer-link :to="{ name: 'Agenda' }" icon="clock" label="Agenda" placement="left" />
-            <view-content-footer-link :to="{ name: 'Findings' }" icon="index-finger-right" label="Findings" placement="right" />
+            <view-content-footer-link :to="{ name: 'Audit agenda' }" icon="clock" label="Agenda" placement="left" />
+            <view-content-footer-link :to="{ name: 'Audit findings' }" icon="index-finger-right" label="Findings" placement="right" />
         </template>
     </view-content>
 </template>

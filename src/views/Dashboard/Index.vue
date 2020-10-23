@@ -1,29 +1,31 @@
 <template>
-    <view-layout :sidebarVisible="sidebarVisible">
+    <view-layout>
         <template #header>
-            <audit-view-header />
+            <audits-view-header />
         </template>
-        <template #sidebar>
-            <audit-view-nav />
-        </template>
+
         <template #main>
             <div class="w-full min-h-full">
-                <router-view />
+
+                <view-content title="Agenda" icon="clock">
+                    Dashboard
+                    <template #footer>
+                        <view-content-footer-link :to="{ name: 'Focus Areas' }" icon="crosshair" label="Focus Areas" placement="left" />
+                        <view-content-footer-link :to="{ name: 'Information Requests' }" icon="information" label="Info. Requests" placement="right" />
+                    </template>
+                </view-content>
+
             </div>
         </template>
 
         <template #mobile>
             <mobile-app-header>
                 <template #left>
-                    <icon-button class="inline-flex md:hidden" value="angle-left" />
-                    <icon-button class="inline-flex md:hidden" value="itenary" @click="sidebarVisible = !sidebarVisible" />
                 </template>
                 <template #center>
-                    <span class="font-bold text-secondary">AU</span>
-                    <span class="font-light text-primary">1001234</span>
+                    Dashboard
                 </template>
                 <template #right>
-                    <icon-button class="inline-flex" value="arrow-up" />
                     <icon-button class="inline-flex" value="options" @click="mobileAppNavVisible = true" />
                 </template>
             </mobile-app-header>
@@ -33,16 +35,15 @@
 </template>
 
 <script>
-import AuditViewHeader from './Header';
-import AuditViewNav from './Nav';
 import IconButton from '~/components/IconButton';
 import MobileAppHeader from '~/components/application/MobileAppHeader';
 import MobileAppNav from '~/components/application/MobileAppNav';
+import AuditsViewHeader from './Header';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
-    name: 'AuditView',
-    components: { AuditViewHeader, AuditViewNav, IconButton, MobileAppHeader, MobileAppNav, ViewLayout },
+    name: 'Dashboard',
+    components: { IconButton, MobileAppHeader, MobileAppNav, AuditsViewHeader, ViewLayout },
     data() {
         return {
             mobileAppNavVisible: false,
