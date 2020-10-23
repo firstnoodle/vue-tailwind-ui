@@ -1,5 +1,5 @@
 <template>
-    <application-layout theme="light">
+    <application-layout>
         <router-view />
     </application-layout>
 </template>
@@ -9,6 +9,6 @@ import ApplicationLayout from '~/components/application/ApplicationLayout';
 
 export default {
     name: 'App',
-    components: { ApplicationLayout }
+    components: { ApplicationLayout },
 }
 </script>
