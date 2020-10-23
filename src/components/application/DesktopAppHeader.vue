@@ -15,11 +15,10 @@
                             </div>
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline">
-                                    <nav-item icon="dashboard">Dashboard</nav-item>
-                                    <nav-item icon="phase">Audits</nav-item>
-                                    <nav-item icon="team">Auditors</nav-item>
-                                    <nav-item icon="building">Auditees</nav-item>
-                                    <nav-item icon="index-finger-right">Findings</nav-item>
+                                    <nav-item :to="{ name: 'Dashboard' }" exact icon="dashboard">Dashboard</nav-item>
+                                    <nav-item :to="{ name: 'Audits' }" icon="phase">Audits</nav-item>
+                                    <nav-item :to="{ name: 'Auditors' }" icon="team">Auditors</nav-item>
+                                    <nav-item :to="{ name: 'Findings' }" icon="index-finger-right">Findings</nav-item>
                                 </div>
                             </div>
                         </div>
@@ -27,7 +26,7 @@
                         <!-- User -->
                         <div class="hidden md:block">
                             <div class="ml-4 flex items-center md:ml-6">
-                                <nav-item icon="user">NSTQ</nav-item>
+                                <nav-item :to="{ name: 'Audits' }" icon="user">NSTQ</nav-item>
                             </div>
                         </div>
                     </div>

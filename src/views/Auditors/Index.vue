@@ -3,12 +3,14 @@
         <template #header>
             <audit-view-header />
         </template>
+
         <template #sidebar>
-            <audit-view-nav />
+            <auditors-view-nav />
         </template>
+
         <template #main>
             <div class="w-full min-h-full">
-                <router-view />
+                Auditors
             </div>
         </template>
 
@@ -34,15 +36,15 @@
 
 <script>
 import AuditViewHeader from './Header';
-import AuditViewNav from './Nav';
+import AuditorsViewNav from './Nav';
 import IconButton from '~/components/IconButton';
 import MobileAppHeader from '~/components/application/MobileAppHeader';
 import MobileAppNav from '~/components/application/MobileAppNav';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
-    name: 'Audit',
-    components: { AuditViewHeader, AuditViewNav, IconButton, MobileAppHeader, MobileAppNav, ViewLayout },
+    name: 'Auditees',
+    components: { AuditViewHeader, AuditorsViewNav, IconButton, MobileAppHeader, MobileAppNav, ViewLayout },
     data() {
         return {
             mobileAppNavVisible: false,

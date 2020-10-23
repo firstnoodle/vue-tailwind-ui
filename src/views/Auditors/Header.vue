@@ -1,7 +1,7 @@
 <template>
     <view-header>
         <template #main>
-            Findings
+            Auditors
         </template>
     </view-header>
 </template>

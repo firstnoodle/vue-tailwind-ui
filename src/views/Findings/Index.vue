@@ -8,7 +8,7 @@
         </template>
         <template #main>
             <div class="w-full min-h-full">
-                <router-view />
+                Findings
             </div>
         </template>
 
