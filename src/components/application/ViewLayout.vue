@@ -23,8 +23,8 @@
                 </transition>
 
                 <main class="bg-white flex-1 overflow-x-hidden overflow-y-auto pt-12 md:pt-0">
-                    <div class="px-4 py-4 md:py-8">
-                        <div class="max-w-4xl mx-auto">
+                    <div class="h-full px-4 py-4 md:py-8">
+                        <div class="flex h-full max-w-4xl mx-auto">
                             <slot name="main" />
                         </div>
                     </div>

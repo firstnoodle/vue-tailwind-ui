@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col h-full">
         <section-header icon="information">Information requests</section-header>
 
         <div class="py-20">Content</div>
