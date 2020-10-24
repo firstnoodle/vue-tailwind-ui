@@ -11,24 +11,23 @@
             <div class="mt-1 font-light">AuditTool</div>
         </div>
         <nav class="bg-white w-full h-full px-6 pb-6 pt-8 overflow-y-auto">
-            <sidebar-nav-item href="#" icon="dashboard">Dashboard</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="phase">Audits</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="team">Auditors</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="building">Auditees</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="index-finger-right">Findings</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="cog">Settings</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="user">NSTQ</sidebar-nav-item>
-            <sidebar-nav-item href="#" icon="sign-in">Sign out</sidebar-nav-item>
+            <nav-item :to="{ name: 'Dashboard' }" icon="dashboard" exact>Dashboard</nav-item>
+            <nav-item :to="{ name: 'Audits' }" icon="phase">Audits</nav-item>
+            <nav-item :to="{ name: 'Auditors' }" icon="team">Auditors</nav-item>
+            <nav-item :to="{ name: 'Findings' }" icon="index-finger-right">Findings</nav-item>
+            <!-- <nav-item :to="{ name: '' }" icon="cog">Settings</nav-item> -->
+            <!-- <nav-item :to="{ name: '' }" icon="user">NSTQ</nav-item> -->
+            <!-- <nav-item :to="{ name: '' }" icon="sign-in">Sign out</nav-item> -->
         </nav>
     </div>
 </template>
 
 <script>
 import IconButton from '~/components/IconButton';
-import SidebarNavItem from '~/components/application/SidebarNavItem';
+import NavItem from '~/components/application/NavItem';
 
 export default {
     name: 'MobileAppNav',
-    components: { IconButton, SidebarNavItem }
+    components: { IconButton, NavItem }
 }
 </script>
