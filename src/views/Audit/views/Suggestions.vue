@@ -5,7 +5,7 @@
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Audit findings' }" icon="index-finger-right" label="Findings" placement="left" />
-            <view-content-footer-link :to="{ name: 'Audit conclusion' }" icon="conslusion" label="Conclusion" placement="right" />
+            <view-content-footer-link :to="{ name: 'Audit conclusion' }" icon="conclusion" label="Conclusion" placement="right" />
         </template>
     </view-content>
 </template>
