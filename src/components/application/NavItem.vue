@@ -25,7 +25,7 @@ export default {
         to: {
             type: Object,
             validator: value => {
-                return value.name !== undefined;
+                return (value.name !== undefined) || (value.path !== undefined);
             }
         }
     },
