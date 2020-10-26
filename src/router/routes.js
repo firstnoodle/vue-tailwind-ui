@@ -27,15 +27,6 @@ export default [
         },
     },
     {
-        path: '/audits',
-        component: Audits,
-        name: 'Audits',
-        meta: {
-            title: 'Audits',
-            requiresAuth: true,
-        },
-    },
-    {
         path: '/auditors',
         component: Auditors,
         name: 'Auditors',
@@ -54,9 +45,17 @@ export default [
         },
     },
     {
+        path: '/audits',
+        component: Audits,
+        name: 'Audits',
+        meta: {
+            title: 'Audits',
+            requiresAuth: true,
+        },
+    },
+    {
         path: '/audits/:id',
         component: Audit,
-        name: 'Audit',
         meta: {
             title: 'Audit',
             requiresAuth: true,
