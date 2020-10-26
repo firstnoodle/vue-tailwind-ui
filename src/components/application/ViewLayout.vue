@@ -1,10 +1,8 @@
 <template>
     <div class="flex flex-col w-full flex-1 min-h-0 overflow-auto">
 
-        <header v-if="$slots.header" class="hidden md:flex relative z-10 flex-0 w-full">
-            <div class="h-12 w-full bg-white shadow">
-                <slot name="header" />
-            </div>
+        <header v-if="$slots['desktop-view-header']" class="hidden md:flex relative z-10 flex-0 w-full">
+            <slot name="desktop-view-header" />
         </header>
 
         <main class="relative z-0 flex flex-col flex-1 w-full min-h-0 overflow-y-auto max-w-8xl mx-auto">
