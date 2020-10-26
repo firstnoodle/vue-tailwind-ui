@@ -12,7 +12,7 @@
 
                 <!-- mobile overlay -->
                 <transition name="fade" v-if="$slots.sidebar">
-                    <div v-if="computedSidebarVisible" class="flex md:hidden fixed top-0 left-0 w-screen min-h-screen bg-black bg-opacity-25"></div>
+                    <div v-if="$store.getters['sidebarVisible']" class="flex md:hidden fixed top-0 left-0 w-screen min-h-screen bg-black bg-opacity-25"></div>
                 </transition>
 
                 <transition name="slide" v-if="$slots.sidebar">
@@ -42,27 +42,11 @@
 
 export default {
     name: 'ViewLayout',
-    props: {
-        sidebarVisible: {
-            type: Boolean,
-            default: true
-        }
-    },
     computed: {
         computedSidebarVisible() {
-            return this.mobile ? this.sidebarVisible : true;
+            return this.$store.state.isMobile ? this.$store.state.sidebarVisible : true;
         }
     },
-    data() {
-        return {
-            mobile: window.innerWidth < 768
-        }
-    },
-    mounted() {
-        window.addEventListener('resize', () => {
-            this.mobile = window.innerWidth < 768;
-        });
-    }
 }
 </script>
 
