@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex flex-col w-screen h-screen bg-page" :class="computedTheme">
+    <div class="relative flex flex-col w-screen h-screen bg-page" :class="$store.state.theme">
         <div class="flex flex-col items-center overflow-hidden w-full flex-1 min-h-0 z-0">
             <div class="flex flex-col w-full flex-1 min-h-0 overflow-auto">
                 <desktop-app-header />
@@ -14,23 +14,20 @@
         </div>
 
         <portal-target name="mobile" />
+        <mobile-app-nav v-if="$store.state.mobileMenuVisible" @close="$store.dispatch('hideMobileMenu')" />
     </div>
 </template>
 
 <script>
 import DesktopAppHeader from '~/components/application/DesktopAppHeader';
+import MobileAppNav from '~/components/application/MobileAppNav';
 
 export default {
     name: 'ApplicationLayout',
-    components: { DesktopAppHeader },
-    data() {
-        return {
-        }
-    },
-    computed: {
-        computedTheme() {
-            return `theme-${this.$store.state.theme}`;
-        }
+    components: { DesktopAppHeader, MobileAppNav },
+    mounted() {
+        this.$store.dispatch('setMobile', window.innerWidth < 768);
+        window.addEventListener('resize', () => this.$store.dispatch('setMobile', window.innerWidth < 768));
     },
 }
 </script>
