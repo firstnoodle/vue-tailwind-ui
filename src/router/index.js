@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import routes from './routes.js';
-// import store from '~/store/index.js';
+import store from '~/store/index.js';
 
 Vue.use(Router);
 
@@ -22,7 +22,7 @@ function createRouter({ base }) {
     });
 
     // router.beforeEach(beforeEach);
-    // router.afterEach(afterEach);
+    router.afterEach(afterEach);
 
     return router;
 }
@@ -59,8 +59,17 @@ async function beforeEach(to, from, next) {
  * @param {Function} next
  */
 // eslint-disable-next-line no-unused-vars
-async function afterEach(to, from, next) {
-    document.title = 'eeSea - ' + to.meta.title;
+async function afterEach(to) {
+    document.title = 'AuditTool - ' + to.meta.title;
+
+    if(store.state.isMobile) {
+        if(store.state.mobileMenuVisible) {
+            store.dispatch('hideMobileMenu');
+        }
+        if(store.state.sidebarVisible) {
+            store.dispatch('hideSidebar');
+        }
+    }
 }
 /**
  * Scroll Behavior
