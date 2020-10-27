@@ -15,6 +15,7 @@
 
         <portal-target name="mobile" />
         <mobile-app-nav v-if="$store.state.mobileMenuVisible" @close="$store.dispatch('hideMobileMenu')" />
+        <portal-target name="modal" />
     </div>
 </template>
 

@@ -13,19 +13,28 @@
         </template>
 
         <div slot="main" class="w-full min-h-full">
-            Test
+            <icon-button value="document" @click="modalVisible = true" />
+            <portal to="modal">
+                <modal v-if="modalVisible" @close="modalVisible = false" />
+            </portal>
         </div>
     </view-layout>
 </template>
 
 <script>
-import IconButton from '~/components/IconButton';
 import AuditsViewHeader from '~/views/Audits/Header';
 import AuditsViewNav from '~/views/Audits/Nav';
+import IconButton from '~/components/IconButton';
+import Modal from '~/components/Modal';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
     name: 'Audits',
-    components: { IconButton, AuditsViewHeader, AuditsViewNav, ViewLayout },
+    components: { AuditsViewHeader, AuditsViewNav, IconButton, Modal, ViewLayout },
+    data() {
+        return {
+            modalVisible: false
+        }
+    }
 }
 </script>
