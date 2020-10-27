@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex flex-col w-screen h-screen bg-page" :class="$store.state.theme">
+    <div class="relative flex flex-col w-screen h-screen bg-default" :class="$store.state.theme">
         <div class="flex flex-col items-center overflow-hidden w-full flex-1 min-h-0 z-0">
             <div class="flex flex-col w-full flex-1 min-h-0 overflow-auto">
                 <desktop-app-header />

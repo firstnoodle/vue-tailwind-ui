@@ -1,5 +1,5 @@
 <template>
-    <div :class="computedThemeClass" class="bg-page p-20 pb-64">
+    <div :class="computedThemeClass" class="bg-default p-20 pb-64">
         <div class="mb-4">
             <base-button size="sm" :icon="computedThemeIcon" @click="toggleTheme">
                 {{ theme }}

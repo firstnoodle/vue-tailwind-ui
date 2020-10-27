@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-page border-b border-subtle text-sm text-primary">
+    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-default border-b border-subtle text-sm text-primary">
         
         <div v-if="draggable" class="flex-none flex items-center h-8 mr-2">
             <icon value="drag" class="drag-handle text-gray-600 cursor-grab" />

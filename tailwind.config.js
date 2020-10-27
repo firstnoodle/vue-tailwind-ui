@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     backgroundColor: theme => ({
       ...theme('colors'), // keeping the default colors for now
-      page: 'var(--page-background-color)',
+      default: 'var(--background-default-color)',
     }),
     borderColor: theme => ({
       ...theme('colors'),
