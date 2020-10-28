@@ -36,13 +36,13 @@ export default {
             style: renderThumbStyle({ size, move, bar }),
             // attrs: { style: styles.join(', ') },
             ref: 'thumb',
-            class: 'el-scrollbar__thumb',
+            class: 'scrollbar__thumb',
             on: { mousedown: this.clickThumbHandler } 
         });
 
         return createElement('div', { 
             attrs: {
-                class: `el-scrollbar__bar is-${bar.key}`
+                class: `scrollbar__bar is-${bar.key}`
             },
             on: {
                 mousedown: this.clickTrackHandler

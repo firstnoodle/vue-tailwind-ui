@@ -60,14 +60,14 @@ export default {
         }
 
         const view = createElement(this.tag, {
-            class: ['el-scrollbar__view', this.viewClass],
+            class: ['scrollbar__view', this.viewClass],
             style: this.viewStyle,
             ref: 'resize'
         }, this.$slots.default);
 
         const wrap = createElement('div', {
             attrs: { 
-                class: `${this.wrapClass} el-scrollbar__wrap` + (gutter ? '' : ' el-scrollbar__wrap--hidden-default'), 
+                class: `${this.wrapClass} scrollbar__wrap` + (gutter ? '' : ' scrollbar__wrap--hidden-default'), 
                 style: 'height: 200px'
             },
             ref: 'wrap',
@@ -87,14 +87,14 @@ export default {
             // nodes = ([
             //     <div
             //         ref="wrap"
-            //         class={ [this.wrapClass, 'el-scrollbar__wrap'] }
+            //         class={ [this.wrapClass, 'scrollbar__wrap'] }
             //         style={ style }>
             //         { [view] }
             //     </div>
             // ]);
         }
 
-        return createElement('main', { class: 'el-scrollbar' }, nodes);
+        return createElement('main', { class: 'scrollbar' }, nodes);
     },
 
     methods: {
