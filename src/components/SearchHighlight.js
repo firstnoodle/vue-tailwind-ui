@@ -4,17 +4,18 @@ export default Vue.component('search-highlight', {
     props: {
         value: {
             type: String,
-            required: true
+            required: true,
+            default: ''
         },
         highlight: {
             type: String,
-            required: false
+            default: ''
         }
     },
 
     data() {
         return {
-            segments: null
+            segments: []
         }
     },
 
@@ -30,8 +31,8 @@ export default Vue.component('search-highlight', {
 
     methods: {
         segmentiseString(targetString, searchString) {
-            if(!targetString || !searchString) return;
-            if(typeof targetString !== 'string' || typeof searchString !== 'string') return;
+            if(!targetString || !searchString) return [];
+            if(typeof targetString !== 'string' || typeof searchString !== 'string') return [];
 
             const lowerCasedTargetString = targetString.toLowerCase();
             const lowerCasedSearchString = searchString.toLowerCase();
@@ -74,6 +75,6 @@ export default Vue.component('search-highlight', {
                 elements.push(segment);
             }
         }
-        return createElement('span', {}, [elements]);
+        return createElement('span', {}, [elements.length ? elements : this.value]);
     }
 });
