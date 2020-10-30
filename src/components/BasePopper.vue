@@ -26,14 +26,15 @@ export default {
         },
         trigger: {
             type: String,
-            default: "hover",
+            default: "click",
             validator: value =>
                 [
                     "clickToOpen",
                     "click", // Same as clickToToggle, provided for backwards compatibility.
                     "clickToToggle",
                     "hover",
-                    "focus"
+                    "focus",
+                    "soft"
                 ].indexOf(value) > -1
         },
         delayOnMouseOver: {
@@ -192,6 +193,8 @@ export default {
                 on(this.popper, "focus", this.onMouseOver);
                 on(this.referenceElm, "blur", this.onMouseOut);
                 on(this.popper, "blur", this.onMouseOut);
+                break;
+            case "soft":
                 break;
         }
     },
