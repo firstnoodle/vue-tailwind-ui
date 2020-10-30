@@ -1,14 +1,20 @@
 <template>
     <demo-wrapper title="PopSelect">
-        <pop-select @clear="onClear" clearSelectionText="No Focus Area" filterable>
+        <div>{{ selectedOption || 'none' }}</div>
+        <pop-select 
+            v-model="selectedOption"
+            filterable
+            clearSelectionText="No Department" 
+            @change="onSelectChange"
+            @clear="onClear" 
+            >
             <template #options>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 1</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 2</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 3</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 4</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 5</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 6</div>
-                <div class="w-full px-4 py-2 text-sm text-secondary font-light">Option 7</div>
+                <pop-select-option 
+                    v-for="option in options" 
+                    :key="option.value"
+                    :label="option.label"
+                    :value="option.value"
+                    />
             </template>
         </pop-select>
     </demo-wrapper> 
@@ -16,14 +22,32 @@
 
 <script>
 import DemoWrapper from './DemoComponents/DemoWrapper';
-import PopSelect from '~/components/PopSelect';
+import PopSelect from '~/components/PopSelect/main.vue';
+import PopSelectOption from '~/components/PopSelect/option.vue';
 
 export default {
     name: 'PopSelectDemo',
-    components: { DemoWrapper, PopSelect },
+    components: { DemoWrapper, PopSelect, PopSelectOption },
+    data() {
+        return {
+            options: [
+                {value: 1, label: 'Copenhagen'},
+                {value: 2, label: 'Suleymania'},
+                {value: 3, label: 'Banglore'},
+                {value: 4, label: 'Bogota'},
+                {value: 5, label: 'Casa Blanca'},
+                {value: 6, label: 'Mexico City'},
+                {value: 7, label: 'Nairobi'},
+            ],
+            selectedOption: null,
+        }
+    },
     methods: {
         onClear() {
             console.log('clear selection');
+        },
+        onSelectChange(value) {
+            this.selectedOption = value; //this.options.find(option => option.value === value);
         }
     }
 }
