@@ -47,7 +47,7 @@
 
         <button 
             slot="reference" 
-            :class="{ 'border-action shadow-outline' : popperVisible, 'border-subtle' : !popperVisible }"
+            :class="{ 'border-action shadow-outline' : visible, 'border-subtle' : !visible }"
             class="inline-flex items-center px-2 py-1 text-action border rounded-md cursor-pointer hover:bg-blue-100 hover:border-action focus:outline-none focus:shadow-outline focus:border-action" 
             style="padding: 0.125rem 0.5rem"
             @click.stop="toggleMenu"
@@ -145,7 +145,6 @@ export default {
                     }
                 ]
             },
-            popperVisible: false,
             query: '',
             previousQuery: null,
             selected: this.multiple ? [] : {},
@@ -348,11 +347,10 @@ export default {
         },
 
         onPopperHide() {
-            this.popperVisible = false;
+            // console.log('hide');
         },
 
         onPopperShow() {
-            this.popperVisible = true;
             if(this.$refs.input) {
                 this.$nextTick(() => this.$refs.input.focus());
             }
