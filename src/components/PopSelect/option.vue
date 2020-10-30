@@ -11,7 +11,6 @@
         }">
         <slot>
             <search-highlight :value="currentLabel" :highlight="select.query" />
-            <!-- <span>{{ currentLabel }}</span> -->
         </slot>
     </li>
 </template>
