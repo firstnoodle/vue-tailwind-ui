@@ -477,7 +477,7 @@ export default {
     &.has-selection {
         @apply bg-gray-300 text-gray-800 border-gray-400;
 
-        &:hover {
+        &:hover, &:focus {
             @apply border-action;
         }
     }
