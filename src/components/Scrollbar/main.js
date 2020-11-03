@@ -67,7 +67,7 @@ export default {
 
         const wrap = createElement('div', {
             attrs: { 
-                class: `${this.wrapClass} scrollbar__wrap` + (gutter ? '' : ' scrollbar__wrap--hidden-default'), 
+                class: `${this.wrapClass || ''} scrollbar__wrap` + (gutter ? '' : ' scrollbar__wrap--hidden-default'), 
                 style: 'height: 200px'
             },
             ref: 'wrap',
