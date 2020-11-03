@@ -1,6 +1,7 @@
 <template>
     <base-popper 
         :options="popperOptions"
+        :appendToBody="false"
         @hide="onPopperHide"
         @show="onPopperShow"
         :forceShow="visible"
@@ -46,15 +47,16 @@
         </div>
 
         <button 
-            slot="reference" 
-            :class="{ 'border-action shadow-outline' : visible, 'border-subtle' : !visible }"
-            class="inline-flex items-center px-2 py-1 text-action border rounded-md cursor-pointer hover:bg-blue-100 hover:border-action focus:outline-none focus:shadow-outline focus:border-action" 
+            slot="reference"
+            :class="{ 'is-visible' : visible, 'has-selection' : selected.label }"
+            class="pop-select-trigger" 
             style="padding: 0.125rem 0.5rem"
             @click.stop="toggleMenu"
             >
-            <icon value="building" />
-            <span class="ml-1 text-sm font-light">Department</span>
+            <icon :value="icon" />
+            <span class="ml-1 text-sm font-light">{{ selected.label || nullLabel }}</span>
         </button>
+
     </base-popper>
 </template>
 
@@ -97,6 +99,10 @@ export default {
             type: Function,
             default: null
         },
+        icon: {
+            type: String,
+            default: 'lightning'
+        },
         loading: {
             type: Boolean,
             default: false
@@ -104,6 +110,10 @@ export default {
         multiple: {
             type: Boolean,
             default: false
+        },
+        nullLabel: {
+            type: String,
+            default: 'None'
         },
         placeholder: {
             type: String,
@@ -135,6 +145,7 @@ export default {
             options: [],
             optionsCount: 0,
             popperOptions: {
+                appendToBody: true,
                 placement: 'bottom-start',
                 modifiers: [
                     {
@@ -148,6 +159,7 @@ export default {
             query: '',
             previousQuery: null,
             selected: this.multiple ? [] : {},
+            slotProps: "tisse",
             softFocus: false,
             visible: false,
         }
@@ -447,3 +459,32 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+
+.pop-select-trigger {
+
+    @apply border border-subtle text-action;
+    @apply inline-flex items-center px-2 py-1 border rounded-md cursor-pointer ;
+
+    &:hover {
+        @apply bg-blue-100 border-action;
+    }
+    &:focus {
+        @apply outline-none shadow-outline border-action;
+    }
+
+    &.has-selection {
+        @apply bg-gray-300 text-gray-800 border-gray-400;
+
+        &:hover {
+            @apply border-action;
+        }
+    }
+
+    &.is-visible {
+        @apply border-action shadow-outline;
+    }
+}
+
+</style>
