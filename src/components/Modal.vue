@@ -8,7 +8,10 @@
                 </div>
                 <icon-button class="" value="close" @click="$emit('close')" />
             </header>
-            <main class="flex-1 overflow-y-auto">
+            <scrollbar
+                tag="main"
+                class="flex-1"
+                >
                 <div class="group flex items-center justify-between">
                     <div class="flex-1 font-medium text-primary group-hover:text-action">Floor drain not cleaned often enough</div>
                     <icon-button value="edit" class="flex-0" />
@@ -47,7 +50,7 @@
         Vivamus porta odio nec mi malesuada auctor. Quisque tristique rhoncus tellus, quis auctor arcu dignissim volutpat. Phasellus vel mauris in lacus lobortis iaculis. Nullam iaculis, ex quis elementum pharetra, lacus ipsum sodales mauris, mollis sodales purus purus nec nisi. Mauris id tellus vel neque venenatis laoreet. Etiam volutpat, mauris a viverra iaculis, nunc urna lobortis sapien, id eleifend ipsum turpis vitae purus. Donec erat mi, feugiat a mi in, gravida egestas risus. Donec maximus nunc ac arcu pretium, nec semper lacus ornare. Cras laoreet lorem nec pharetra mattis. Praesent congue diam a sem consequat, non ornare sapien consequat. Curabitur malesuada risus ac libero tempor, nec tristique est condimentum. Phasellus euismod nunc eu magna placerat iaculis.
         Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur arcu metus, hendrerit ac lacus non, efficitur vulputate mi. Vivamus sed ligula rhoncus, aliquet lorem non, sodales est. Cras ac aliquet felis, nec pellentesque quam. Sed eu porta augue. Sed laoreet ut est bibendum pretium. Sed vulputate sit amet dolor ut pharetra. Donec non commodo ante.
                 </div>
-            </main>
+            </scrollbar>
             <footer class="flex-0">
             </footer>
         </div>
@@ -57,9 +60,10 @@
 <script>
 import Icon from '~/components/Icon';
 import IconButton from '~/components/IconButton';
+import Scrollbar from '~/components/Scrollbar/main';
 
 export default {
     name: 'Modal',
-    components: { Icon, IconButton }
+    components: { Icon, IconButton, Scrollbar }
 }
 </script>
