@@ -61,26 +61,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.audit-rating {
-    @apply flex;
-
-    &__item {
-        @apply bg-gray-200 border-r border-white relative;
-        height: 115px;
-        width: 54px;
-
-        &:last-child {
-            @apply border-none;
-        }
-    }
-    &__item-label {
-        @apply absolute left-0 flex items-center text-gray-600 text-sm font-light pl-2 transform origin-top-left -rotate-90;
-        bottom: -54px;
-        height: 54px;
-        margin: 0 !important;
-        width: 115px;
-    }
-}
-</style>
