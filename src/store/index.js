@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 // for demo purposes only
 import database from './modules/database';
+import audits from './modules/audits/index.js';
 
 Vue.use(Vuex);
 
@@ -44,10 +45,10 @@ export default new Vuex.Store({
         }
     },
     state: {
-        mobileMenuVisible: false,
         isMobile: false,
+        mobileMenuVisible: false,
         sidebarVisible: false,
         theme: 'theme-light',
     },
-    modules: { database },
+    modules: { audits, database },
 });
