@@ -62,6 +62,10 @@ export default Vue.component('select', {
             type: String,
             default: 'No match..'
         },
+        noMatchOption: {
+            type: Boolean,
+            default: false
+        },
         noMatchOptionText: {
             type: String,
             default: 'Create'
@@ -126,10 +130,6 @@ export default Vue.component('select', {
                 });
             }
             return count;
-        },
-
-        noMatchOption(value) {
-            this.$emit('createNew', value);
         },
 
         onInput(event) {
@@ -252,11 +252,11 @@ export default Vue.component('select', {
                 elements.push(
                     createElement(
                         'div', 
-                        { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.noMatchOption.bind(this, this.$refs.input.value) }}, 
+                        { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.$emit.bind(this, 'createNew', this.$refs.input.value) }}, 
                         [
                             createElement('icon', { props: { value: 'plus' } }),
                             createElement('span', { attrs: { class: 'ml-1'}}, `${this.noMatchOptionText} `),
-                            createElement('span', {class: 'font-bold'}, `"${this.noMatchValue}"`)
+                            createElement('span', { class: 'font-bold' }, `"${this.noMatchValue}"`)
                         ]
                     )
                 );
