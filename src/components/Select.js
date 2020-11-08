@@ -98,7 +98,7 @@ export default Vue.component('select', {
             if(typeof newValue === 'string') {
                 this.$refs.input.value = newValue;
             }
-            if(typeof newValue === 'object') {
+            if(typeof newValue === 'object' && newValue) {
                 this.$refs.input.value = newValue.label;
             }
         },
