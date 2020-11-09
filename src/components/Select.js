@@ -284,6 +284,9 @@ export default Vue.component('select', {
                     this.processOptions();
                     return this.$slots.default;
                 }
+            } else {
+                this.processOptions();
+                return this.$slots.default;
             }
         },
 
