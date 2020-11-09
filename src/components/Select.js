@@ -361,7 +361,7 @@ export default Vue.component('select', {
         const inputOuter = createElement(
             'div', 
             { 
-                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-subtle bg-white text-gray-700 shadow-sm hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-blue-500 focus-within:shadow-outline cursor-pointer',
+                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-default bg-white text-gray-700 shadow-sm hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-blue-500 focus-within:shadow-outline cursor-pointer',
                 slot: 'reference', 
             }, 
             [inputInner, inputSuffix]
