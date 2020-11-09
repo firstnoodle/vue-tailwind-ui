@@ -5,6 +5,10 @@ import LoadSpinner from '~/components/LoadSpinner';
 export default Vue.component('base-button', {
     components: { Icon, LoadSpinner },
     props: {
+        disabled: {
+            type: Boolean,
+            default: false
+        },
         href: {
             type: String,
             required: false
@@ -61,7 +65,9 @@ export default Vue.component('base-button', {
         }
         if (this.$listeners.click) {
             options.on = {
-                click: event => this.$emit('click', event)
+                click: event => {
+                    if(!this.disabled) this.$emit('click', event);
+                }
             }
         }
 
@@ -73,6 +79,7 @@ export default Vue.component('base-button', {
         options.class += this.rounded ? ' is-rounded' : '';
         options.class += this.text ? ' is-text' : '';
         options.class += this.plain ? ' is-plain' : '';
+        options.class += this.disabled ? ' is-disabled' : '';
 
         const buttonContent = [];
 
