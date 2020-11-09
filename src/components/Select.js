@@ -118,6 +118,10 @@ export default Vue.component('select', {
 
     methods: {
 
+        focus() {
+            this.$refs.input.focus();
+        },
+
         getOptionsCount() {
             let count = 0;
             if(this.$slots.default) {
