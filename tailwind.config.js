@@ -37,6 +37,7 @@ module.exports = {
     borderColor: ['first', 'focus', 'hover', 'group-focus', 'last', 'responsive', 'focus-within'],
     boxShadow: ['focus', 'focus-within', 'responsive'],
     margin: ['first', 'last', 'responsive'],
+    padding: ['first', 'last', 'responsive'],
     textColor: ['group-hover', 'hover'],
     zIndex: ['focus', 'hover']
   },
