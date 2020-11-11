@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-col h-full">
-        <header class="flex items-center py-2 border-b border-brand">
+        <header class="flex items-center py-2 text-brand border-b border-subtle">
             <icon :value="icon" />
             <span class="ml-2 text-sm">
                 {{ title }}
@@ -11,7 +11,7 @@
             <slot />
         </main>
 
-        <footer class="mt-auto flex items-center justify-between py-2 border-t border-brand">
+        <footer class="mt-auto flex items-center justify-between py-2 border-t border-subtle">
             <slot name="footer" />
         </footer>
     </section>
