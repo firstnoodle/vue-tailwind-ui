@@ -23,7 +23,7 @@
                     <div class="inline-flex w-1/3 md:w-1/2">{{ item.role }}</div>
 
                     <template #edit>
-                        <div class="flex pr-16 mb-2">
+                        <div class="flex pr-0 md:pr-16 mb-2">
                             <div class="w-2/3 md:w-1/2 mr-2">
                                 <fn-select 
                                     v-model="selectedUser" 
