@@ -98,34 +98,34 @@ export default {
     },
 }
 
-const getAgendaItemTemplate = () => {
-    return {
-        audit_user: null,
-        description: null,
-        end_time: null,
-        start_time: null,
-    }
-}
+// const getAgendaItemTemplate = () => {
+//     return {
+//         audit_user: null,
+//         description: null,
+//         end_time: null,
+//         start_time: null,
+//     }
+// }
 
-const getFindingTemplate = () => {
-    return {
-        created_at: null,
-        department: null,
-        description: null,
-        focus_area: null,
-        keyword: null,
-        order_no: null,
-        references: [],
-        severity: null,
-        title: null,
-        trend_category: null,
-        user: null,
-    }
-};
+// const getFindingTemplate = () => {
+//     return {
+//         created_at: null,
+//         department: null,
+//         description: null,
+//         focus_area: null,
+//         keyword: null,
+//         order_no: null,
+//         references: [],
+//         severity: null,
+//         title: null,
+//         trend_category: null,
+//         user: null,
+//     }
+// };
 
-const getSuggetsionsTemplate = () => {
-    return {
-        description: null,
-        order_no: null,
-    }
-};
+// const getSuggetsionsTemplate = () => {
+//     return {
+//         description: null,
+//         order_no: null,
+//     }
+// };
