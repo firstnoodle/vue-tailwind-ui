@@ -13,44 +13,68 @@
                     v-for="item in team"
                     :key="item.listId"
                     :edit="item.edit"
+                    editable
+                    @edit="onItemEdit(item)"
                     :draggable="true" 
-                    @delete="$store.commit(`audits/${$route.params.id}/DELETE_ITEM`, item.id)"
+                    @delete="$store.commit(`audits/${audit_id}/DELETE_ITEM`, item.id)"
+                    class="last:mb-4"
                     >
-                    {{ item.name }}
+                    <div class="inline-flex w-2/3 md:w-1/2">{{ item.initials + ' (' + item.name + ')' }}</div>
+                    <div class="inline-flex w-1/3 md:w-1/2">{{ item.role }}</div>
 
                     <template #edit>
-                        <div class="flex mb-2">
-                            <fn-select 
-                                v-model="selectCurrentOption" 
-                                filterable
-                                :focus-after-select="false"
-                                focus-on-mounted
-                                :loading="selectLoading"
-                                loading-text="Searching.."
-                                :remoteMethod="selectFetchOptions"
-                                placeholder="Select requirement"
-                                @select="onSelectOption"
-                                >
-                                    <fn-select-option 
-                                        v-for="option in selectOptions" 
-                                        :key="option.id" 
-                                        :label="option.label" 
-                                        :value="option"
-                                        :disabled="getOptionDisabledState(option)"
-                                    />
-                            </fn-select>
+                        <div class="flex pr-16 mb-2">
+                            <div class="w-2/3 md:w-1/2 mr-2">
+                                <fn-select 
+                                    v-model="selectedUser" 
+                                    filterable
+                                    :focus-after-select="false"
+                                    initial-text="Enter initials or name"
+                                    :loading="userSelectLoading"
+                                    loading-text="Searching.."
+                                    placeholder="Select user"
+                                    ref="userSelect"
+                                    :remoteMethod="fetchUsers"
+                                    @select="onSelectUser"
+                                    >
+                                        <fn-select-option 
+                                            v-for="option in userOptions" 
+                                            :key="option.id" 
+                                            :label="option.label" 
+                                            :value="option"
+                                            :disabled="getOptionDisabledState(option)"
+                                        />
+                                </fn-select>
+                            </div>
+                            <div class="w-1/3 md:w-1/2">
+                                <fn-select 
+                                    v-model="selectedRole" 
+                                    ref="roleSelect"
+                                    :focus-after-select="false"
+                                    placeholder="Select role"
+                                    @select="onSelectRole"
+                                    >
+                                        <fn-select-option 
+                                            v-for="option in roleOptions" 
+                                            :key="option.label" 
+                                            :label="option.label" 
+                                            :value="option"
+                                        />
+                                </fn-select>
+                            </div>
                         </div>
                         <div class="flex items-center space-x-2">
                             <base-button 
-                                ref="addButton"
+                                ref="saveButton"
                                 icon="plus"
                                 type="primary"
+                                :disabled="computedsaveButtonDisabled"
                                 :loading="posting" 
-                                @click="saveNewItem" 
+                                @click.stop.prevent="saveItem" 
                             >
-                                Add team member
+                                {{ item.id === -1 ? 'Add team member' : 'Update team member' }}
                             </base-button>
-                            <base-button @click="cancelAddNewItem" plain type="primary">Cancel</base-button>
+                            <base-button @click="closeItem(item)" plain type="primary">Cancel</base-button>
                         </div>
                     </template>
                 </list-item>
@@ -58,8 +82,16 @@
         </draggable>
 
         <!-- Add new button -->
-        <div class="mt-4" v-if="!computedEditState">
-            <base-button @click="openNewItem" plain type="primary" icon="plus">Add team member</base-button>
+        <div class="" v-if="showAddNewButton">
+            <base-button 
+                icon="plus"
+                plain 
+                ref="addNewButton"
+                type="primary" 
+                @click.stop.prevent="onOpenNewItem" 
+                >
+                Add team member
+            </base-button>
         </div>
 
         <template #footer>
@@ -74,20 +106,20 @@ import BaseButton from '~/components/BaseButton.js';
 import draggable from 'vuedraggable';
 import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
-import IconButton from '~/components/IconButton';
 import ListItem from '~/components/ListItem';
-import PopOver from '~/components/PopOver';
 
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
-import users from '~/../demo/data/users.js';
+import roles from '~/../demo/data/audit_user_roles.js';
+import usersTable from '~/../demo/data/users.js';
 
 export default {
     name: 'Team',
-    components: { BaseButton, draggable, FnSelect, FnSelectOption, IconButton, ListItem, PopOver, ViewContent, ViewContentFooterLink },
+    components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem, ViewContent, ViewContentFooterLink },
     data() {
         return {
+            audit_id: null,
             drag: false,
             dragOptions: {
                 animation: 200,
@@ -95,55 +127,73 @@ export default {
                 disabled: false,
                 ghostClass: "drag-ghost"
             },
-            listIdIncrementor: 0,
             posting: false,
-            usersTable: null,
-            selectCurrentOption: null,
-            selectLoading: false,
-            selectOptions: null,
+            roleOptions: null,
+            selectedRole: null,
+            selectedUser: null,
+            showAddNewButton: true,
+            updateAfterDestroy: false,
+            userSelectLoading: false,
+            userOptions: null,
         }
     },
     computed: {
-        computedEditState() {
-            for(const item of this.$store.state.audits[this.$route.params.id].team) {
-                if(item.edit) return true;
-            }
+        computedsaveButtonDisabled() {
+            if(!this.selectedRole || !this.selectedUser) return true;
             return false;
         },
         team: {
             get() {
-                return this.$store.state.audits[this.$route.params.id].team;
+                return this.$store.state.audits[this.audit_id].team;
             },
             set(value) {
-                this.$store.commit(`audits/${this.$route.params.id}/UPDATE_TEAM`, value)
+                this.$store.commit(`audits/${this.audit_id}/UPDATE_LIST`, value)
             }
         }
     },
-    created() {
-        // The "database"
-        this.usersTable = users;
 
-        this.auditUsersTable = this.usersTable
-            .map(user => {
-                return {
-                    id: user.id,
-                    listId: ++this.listIdIncrementor,
-                    name: user.name,
-                    initials: user.initials,
-                    edit: false,
-                    selected: false,
-                }
-            });
+    created() {
+        this.audit_id = this.$route.params.id; 
+
+        this.roleOptions = roles.map(role => {
+            return {
+                label: role,
+                value: role
+            }
+        });
     },
+
+    beforeDestroy() {
+        this.closeItem(
+            this.$store.state.audits[this.audit_id].team.find(user => user.id === -1)
+        );
+    },
+
     methods: {
-        cancelAddNewItem() {
-            this.selectCurrentOption = null;
-            this.selectOptions = null;
-            this.$store.commit(`audits/${this.$route.params.id}/CANCEL_OPEN_ITEM`)
+        closeItem(item) {
+            if(!item) return;
+
+            this.selectedRole = null;
+            this.selectedUser = null;
+            this.userOptions = null;
+
+            if(item.id === -1) {
+                this.$store.commit(`audits/${this.audit_id}/DELETE_ITEM`, item.id);
+            } else {
+                item.edit = false;
+            }
+
+            // TODO: this prevents an unwanted ui glitch - $nextTick doesn't do the job...
+            setTimeout(() => this.showAddNewButton = true, 20);
+        },
+
+        deleteItem(item) {
+            if(!item) return;
+
         },
 
         fakeApiCall(query) {
-            this.selectOptions = this.usersTable
+            this.userOptions = usersTable
                 .filter(user => {
                     const targetName = user.name.toLowerCase();
                     const targetInitials = user.initials.toLowerCase();
@@ -157,50 +207,83 @@ export default {
                     }
                 });
 
-            this.selectLoading = false;
+            this.userSelectLoading = false;
         },
 
         getOptionDisabledState(option) {
-            const ids = this.$store.state.audits[this.$route.params.id].team.map(o => o.id);
+            const ids = this.$store.state.audits[this.audit_id].team.map(o => o.id);
             const result = ids.includes(option.value.id);
             return result;
         },
 
-        onSelectOption(option) {
-            this.selectCurrentOption = option;
+        onItemEdit(item) {
+            this.$store.dispatch(`audits/${this.audit_id}/closeOpenItems`);
 
-            // focus addButton
-            if(this.$refs.addButton.length === 1) {
+            this.showAddNewButton = false;
+            item.edit = true
+            this.selectedUser = {
+                label: `${item.initials} (${item.name})`,
+                value: {
+                    id: item.id,
+                    initials: item.initials,
+                    name: item.name
+                }
+            };
+            this.selectedRole = {
+                label: item.role,
+                value: item.role
+            };
+        },
+
+        onOpenNewItem() {
+            this.$store.commit(`audits/${this.audit_id}/OPEN_ITEM`, Date.now());
+            this.showAddNewButton = false;
+            this.$nextTick(() => this.$refs.userSelect[0].focus());
+        },
+
+        onSelectRole(option) {
+            this.selectedRole = option;
+
+            // focus saveButton
+            if(this.$refs.saveButton.length === 1) {
                 this.$nextTick(() => {
-                    this.$refs.addButton[0].$el.focus();
+                    this.$refs.saveButton[0].$el.focus();
                 });
             } else {
-                console.error('[ListItemDemo] too many or few items in $refs.addButton array. Should only contain one');
+                console.error('[ListItemDemo] too many or few items in $refs.saveButton array. Should only contain one');
             }
         },
 
-        openNewItem() {
-            this.$store.commit(`audits/${this.$route.params.id}/OPEN_ITEM`, ++this.listIdIncrementor);
+        onSelectUser(option) {
+            this.selectedUser = option;
+            if(!this.selectedRole) this.$refs.roleSelect[0].focus();
         },
 
-        saveNewItem() {                
+        saveItem() {                
             this.posting = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.$route.params.id}/SAVE_ITEM`, this.selectCurrentOption.value);
-                this.selectCurrentOption = null;
-                this.selectOptions = null;
+                this.$store.commit(`audits/${this.audit_id}/SAVE_ITEM`, { ...this.selectedUser.value, role: this.selectedRole.value });
+                this.selectedUser = null;
+                this.selectedRole = null;
+                this.userOptions = null;
                 this.posting = false;
+
+                this.showAddNewButton = true;
+
+                this.$nextTick(() => {
+                    this.$refs.addNewButton.$el.focus();
+                });
             }, 1000);
         },
 
-        selectFetchOptions(value, charsAdded) {
-            if(this.selectOptions !== null) { // did we make an API call ?
-                if(this.selectOptions.length === 0 && charsAdded > 0) { // do we have any results ?
+        fetchUsers(value, charsAdded) {
+            if(this.userOptions !== null) { // did we make an API call ?
+                if(this.userOptions.length === 0 && charsAdded > 0) { // do we have any results ?
                     return;
                 }
             }
 
-            this.selectLoading = true;
+            this.userSelectLoading = true;
             setTimeout(this.fakeApiCall.bind(null, value), 500);
         },
     }
