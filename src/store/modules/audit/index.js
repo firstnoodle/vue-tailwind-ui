@@ -2,11 +2,23 @@ import Vue from 'vue';
 
 export default {
     namespaced: true,
+    actions: {
+        closeOpenItems({state, commit}) {
+            for(const item of state.team) {
+                if(item.id === -1) {
+                    commit('DELETE_ITEM', item.id);
+                } else if(item.edit) {
+                    commit('CLOSE_ITEM', item.id);
+                }
+            }
+        }
+    },
     mutations: {
-        CANCEL_OPEN_ITEM(state) {
-            Vue.delete(
-                state.team, 
-                state.team.findIndex(user => user.edit)
+        CLOSE_ITEM(state, id) {
+            Vue.set(
+                state.team.find(user => user.id === id),
+                'edit',
+                false
             );
         },
         DELETE_ITEM(state, id) {
@@ -18,14 +30,15 @@ export default {
         OPEN_ITEM(state, listId) {
             state.team.push({
                 edit: true,
-                id: null,
+                id: -1,
                 initials: null,
+                role: null,
                 listId,
                 name: null,
                 selected: false
             });
         },
-        SAVE_ITEM(state, { id, name, initials }) {
+        SAVE_ITEM(state, { id, name, initials, role }) {
             const { listId } = state.team.find(user => user.edit);
             Vue.set(
                 state.team,
@@ -34,16 +47,14 @@ export default {
                     id,
                     name,
                     initials,
+                    role,
                     listId,
                     selected: false,
                     edit: false
                 }
             );
         },
-        SET_ID(state, value) {
-            state.id = value;
-        },
-        UPDATE_TEAM(state, value) {
+        UPDATE_LIST(state, value) {
             state.team = value;
         }
     },
