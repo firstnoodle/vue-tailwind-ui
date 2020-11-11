@@ -2,43 +2,51 @@ import Vue from 'vue';
 
 export default {
     namespaced: true,
+    getters: {
+        teamUserUnsaved: () => user => {
+            return user.id === -1; 
+        },
+    },
     actions: {
-        closeOpenItems({state, commit}) {
+        teamCancelEditUser({commit}, item) {
+            if(item.id === -1) {
+                commit('TEAM_DELETE_USER', item.id);
+            } else if(item.edit) {
+                commit('TEAM_CANCEL_EDIT_USER', item.id);
+            }
+        },
+        teamCancelEditUsers({state, dispatch}) {
             for(const item of state.team) {
-                if(item.id === -1) {
-                    commit('DELETE_ITEM', item.id);
-                } else if(item.edit) {
-                    commit('CLOSE_ITEM', item.id);
-                }
+                dispatch('teamCancelEditUser', item);
             }
         }
     },
     mutations: {
-        CLOSE_ITEM(state, id) {
+        TEAM_CANCEL_EDIT_USER(state, id) {
             Vue.set(
                 state.team.find(user => user.id === id),
                 'edit',
                 false
             );
         },
-        DELETE_ITEM(state, id) {
-            Vue.delete(
-                state.team, 
-                state.team.findIndex(user => user.id === id)
-            );
-        },
-        OPEN_ITEM(state, listId) {
+        TEAM_ADD_USER(state) {
             state.team.push({
                 edit: true,
                 id: -1,
                 initials: null,
                 role: null,
-                listId,
+                listId: Date.now(),
                 name: null,
                 selected: false
             });
         },
-        SAVE_ITEM(state, { id, name, initials, role }) {
+        TEAM_DELETE_USER(state, id) {
+            Vue.delete(
+                state.team, 
+                state.team.findIndex(user => user.id === id)
+            );
+        },
+        TEAM_SAVE_USER(state, { id, name, initials, role }) {
             const { listId } = state.team.find(user => user.edit);
             Vue.set(
                 state.team,
@@ -54,7 +62,7 @@ export default {
                 }
             );
         },
-        UPDATE_LIST(state, value) {
+        TEAM_UPDATE_ORDER(state, value) {
             state.team = value;
         }
     },

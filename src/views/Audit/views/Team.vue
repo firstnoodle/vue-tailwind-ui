@@ -16,7 +16,7 @@
                     editable
                     @edit="onItemEdit(item)"
                     :draggable="true" 
-                    @delete="$store.commit(`audits/${audit_id}/DELETE_ITEM`, item.id)"
+                    @delete="$store.commit(`audits/${audit_id}/TEAM_DELETE_USER`, item.id)"
                     class="last:mb-4"
                     >
                     <div class="inline-flex w-2/3 md:w-1/2">{{ item.initials + ' (' + item.name + ')' }}</div>
@@ -38,11 +38,11 @@
                                     @select="onSelectUser"
                                     >
                                         <fn-select-option 
-                                            v-for="option in userOptions" 
-                                            :key="option.id" 
-                                            :label="option.label" 
-                                            :value="option"
-                                            :disabled="getOptionDisabledState(option)"
+                                            v-for="user in userOptions" 
+                                            :key="user.id" 
+                                            :label="user.label" 
+                                            :value="user"
+                                            :disabled="getUserDisabledState(user)"
                                         />
                                 </fn-select>
                             </div>
@@ -55,10 +55,10 @@
                                     @select="onSelectRole"
                                     >
                                         <fn-select-option 
-                                            v-for="option in roleOptions" 
-                                            :key="option.label" 
-                                            :label="option.label" 
-                                            :value="option"
+                                            v-for="role in roleOptions" 
+                                            :key="role.label" 
+                                            :label="role.label" 
+                                            :value="role"
                                         />
                                 </fn-select>
                             </div>
@@ -72,9 +72,9 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ item.id === -1 ? 'Add team member' : 'Update team member' }}
+                                {{ $store.getters[`audits/${audit_id}/teamUserUnsaved`](item) ? 'Add team member' : 'Update team member' }}
                             </base-button>
-                            <base-button @click="closeItem(item)" plain type="primary">Cancel</base-button>
+                            <base-button @click="cancelEditUser(item)" plain type="primary">Cancel</base-button>
                         </div>
                     </template>
                 </list-item>
@@ -147,7 +147,7 @@ export default {
                 return this.$store.state.audits[this.audit_id].team;
             },
             set(value) {
-                this.$store.commit(`audits/${this.audit_id}/UPDATE_LIST`, value)
+                this.$store.commit(`audits/${this.audit_id}/TEAM_UPDATE_ORDER`, value)
             }
         }
     },
@@ -164,32 +164,20 @@ export default {
     },
 
     beforeDestroy() {
-        this.closeItem(
-            this.$store.state.audits[this.audit_id].team.find(user => user.id === -1)
-        );
+        this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUsers`);
     },
 
     methods: {
-        closeItem(item) {
+        cancelEditUser(item) {
             if(!item) return;
 
             this.selectedRole = null;
             this.selectedUser = null;
             this.userOptions = null;
-
-            if(item.id === -1) {
-                this.$store.commit(`audits/${this.audit_id}/DELETE_ITEM`, item.id);
-            } else {
-                item.edit = false;
-            }
+            this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUser`, item);
 
             // TODO: this prevents an unwanted ui glitch - $nextTick doesn't do the job...
             setTimeout(() => this.showAddNewButton = true, 20);
-        },
-
-        deleteItem(item) {
-            if(!item) return;
-
         },
 
         fakeApiCall(query) {
@@ -210,15 +198,25 @@ export default {
             this.userSelectLoading = false;
         },
 
-        getOptionDisabledState(option) {
+        fetchUsers(value, charsAdded) {
+            if(this.userOptions !== null) { // did we make an API call ?
+                if(this.userOptions.length === 0 && charsAdded > 0) { // do we have any results ?
+                    return;
+                }
+            }
+
+            this.userSelectLoading = true;
+            setTimeout(this.fakeApiCall.bind(null, value), 500);
+        },
+
+        getUserDisabledState(option) {
             const ids = this.$store.state.audits[this.audit_id].team.map(o => o.id);
             const result = ids.includes(option.value.id);
             return result;
         },
 
         onItemEdit(item) {
-            this.$store.dispatch(`audits/${this.audit_id}/closeOpenItems`);
-
+            this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUsers`);
             this.showAddNewButton = false;
             item.edit = true
             this.selectedUser = {
@@ -236,7 +234,7 @@ export default {
         },
 
         onOpenNewItem() {
-            this.$store.commit(`audits/${this.audit_id}/OPEN_ITEM`, Date.now());
+            this.$store.commit(`audits/${this.audit_id}/TEAM_ADD_USER`);
             this.showAddNewButton = false;
             this.$nextTick(() => this.$refs.userSelect[0].focus());
         },
@@ -262,7 +260,7 @@ export default {
         saveItem() {                
             this.posting = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.audit_id}/SAVE_ITEM`, { ...this.selectedUser.value, role: this.selectedRole.value });
+                this.$store.commit(`audits/${this.audit_id}/TEAM_SAVE_USER`, { ...this.selectedUser.value, role: this.selectedRole.value });
                 this.selectedUser = null;
                 this.selectedRole = null;
                 this.userOptions = null;
@@ -274,17 +272,6 @@ export default {
                     this.$refs.addNewButton.$el.focus();
                 });
             }, 1000);
-        },
-
-        fetchUsers(value, charsAdded) {
-            if(this.userOptions !== null) { // did we make an API call ?
-                if(this.userOptions.length === 0 && charsAdded > 0) { // do we have any results ?
-                    return;
-                }
-            }
-
-            this.userSelectLoading = true;
-            setTimeout(this.fakeApiCall.bind(null, value), 500);
         },
     }
 }
