@@ -44,7 +44,7 @@ export default {
         computedClass() {
             let classString = this.disabled 
                 ? 'cursor-not-allowed text-gray-400' 
-                : 'cursor-pointer hover:bg-blue-200 focus:bg-blue-200';
+                : 'cursor-pointer text-primary hover:bg-blue-200 focus:bg-blue-200';
             if(this.focus) classString += ' bg-blue-200';
 
             return classString;
