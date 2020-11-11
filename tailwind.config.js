@@ -28,6 +28,9 @@ module.exports = {
       maxWidth: {
         '7xl': '80rem',
         '8xl': '90rem',
+      },
+      boxShadow: {
+        'inner-sm': 'inset 0 1px 3px 0 rgba(0, 0, 0, 0.06)',
       }
     }
   },
