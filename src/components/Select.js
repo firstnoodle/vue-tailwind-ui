@@ -364,7 +364,7 @@ export default Vue.component('select', {
                 attrs: {
                     autocomplete: 'off',
                     placeholder: this.placeholder,
-                    readonly: !(this.filterable || this.remoteMethod) || !this.popperOpen,
+                    readonly: !(this.filterable || this.remoteMethod),
                     type: 'text',
                 },
                 on: {
