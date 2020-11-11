@@ -16,7 +16,7 @@
                     editable
                     @edit="onItemEdit(item)"
                     :draggable="true" 
-                    @delete="$store.commit(`audits/${audit_id}/TEAM_DELETE_USER`, item.id)"
+                    @delete="$store.commit(`audits/${audit_id}/team/DELETE_USER`, item.id)"
                     class="last:mb-4"
                     >
                     <div class="inline-flex w-2/3 md:w-1/2">{{ item.initials + ' (' + item.name + ')' }}</div>
@@ -72,7 +72,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ $store.getters[`audits/${audit_id}/teamUserUnsaved`](item) ? 'Add team member' : 'Update team member' }}
+                                {{ $store.getters[`audits/${audit_id}/team/userUnsaved`](item) ? 'Add team member' : 'Update team member' }}
                             </base-button>
                             <base-button @click="cancelEditUser(item)" plain type="primary">Cancel</base-button>
                         </div>
@@ -144,10 +144,10 @@ export default {
         },
         team: {
             get() {
-                return this.$store.state.audits[this.audit_id].team;
+                return this.$store.state.audits[this.audit_id].team.users;
             },
             set(value) {
-                this.$store.commit(`audits/${this.audit_id}/TEAM_UPDATE_ORDER`, value)
+                this.$store.commit(`audits/${this.audit_id}/team/UPDATE_ORDER`, value)
             }
         }
     },
@@ -164,7 +164,7 @@ export default {
     },
 
     beforeDestroy() {
-        this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUsers`);
+        this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditUsers`);
     },
 
     methods: {
@@ -174,7 +174,7 @@ export default {
             this.selectedRole = null;
             this.selectedUser = null;
             this.userOptions = null;
-            this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUser`, item);
+            this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditUser`, item);
 
             // TODO: this prevents an unwanted ui glitch - $nextTick doesn't do the job...
             setTimeout(() => this.showAddNewButton = true, 20);
@@ -210,13 +210,13 @@ export default {
         },
 
         getUserDisabledState(option) {
-            const ids = this.$store.state.audits[this.audit_id].team.map(o => o.id);
+            const ids = this.$store.state.audits[this.audit_id].team.users.map(o => o.id);
             const result = ids.includes(option.value.id);
             return result;
         },
 
         onItemEdit(item) {
-            this.$store.dispatch(`audits/${this.audit_id}/teamCancelEditUsers`);
+            this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditUsers`);
             this.showAddNewButton = false;
             item.edit = true
             this.selectedUser = {
@@ -234,7 +234,7 @@ export default {
         },
 
         onOpenNewItem() {
-            this.$store.commit(`audits/${this.audit_id}/TEAM_ADD_USER`);
+            this.$store.commit(`audits/${this.audit_id}/team/ADD_USER`);
             this.showAddNewButton = false;
             this.$nextTick(() => this.$refs.userSelect[0].focus());
         },
@@ -260,7 +260,7 @@ export default {
         saveItem() {                
             this.posting = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.audit_id}/TEAM_SAVE_USER`, { ...this.selectedUser.value, role: this.selectedRole.value });
+                this.$store.commit(`audits/${this.audit_id}/team/SAVE_USER`, { ...this.selectedUser.value, role: this.selectedRole.value });
                 this.selectedUser = null;
                 this.selectedRole = null;
                 this.userOptions = null;
