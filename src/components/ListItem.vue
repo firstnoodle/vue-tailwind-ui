@@ -1,8 +1,12 @@
 <template>
-    <div v-if="!edit" class="flex justify-between items-stretch py-1 bg-default border-b border-subtle text-sm text-primary">
+    <div 
+        v-if="!edit" 
+        class="flex justify-between items-stretch py-1 bg-default border-b border-subtle text-sm text-primary"
+        :class="{ 'drag-handle' : $store.state.isMobile && draggable }"
+        >
         
-        <div v-if="draggable" class="flex-none flex items-center h-8 mr-2">
-            <icon value="drag" class="drag-handle text-gray-600 cursor-grab" />
+        <div v-if="draggable" class="hidden md:flex flex-none items-center h-8 mr-2">
+            <icon value="drag" class="text-gray-600 cursor-grab" :class="{ 'drag-handle' : !$store.state.isMobile }" />
         </div>
 
         <div v-if="selectable" class="flex-none flex items-center h-8 mr-2">
