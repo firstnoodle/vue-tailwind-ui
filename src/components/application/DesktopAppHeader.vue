@@ -1,9 +1,9 @@
 <template>
     <header class="hidden md:block relative z-10 flex-0 w-full">
-        <div class="h-12 w-full bg-blue-200">
+        <div class="w-full bg-blue-200">
             <nav class="w-full md:block bg-gray-900">
                 <div class="flex-1 max-w-8xl mx-auto">
-                    <div class="flex items-center justify-between h-12">
+                    <div class="flex items-center justify-between h-16">
 
                         <!-- Logo and Nav items -->
                         <div class="flex items-center">
@@ -15,7 +15,7 @@
                                 <span class="text-white text-sm tracking-widest font-hairline ml-4">AuditTool</span>
                             </div>
                             <div class="hidden md:block">
-                                <div class="flex items-baseline">
+                                <div class="flex items-baseline space-x-2">
                                     <nav-item :to="{ name: 'Dashboard' }" exact icon="dashboard">Dashboard</nav-item>
                                     <nav-item :to="{ name: 'Audits' }" icon="phase">Audits</nav-item>
                                     <nav-item :to="{ name: 'Auditors' }" icon="team">Auditors</nav-item>
@@ -26,7 +26,7 @@
 
                         <!-- User -->
                         <div class="hidden md:block">
-                            <div class="ml-4 flex items-center md:ml-6">
+                            <div class="ml-4 pr-2 flex items-center md:ml-6">
                                 <nav-item :to="{ name: 'Audits' }" icon="user">NSTQ</nav-item>
                             </div>
                         </div>

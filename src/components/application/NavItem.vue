@@ -35,7 +35,7 @@ export default {
 <style lang="scss" scoped>
 
 .link {
-    @apply flex items-center h-12 px-4 text-gray-600 cursor-pointer;
+    @apply flex items-center h-10 px-4 text-gray-600 tracking-wide rounded-lg cursor-pointer;
 
     &.is-active {
         @apply bg-gray-800 font-medium text-white;
