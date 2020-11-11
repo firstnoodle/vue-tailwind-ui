@@ -50,6 +50,10 @@ export default Vue.component('select', {
             type: Boolean,
             default: false,
         },
+        initialText: {
+            type: String,
+            default: 'Start typing...'
+        },
         loading: {
             type: Boolean,
             default: false
@@ -61,6 +65,10 @@ export default Vue.component('select', {
         noMatchText: {
             type: String,
             default: 'No match..'
+        },
+        noMatchOption: {
+            type: Boolean,
+            default: false
         },
         noMatchOptionText: {
             type: String,
@@ -94,7 +102,7 @@ export default Vue.component('select', {
             if(typeof newValue === 'string') {
                 this.$refs.input.value = newValue;
             }
-            if(typeof newValue === 'object') {
+            if(typeof newValue === 'object' && newValue) {
                 this.$refs.input.value = newValue.label;
             }
         },
@@ -107,12 +115,25 @@ export default Vue.component('select', {
     mounted() {
         this.currentInputValue = this.$refs.input.value;
 
+        if(this.value) {
+            if(typeof this.value === 'string') {
+                this.$refs.input.value = this.value;
+            }
+            if(typeof this.value === 'object') {
+                this.$refs.input.value = this.value.label;
+            }
+        }
+
         if(this.focusOnMounted) {
-            setTimeout(() => this.$refs.input.focus(), 200);
+            this.$nextTick(() => this.$refs.input.focus());
         }
     },
 
     methods: {
+
+        focus() {
+            this.onInputFocus();
+        },
 
         getOptionsCount() {
             let count = 0;
@@ -128,8 +149,8 @@ export default Vue.component('select', {
             return count;
         },
 
-        noMatchOption(value) {
-            this.$emit('createNew', value);
+        onClickOutside() {
+            this.popperOpen = false;
         },
 
         onInput(event) {
@@ -165,8 +186,10 @@ export default Vue.component('select', {
         },
 
         onInputFocus() {
-            if(this.popperOpen) return;
-            this.$refs.popper.doShow();
+            this.popperOpen = true;
+            this.$refs.input.focus();
+            this.$refs.input.value = '';
+            this.$refs.input.placeholder = this.value ? this.value.label : this.placeholder;
         },
 
         /**
@@ -194,21 +217,18 @@ export default Vue.component('select', {
                     }
                 });
 
-                this.$refs.popper.doClose();
-                this.$emit('select', values[this.highlightedOption].componentInstance.$options.propsData.value);
-                this.$refs.input.blur();
+                if(!values[this.highlightedOption].componentOptions.propsData.disabled) {
+                    this.popperOpen = false;
+                    this.$emit('select', values[this.highlightedOption].componentInstance.$options.propsData.value);
+                    this.$refs.input.blur();
+                }
             }
         },
 
-        onPopperShow() {
-            this.popperOpen = true;
-            this.$refs.input.focus();
-            this.$refs.input.value = '';
-            this.$refs.input.placeholder = this.value ? this.value.label : this.placeholder;
-        },
-
-        onPopperHide() {
-            this.popperOpen = false;
+        onReferenceClick() {
+            if(!this.popperOpen) {
+                this.focus();
+            }
         },
 
         processOptions() {
@@ -220,7 +240,8 @@ export default Vue.component('select', {
                     if(vnode.componentOptions.tag === 'fn-select-option') {
                         vnode.componentOptions.listeners = {
                             'optionClicked': value => {
-                                this.$refs.popper.doClose();
+                                // this.$refs.popper.doClose();
+                                this.popperOpen = false;
                                 this.$emit('select', value);
                                 // this.$refs.input.value = value;
                                 if(this.focusAfterSelect) {
@@ -252,11 +273,11 @@ export default Vue.component('select', {
                 elements.push(
                     createElement(
                         'div', 
-                        { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.noMatchOption.bind(this, this.$refs.input.value) }}, 
+                        { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.$emit.bind(this, 'createNew', this.$refs.input.value) }}, 
                         [
                             createElement('icon', { props: { value: 'plus' } }),
                             createElement('span', { attrs: { class: 'ml-1'}}, `${this.noMatchOptionText} `),
-                            createElement('span', {class: 'font-bold'}, `"${this.noMatchValue}"`)
+                            createElement('span', { class: 'font-bold' }, `"${this.noMatchValue}"`)
                         ]
                     )
                 );
@@ -273,13 +294,16 @@ export default Vue.component('select', {
                         if(this.$refs.input.value) {
                             return this.renderNoMatchOptions(createElement);
                         } else {
-                            return [ this.renderBasicOptionElement(createElement, 'Start typing...') ];
+                            return [ this.renderBasicOptionElement(createElement, this.initialText) ];
                         }
                     }
                 } else {
                     this.processOptions();
                     return this.$slots.default;
                 }
+            } else {
+                this.processOptions();
+                return this.$slots.default;
             }
         },
 
@@ -320,7 +344,7 @@ export default Vue.component('select', {
             'div', 
             { 
                 style: 'max-height: 160px',
-                class: 'popper overflow-y-scroll block text-sm border border-subtle rounded shadow-lg overflow-hidden',
+                class: 'popper overflow-y-scroll block text-sm border border-default rounded shadow-lg overflow-hidden',
             }, 
             this.renderPopperContent(createElement)
         );
@@ -336,11 +360,11 @@ export default Vue.component('select', {
             'input', 
             {
                 ref: 'input',
-                class: 'py-2 w-full text-sm leading-tight bg-white text-gray-700 focus:outline-none cursor-pointer',
+                class: 'py-2 w-full text-sm leading-tight bg-transparent text-gray-700 focus:outline-none cursor-pointer',
                 attrs: {
                     autocomplete: 'off',
                     placeholder: this.placeholder,
-                    readonly: !(this.filterable || this.remoteMethod) || !this.popperOpen,
+                    readonly: !(this.filterable || this.remoteMethod),
                     type: 'text',
                 },
                 on: {
@@ -357,8 +381,9 @@ export default Vue.component('select', {
         const inputOuter = createElement(
             'div', 
             { 
-                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-subtle bg-white text-gray-700 shadow-sm hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-blue-500 focus-within:shadow-outline cursor-pointer',
+                class: 'relative overflow-hidden inline-block w-full text-sm leading-tight pl-3 pr-8 rounded-md border border-default bg-white text-gray-700 shadow-inner-sm focus:shadow-inner hover:text-blue-500 focus:outline-none focus:text-blue-500 focus-within:border-blue-500 focus-within:shadow-outline cursor-pointer',
                 slot: 'reference', 
+                on: { click: this.onReferenceClick }
             }, 
             [inputInner, inputSuffix]
         );
@@ -368,14 +393,14 @@ export default Vue.component('select', {
             {
                 ref: 'popper',
                 on: {
-                    show: this.onPopperShow,
-                    hide: this.onPopperHide,
+                    documentClick: this.onClickOutside
                 },
                 props: { 
                     tagName: 'div',
                     rootClass: "w-full flex",
+                    forceShow: this.popperOpen,
                     appendToBody: true,
-                    trigger: 'clickToOpen', 
+                    trigger: 'soft', 
                     options: { 
                         placement: 'bottom-start',
                         modifiers: [

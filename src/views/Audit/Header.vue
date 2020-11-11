@@ -10,7 +10,9 @@
                 <div class="flex items-center">
                     <div class="flex items-center mr-4 lg:mr-8">
                         <icon value="id" class="hidden lg:inline-block text-gray-600" />
-                        <span class="ml-2 text-sm font-light text-gray-800 truncate">AU1001234</span>
+                        <span class="ml-2 text-sm font-light text-gray-800 truncate">
+                            {{ $store.state.audits[$route.params.id].id || 'none' }}
+                        </span>
                     </div>
                     <div class="flex items-center mr-4 lg:mr-8">
                         <icon value="calendar" class="hidden lg:inline-block text-gray-600" />

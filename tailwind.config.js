@@ -28,6 +28,9 @@ module.exports = {
       maxWidth: {
         '7xl': '80rem',
         '8xl': '90rem',
+      },
+      boxShadow: {
+        'inner-sm': 'inset 0 1px 3px 0 rgba(0, 0, 0, 0.06)',
       }
     }
   },
@@ -37,6 +40,7 @@ module.exports = {
     borderColor: ['first', 'focus', 'hover', 'group-focus', 'last', 'responsive', 'focus-within'],
     boxShadow: ['focus', 'focus-within', 'responsive'],
     margin: ['first', 'last', 'responsive'],
+    padding: ['first', 'last', 'responsive'],
     textColor: ['group-hover', 'hover'],
     zIndex: ['focus', 'hover']
   },

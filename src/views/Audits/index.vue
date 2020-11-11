@@ -4,7 +4,7 @@
         <audits-view-nav slot="sidebar" />
 
         <template #mobile-app-header-left>
-            <icon-button class="inline-flex md:hidden" value="plus" />
+            <icon-button class="inline-flex md:hidden" value="plus" @click="createAudit" />
             <icon-button class="inline-flex md:hidden" value="itenary" @click="$store.dispatch('toggleSidebar')" />
         </template>
         <template #mobile-app-header-center>Audits</template>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import auditModule from '~/store/modules/audit/index';
 import AuditsViewHeader from '~/views/Audits/Header';
 import AuditsViewNav from '~/views/Audits/Nav';
 import IconButton from '~/components/IconButton';
@@ -34,6 +35,13 @@ export default {
     data() {
         return {
             modalVisible: false
+        }
+    },
+    methods: {
+        createAudit() {
+            const id = Date.now();
+            this.$store.registerModule(['audits', id.toString()], auditModule);
+            this.$router.push({ name: 'Audit details',  params: { id }});
         }
     }
 }
