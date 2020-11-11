@@ -40,6 +40,7 @@
     --sand-grey-15: #EBE8E5;
     --sand-grey-40: #F7F6F5;
 
+    --granite-grey-darkest: #464A53;
     --granite-grey-darker: #757C8A;
     --granite-grey-default: #939AA7;
     --granite-grey-15: #D4D7DC;
@@ -59,13 +60,13 @@
 }
 
 .theme-light {
-    --brand-color: var(--true-blue);
+    --brand-color: var(--ocean-green-darker);
     --action-color: var(--light-blue-default);
 
     --background-default-color: #FFF;;
 
-    --text-primary-color: #444;
-    --text-secondary-color: #555;
+    --text-primary-color: var(--granite-grey-darkest);
+    --text-secondary-color: var(--granite-grey-darker);
 
     --border-subtle-color: var(--sand-grey-15);
     --border-default-color: var(--sand-grey-default);
