@@ -29,7 +29,7 @@
             </pop-over>
         </div>
     </div>
-    <div v-else class="relative first:py-0 py-4 bg-white border-b border-subtle last:border-none text-sm text-primary">
+    <div v-else class="relative first:py-0 first:pb-2 py-4 bg-white border-b border-subtle last:border-none text-sm text-primary">
         <slot name="edit"/>
     </div>
 </template>
