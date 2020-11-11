@@ -195,6 +195,7 @@ export default {
                 on(this.popper, "blur", this.onMouseOut);
                 break;
             case "soft":
+                on(document, "click", this.handleDocumentClick);
                 break;
         }
     },
