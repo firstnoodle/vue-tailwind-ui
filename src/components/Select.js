@@ -153,6 +153,11 @@ export default Vue.component('select', {
             this.popperOpen = false;
         },
 
+        onCreateNewItem() {
+            this.$emit('createNew', this.$refs.input.value);
+            this.popperOpen = false;
+        },
+
         onInput(event) {
             const charsAdded = event.target.value.length - this.currentInputValue.length;
 
@@ -273,7 +278,10 @@ export default Vue.component('select', {
                 elements.push(
                     createElement(
                         'div', 
-                        { class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', on: { click: this.$emit.bind(this, 'createNew', this.$refs.input.value) }}, 
+                        { 
+                            class: 'bg-white hover:bg-blue-100 px-3 py-2 focus:outline-none text-blue-500 cursor-pointer', 
+                            on: { click: this.onCreateNewItem }
+                        }, 
                         [
                             createElement('icon', { props: { value: 'plus' } }),
                             createElement('span', { attrs: { class: 'ml-1'}}, `${this.noMatchOptionText} `),
