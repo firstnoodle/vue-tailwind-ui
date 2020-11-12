@@ -5,8 +5,6 @@
             v-model="team" 
             v-bind="dragOptions"
             handle=".drag-handle"
-            @start="drag = true"
-            @end="drag = false"
             >
             <transition-group type="transition">
                 <list-item 
@@ -26,7 +24,7 @@
                         <div class="flex pr-0 md:pr-16 mb-2">
                             <div class="w-2/3 md:w-1/2 mr-2">
                                 <fn-select 
-                                    v-model="selectedUser" 
+                                    v-model="selectedUserOption" 
                                     filterable
                                     :focus-after-select="false"
                                     initial-text="Enter initials or name"
@@ -48,7 +46,7 @@
                             </div>
                             <div class="w-1/3 md:w-1/2">
                                 <fn-select 
-                                    v-model="selectedRole" 
+                                    v-model="selectedRoleOption" 
                                     ref="roleSelect"
                                     :focus-after-select="false"
                                     placeholder="Select role"
@@ -68,7 +66,7 @@
                                 ref="saveButton"
                                 icon="plus"
                                 type="primary"
-                                :disabled="computedsaveButtonDisabled"
+                                :disabled="computedSaveButtonDisabled"
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
@@ -120,7 +118,6 @@ export default {
     data() {
         return {
             audit_id: null,
-            drag: false,
             dragOptions: {
                 animation: 200,
                 group: "description",
@@ -129,17 +126,16 @@ export default {
             },
             posting: false,
             roleOptions: null,
-            selectedRole: null,
-            selectedUser: null,
+            selectedRoleOption: null,
+            selectedUserOption: null,
             showAddNewButton: true,
-            updateAfterDestroy: false,
             userSelectLoading: false,
             userOptions: null,
         }
     },
     computed: {
-        computedsaveButtonDisabled() {
-            if(!this.selectedRole || !this.selectedUser) return true;
+        computedSaveButtonDisabled() {
+            if(!this.selectedRoleOption || !this.selectedUserOption) return true;
             return false;
         },
         team: {
@@ -171,8 +167,8 @@ export default {
         cancelEditUser(item) {
             if(!item) return;
 
-            this.selectedRole = null;
-            this.selectedUser = null;
+            this.selectedRoleOption = null;
+            this.selectedUserOption = null;
             this.userOptions = null;
             this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditItem`, item);
 
@@ -219,7 +215,7 @@ export default {
             this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditItems`);
             this.showAddNewButton = false;
             item.edit = true
-            this.selectedUser = {
+            this.selectedUserOption = {
                 label: `${item.initials} (${item.name})`,
                 value: {
                     id: item.id,
@@ -227,7 +223,7 @@ export default {
                     name: item.name
                 }
             };
-            this.selectedRole = {
+            this.selectedRoleOption = {
                 label: item.role,
                 value: item.role
             };
@@ -237,7 +233,6 @@ export default {
             this.$store.commit(
                 `audits/${this.audit_id}/team/ADD_ITEM`,
                 {
-                    id: null,
                     initials: null,
                     name: null,
                     role: null
@@ -248,7 +243,7 @@ export default {
         },
 
         onSelectRole(option) {
-            this.selectedRole = option;
+            this.selectedRoleOption = option;
 
             // focus saveButton
             if(this.$refs.saveButton.length === 1) {
@@ -261,16 +256,16 @@ export default {
         },
 
         onSelectUser(option) {
-            this.selectedUser = option;
-            if(!this.selectedRole) this.$refs.roleSelect[0].focus();
+            this.selectedUserOption = option;
+            if(!this.selectedRoleOption) this.$refs.roleSelect[0].focus();
         },
 
         saveItem() {                
             this.posting = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.audit_id}/team/SAVE_ITEM`, { ...this.selectedUser.value, role: this.selectedRole.value });
-                this.selectedUser = null;
-                this.selectedRole = null;
+                this.$store.commit(`audits/${this.audit_id}/team/SAVE_ITEM`, { ...this.selectedUserOption.value, role: this.selectedRoleOption.value });
+                this.selectedUserOption = null;
+                this.selectedRoleOption = null;
                 this.userOptions = null;
                 this.posting = false;
 
