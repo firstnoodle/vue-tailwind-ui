@@ -65,7 +65,7 @@ export default {
             state.items = value;
         }
     },
-    state: {
+    state: () => ({
         items: []
-    }
+    })
 }
