@@ -245,14 +245,9 @@ export default {
         onSelectRole(option) {
             this.selectedRoleOption = option;
 
-            // focus saveButton
-            if(this.$refs.saveButton.length === 1) {
-                this.$nextTick(() => {
-                    this.$refs.saveButton[0].$el.focus();
-                });
-            } else {
-                console.error('[ListItemDemo] too many or few items in $refs.saveButton array. Should only contain one');
-            }
+            this.$nextTick(() => {
+                this.$refs.saveButton[0].$el.focus();
+            });
         },
 
         onSelectUser(option) {

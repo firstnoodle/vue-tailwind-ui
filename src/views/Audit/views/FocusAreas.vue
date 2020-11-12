@@ -187,14 +187,9 @@ export default {
         onSelectFocusArea(option) {
             this.selectedFocusAreaOption = option;
 
-            if(this.$refs.saveButton.length === 1) {
-                this.$nextTick(() => {
-                    this.$refs.saveButton[0].$el.focus();
-                });
-            } else {
-                // TODO: update
-                console.error('[ListItemDemo] too many or few items in $refs.saveButton array. Should only contain one');
-            }
+            this.$nextTick(() => {
+                this.$refs.saveButton[0].$el.focus();
+            });
         },
 
         saveItem() {                
