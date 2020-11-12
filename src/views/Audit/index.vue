@@ -4,7 +4,7 @@
         <audit-view-nav slot="sidebar" />
 
         <template #mobile-app-header-left>
-            <icon-button class="inline-flex md:hidden" value="angle-left" />
+            <icon-button class="inline-flex md:hidden" value="angle-left" @click="$router.push({ name: 'Audits' })" />
             <icon-button class="inline-flex md:hidden" value="itenary" @click="$store.dispatch('toggleSidebar')" />
         </template>
         <template #mobile-app-header-center>
