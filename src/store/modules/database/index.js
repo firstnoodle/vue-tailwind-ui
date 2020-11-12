@@ -7,10 +7,14 @@ import requirements from '~/../demo/data/requirements.js';
 import trend_categories from '~/../demo/data/trend_categories.js';
 import users from '~/../demo/data/users.js';
 
+const timeout = ms => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default {
     namespaced: true,
     actions: {
-        addNewRequirement({state, commit}, requirement) {
+        async addNewRequirement({state, commit}, requirement) {
             if(typeof requirement !== 'string') return false;
 
             const descriptions = state.requirements.map(requirement => requirement.description);
@@ -19,7 +23,7 @@ export default {
                 console.warn(`[store/modules/database@addNewRequirment] requirement (${requirement}) already exist.`);
                 return false;
             } else {
-                // TODO DELAY setTimeout + async..
+                await timeout(2000);
                 const newRequirement = {
                     id: Date.now(),
                     description: requirement
