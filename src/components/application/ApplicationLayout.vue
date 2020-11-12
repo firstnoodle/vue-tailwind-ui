@@ -27,11 +27,11 @@ export default {
     name: 'ApplicationLayout',
     components: { DesktopAppHeader, MobileAppNav },
     created() {
-        document.querySelector('body').classList.add(this.$store.state.theme);
+        this.$store.dispatch('toggleTheme');
     },
     mounted() {
         this.$store.dispatch('setMobile', window.innerWidth < 768);
         window.addEventListener('resize', () => this.$store.dispatch('setMobile', window.innerWidth < 768));
-    },
+    }
 }
 </script>
