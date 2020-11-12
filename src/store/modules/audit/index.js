@@ -1,6 +1,9 @@
-import team from '~/store/modules/list/index';
+import listModule from '~/store/modules/list/index';
 
 export default {
     namespaced: true,
-    modules: { team }
+    modules: { 
+        requirements: listModule, 
+        team: listModule 
+    }
 }
