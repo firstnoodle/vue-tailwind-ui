@@ -12,7 +12,10 @@
                     :key="item.listId"
                     :draggable="true" 
                     :edit="item.edit"
+                    selectable
+                    :selected="item.selected"
                     @delete="$store.commit(`audits/${audit_id}/requirements/DELETE_ITEM`, item.id)"
+                    @select="onItemSelect(item.id)"
                     class="last:mb-4"
                     >
                     <div class="inline-flex w-full">{{ item.description }}</div>
@@ -27,9 +30,12 @@
                                     initial-text="Enter requirement text"
                                     :loading="requirementSelectLoading"
                                     loading-text="Searching.."
+                                    no-match-option
+                                    no-match-option-text="Create requirement"
                                     placeholder="Select requirement"
                                     ref="requirementSelect"
                                     :remoteMethod="fetchRequirements"
+                                    @createNew="onCreateNewRequirement"
                                     @select="onSelectRequirement"
                                     >
                                         <fn-select-option 
@@ -128,6 +134,20 @@ export default {
 
     created() {
         this.audit_id = this.$route.params.id; 
+
+        const defaultRequirements = requirementsTable
+            .filter(requirement => (requirement.default))
+            .map(requirement => {
+                return {
+                    id: requirement.id,
+                    listId: requirement.id,
+                    description: requirement.description,
+                    edit: false,
+                    selected: false,
+                }
+            });
+
+        this.$store.commit(`audits/${this.audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
     },
 
     beforeDestroy() {
@@ -178,6 +198,21 @@ export default {
             const ids = this.$store.state.audits[this.audit_id].requirements.items.map(item => item.id);
             const result = ids.includes(option.value.id);
             return result;
+        },
+
+        onCreateNewRequirement(value) {
+            this.$store.dispatch('database/addNewRequirement', value)
+                .then(requirement => {
+                    this.onSelectRequirement({
+                        label: requirement.description,
+                        value: requirement
+                    });
+                });
+        },
+
+        onItemSelect(id) {
+            const target = this.auditRequirementsTable.find(requirement => requirement.id === id);
+            target.selected = !target.selected;
         },
 
         onOpenNewItem() {
