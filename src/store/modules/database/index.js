@@ -9,6 +9,31 @@ import users from '~/../demo/data/users.js';
 
 export default {
     namespaced: true,
+    actions: {
+        addNewRequirement({state, commit}, requirement) {
+            if(typeof requirement !== 'string') return false;
+
+            const descriptions = state.requirements.map(requirement => requirement.description);
+
+            if(descriptions.includes(requirement)) {
+                console.warn(`[store/modules/database@addNewRequirment] requirement (${requirement}) already exist.`);
+                return false;
+            } else {
+                // TODO DELAY setTimeout + async..
+                const newRequirement = {
+                    id: Date.now(),
+                    description: requirement
+                }
+                commit('ADD_REQUIREMENT', newRequirement);
+                return newRequirement;
+            }
+        }
+    },
+    mutations: {
+        ADD_REQUIREMENT(state, requirement) {
+            state.requirements.push(requirement)
+        }
+    },
     state: {
         audit_user_roles,
         domains,
