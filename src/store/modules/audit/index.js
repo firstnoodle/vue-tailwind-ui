@@ -1,5 +1,4 @@
-// import Vue from 'vue';
-import team from './modules/team';
+import team from '~/store/modules/list/index';
 
 export default {
     namespaced: true,
