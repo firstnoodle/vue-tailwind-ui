@@ -1,6 +1,7 @@
 <template>
     <div
-        class="flex-1 min-h-0 flex flex-col my-4 border border-subtle rounded focus-within:shadow-outline focus-within:border-action"
+        class="flex flex-col my-4 border border-subtle rounded focus-within:shadow-outline focus-within:border-action"
+        :class="{ 'flex-1 min-h-0' : expandVertically }"
     >
         <!-- MENU -->
         <editor-menu-bar
@@ -90,6 +91,10 @@ export default {
         content: {
             type: String,
             required: true
+        },
+        expandVertically: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
