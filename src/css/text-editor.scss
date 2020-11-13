@@ -4,6 +4,13 @@
  .ProseMirror {
     @apply p-4 h-full text-sm;
 
+    & h1 {
+        @apply text-lg font-bold;
+    }
+    & h2 {
+        @apply text-lg font-medium;
+    }
+
     & ul {
         & li {
             list-style: circle;
