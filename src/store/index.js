@@ -65,7 +65,7 @@ export default new Vuex.Store({
         isMobile: false,
         mobileMenuVisible: false,
         sidebarVisible: false,
-        theme: 'theme-light', // initial theme will be the opposite - see toggleTheme action
+        theme: 'theme-dark', // initial theme will be the opposite - see toggleTheme action
     },
     modules: { audits, database },
 });
