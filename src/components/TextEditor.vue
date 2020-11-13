@@ -58,6 +58,12 @@
                     >
                     <icon value="itenary" />
                 </text-editor-button>
+                <text-editor-button
+                    :active="isActive.ordered_list()"
+                    @click="commands.ordered_list"
+                    >
+                    <icon value="page" />
+                </text-editor-button>
             </div>
         </editor-menu-bar>
 
@@ -73,11 +79,12 @@ import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
     Bold,
     BulletList,
+    HardBreak,
+    Heading,
     Italic,
     Link,
     ListItem,
-    HardBreak,
-    Heading,
+    OrderedList,
     Underline
 } from "tiptap-extensions";
 
@@ -111,13 +118,14 @@ export default {
                     // The editor will accept paragraphs and headline elements as part of its document schema.
                     new Bold(),
                     new BulletList(),
-                    new Italic(),
-                    new Link(),
-                    new ListItem(),
                     new HardBreak(),
                     new Heading({
                         levels: [1, 2, 3]
                     }),
+                    new Italic(),
+                    new Link(),
+                    new ListItem(),
+                    new OrderedList(),
                     new Underline()
                 ]
             })
