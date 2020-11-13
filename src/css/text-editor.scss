@@ -2,7 +2,16 @@
  * Prosemirror
  */
  .ProseMirror {
-    @apply p-4 h-full;
+    @apply p-4 h-full text-sm;
+
+    & li {
+        list-style: circle;
+        list-style-position: inside;
+
+        & > p {
+            display: inline;
+        }
+    }
 }
 
 .ProseMirror:focus {
