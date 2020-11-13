@@ -53,10 +53,10 @@
                     {{'H3'}}
                 </text-editor-button>
                 <text-editor-button
-                    :active="isActive.heading({ level: 3 })"
-                    @click="commands.heading({ level: 3 })"
+                    :active="isActive.bullet_list()"
+                    @click="commands.bullet_list"
                     >
-                    {{'&#182;'}}
+                    <icon value="itenary" />
                 </text-editor-button>
             </div>
         </editor-menu-bar>
@@ -72,8 +72,10 @@ import TextEditorButton from "~/components/TextEditorButton";
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
     Bold,
+    BulletList,
     Italic,
     Link,
+    ListItem,
     HardBreak,
     Heading,
     Underline
@@ -108,8 +110,10 @@ export default {
                 extensions: [
                     // The editor will accept paragraphs and headline elements as part of its document schema.
                     new Bold(),
+                    new BulletList(),
                     new Italic(),
                     new Link(),
+                    new ListItem(),
                     new HardBreak(),
                     new Heading({
                         levels: [1, 2, 3]
