@@ -10,10 +10,10 @@
             v-slot="{ commands, isActive }"
         >
             <div class="">
-                <text-editor-button>
+                <text-editor-button @click="commands.undo">
                     <icon value="arrow-left" />
                 </text-editor-button>
-                <text-editor-button>
+                <text-editor-button @click="commands.redo">
                     <icon value="arrow-right" />
                 </text-editor-button>
                 <text-editor-button 
@@ -81,6 +81,7 @@ import {
     BulletList,
     HardBreak,
     Heading,
+    History,
     Italic,
     Link,
     ListItem,
@@ -122,6 +123,7 @@ export default {
                     new Heading({
                         levels: [1, 2, 3]
                     }),
+                    new History(),
                     new Italic(),
                     new Link(),
                     new ListItem(),
