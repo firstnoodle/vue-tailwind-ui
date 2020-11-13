@@ -23,6 +23,7 @@
                             <div class="w-full">
                                 <fn-select 
                                     v-model="selectedFocusAreaOption" 
+                                    filterable
                                     :focus-after-select="false"
                                     initial-text="Enter focus area"
                                     :loading="focusAreaSelectLoading"
