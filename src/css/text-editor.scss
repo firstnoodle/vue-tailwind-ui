@@ -1,0 +1,10 @@
+/**
+ * Prosemirror
+ */
+ .ProseMirror {
+    @apply p-4 h-full;
+}
+
+.ProseMirror:focus {
+    @apply outline-none;
+}
