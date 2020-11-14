@@ -3,9 +3,15 @@ import Vue from 'vue';
 export default {
     namespaced: true,
     getters: {
+        itemsSelectedCount: state => {
+            return state.items.filter(item => item.selected).length;
+        },
         itemUnsaved: () => item => {
             return item.id === -1; 
         },
+        savedItemsCount: state => {
+            return state.items.filter(item => item.id !== -1).length;
+        }
     },
     actions: {
         cancelEditItem({commit}, item) {
@@ -19,6 +25,19 @@ export default {
             for(const item of state.items) {
                 dispatch('cancelEditItem', item);
             }
+        },
+        deleteSelectedItems({state, commit}) {
+            commit('UPDATE_ITEMS', state.items.filter(item => !item.selected));
+        },
+        toggleAllItems({state, getters, commit}) {
+            const selected = !getters.itemsSelectedCount;
+            commit(
+                'UPDATE_ITEMS',
+                state.items.map(item => {
+                    item.selected = selected;
+                    return item;
+                })
+            )
         }
     },
     mutations: {
