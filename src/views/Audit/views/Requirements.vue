@@ -1,5 +1,28 @@
 <template>
     <view-content title="Requirements" icon="index-finger-up">
+        <!-- Group select menu -->
+        <div v-if="$store.getters[`audits/${audit_id}/requirements/savedItemsCount`] > 0" class="flex items-center pl-6 border-b border-subtle">
+            <div class="flex items-center py-3 mr-2">
+                <checkbox :value="computedGroupCheck" @click="$store.dispatch(`audits/${audit_id}/requirements/toggleAllItems`)" />
+                <!-- <span v-if="!computedGroupCheck" class="ml-2 text-xs text-secondary">Select / deselect all</span> -->
+            </div>
+            <div v-if="computedGroupCheck">
+                <pop-over ref="popover" :message="`Delete ${$store.getters[`audits/${audit_id}/requirements/itemsSelectedCount`]} items?`">
+                    <template #popover="{ message }">
+                        <div class="text-sm text-secondary mb-2 text-center">
+                            {{ message }}
+                        </div>
+                        <div class="flex flex-row items-center">
+                            <base-button plain type="primary" @click="$refs.popover.close()" class="mr-2">Cancel</base-button>
+                            <base-button plain type="error" @click="$store.dispatch(`audits/${audit_id}/requirements/deleteSelectedItems`)" class="">Delete</base-button>
+                        </div>
+                    </template>
+                    <template #reference>
+                        <icon-button value="trash" />
+                    </template>
+                </pop-over>
+            </div>
+        </div>
 
         <draggable 
             v-model="requirements" 
@@ -88,10 +111,13 @@
 
 <script>
 import BaseButton from '~/components/BaseButton.js';
+import Checkbox from '~/components/Checkbox';
 import draggable from 'vuedraggable';
 import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
+import IconButton from '~/components/IconButton';
 import ListItem from '~/components/ListItem';
+import PopOver from '~/components/PopOver';
 
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
@@ -100,7 +126,7 @@ import requirementsTable from '~/../demo/data/requirements.js';
 
 export default {
     name: 'Requirements',
-    components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem, ViewContent, ViewContentFooterLink },
+    components: { BaseButton, Checkbox, draggable, FnSelect, FnSelectOption, IconButton, ListItem, PopOver, ViewContent, ViewContentFooterLink },
     data() {
         return {
             audit_id: null,
@@ -118,6 +144,11 @@ export default {
         }
     },
     computed: {
+        computedGroupCheck() {
+            if(this.$store.getters[`audits/${this.audit_id}/requirements/itemsSelectedCount`] === this.$store.state.audits[this.audit_id].requirements.items.length) return 1;
+            if(this.$store.getters[`audits/${this.audit_id}/requirements/itemsSelectedCount`]) return 2;
+            return 0;
+        },
         computedSaveButtonDisabled() {
             if(!this.selectedRequirementOption) return true;
             return false;
@@ -211,7 +242,7 @@ export default {
         },
 
         onItemSelect(id) {
-            const target = this.auditRequirementsTable.find(requirement => requirement.id === id);
+            const target = this.$store.state.audits[this.audit_id].requirements.items.find(requirement => requirement.id === id);
             target.selected = !target.selected;
         },
 
