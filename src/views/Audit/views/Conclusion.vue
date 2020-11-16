@@ -1,7 +1,7 @@
 <template>
     <view-content title="Conclusion" icon="conclusion">
 
-        Content
+        <audit-rating />
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Audit suggestions' }" icon="message" label="Suggestions" placement="left" />
@@ -10,11 +10,13 @@
 </template>
 
 <script>
+import AuditRating from '~/components/AuditRating/main';
+
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Conclusion',
-    components: { ViewContent, ViewContentFooterLink }
+    components: { AuditRating, ViewContent, ViewContentFooterLink }
 }
 </script>
