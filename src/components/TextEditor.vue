@@ -1,8 +1,13 @@
 <template>
     <div
         v-clickoutside="onClickOutside"
-        class="flex flex-col my-4 border rounded focus-within:shadow-outline focus-within:border-action"
-        :class="{ 'flex-1 min-h-0' : expandVertically, 'shadow-outline border-action' : softFocus, 'border-subtle' : !softFocus }"
+        class="flex flex-col border rounded focus-within:shadow-outline focus-within:border-action"
+        :class="{ 
+            'my-4' : !inline,
+            'flex-1 min-h-0' : expandVertically, 
+            'shadow-outline border-action' : softFocus, 
+            'border-subtle' : !softFocus 
+            }"
     >
         <editor-content class="flex-1 overflow-y-auto rounded-t" :editor="editor" />
         <!-- MENU -->
@@ -100,6 +105,10 @@ export default {
         expandVertically: {
             type: Boolean,
             default: false
+        },
+        inline: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -150,6 +159,9 @@ export default {
         this.editor.destroy();
     },
     methods: {
+        focus() {
+            this.editor.focus();
+        },
         onClickOutside() {
             this.softFocus = false;
         },
