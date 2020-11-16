@@ -3,6 +3,13 @@
  */
  .ProseMirror {
     @apply p-4 h-full text-sm;
+ }
+
+ .ProseMirror, .css-rich-text {
+
+    p:empty::after {
+        content: "\00A0";
+    }
 
     & h1 {
         @apply text-lg font-bold;
