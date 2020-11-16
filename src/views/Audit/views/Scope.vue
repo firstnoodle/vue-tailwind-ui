@@ -75,7 +75,6 @@ export default {
     },
     methods: {
         onEditorChange(value) {
-            console.log(value);
             this.editorContent = value;
         },
         save() {
