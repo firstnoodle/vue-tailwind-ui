@@ -1,5 +1,5 @@
 <template>
-    <div class="h-12 w-full bg-white border-b border-subtle">
+    <div class="h-12 w-full bg-default border-b border-subtle">
         <div class="flex items-center max-w-8xl mx-auto h-12">
             <div v-if="$slots.sidebar" class="flex-0 w-56 px-6 border-r border-subtle">
                 <slot name="sidebar" />

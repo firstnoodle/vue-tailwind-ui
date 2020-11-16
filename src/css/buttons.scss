@@ -34,7 +34,7 @@
      * Types
      */
     &.type-default {
-        @apply border-gray-400 bg-white text-gray-600 shadow-sm;
+        @apply border-subtle bg-default text-gray-600 shadow-sm;
 
         &:hover {
             @apply text-blue-500 bg-gray-100;
@@ -44,7 +44,7 @@
         }
 
         &.is-plain {
-            @apply bg-white border-gray-400 text-secondary;
+            @apply bg-default border-subtle text-secondary;
 
             &:hover {
                 @apply text-blue-800 bg-gray-100;
@@ -66,7 +66,7 @@
         }
 
         &.is-plain {
-            @apply bg-white border-gray-400 text-red-600;
+            @apply bg-default border-subtle text-red-600;
 
             &:hover {
                 @apply text-red-800 bg-gray-100;
@@ -88,7 +88,7 @@
         }
 
         &.is-plain {
-            @apply bg-white border-gray-400 text-blue-600;
+            @apply bg-default border-subtle text-blue-600;
 
             &:hover {
                 @apply text-blue-800 bg-gray-100;
@@ -110,7 +110,7 @@
         }
 
         &.is-plain {
-            @apply bg-white border-gray-400 text-green-600;
+            @apply bg-default border-subtle text-green-600;
 
             &:hover {
                 @apply text-green-800 bg-gray-100;
@@ -143,7 +143,7 @@
         }
 
         &.is-plain {
-            @apply bg-white border-gray-400 text-yellow-600;
+            @apply bg-default border-subtle text-yellow-600;
 
             &:hover {
                 @apply text-yellow-800 bg-gray-100;

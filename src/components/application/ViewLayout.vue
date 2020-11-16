@@ -15,12 +15,12 @@
 
                 <transition name="slide" v-if="$slots.sidebar">
                     <!-- TODO: verify style -webkit-fill-available -->
-                    <aside v-if="computedSidebarVisible" class="fixed top-0 left-0 md:relative flex-0 w-56 bg-white border-r border-subtle overflow-y-auto" style="height: -webkit-fill-available">
+                    <aside v-if="computedSidebarVisible" class="fixed top-0 left-0 md:relative flex-0 w-56 bg-default border-r border-subtle overflow-y-auto" style="height: -webkit-fill-available">
                         <slot name="sidebar" />
                     </aside>
                 </transition>
 
-                <main class="bg-white flex-1 overflow-x-hidden overflow-y-auto pt-12 md:pt-0">
+                <main class="bg-default flex-1 overflow-x-hidden overflow-y-auto pt-12 md:pt-0">
                     <div class="h-full px-4 py-4 md:py-8">
                         <div class="flex h-full max-w-4xl mx-auto">
                             <slot name="main" />
@@ -31,7 +31,7 @@
         </main>
 
         <portal to="mobile">
-            <header class="md:hidden z-10 fixed w-screen top-0 left-0 flex items-center justify-between bg-white p-2 shadow">
+            <header class="md:hidden z-10 fixed w-screen top-0 left-0 flex items-center justify-between bg-default p-2 shadow">
                 <div class="z-0 absolute flex items-center justify-center w-full h-full top-0 left-0 bg-transparent">
                     <div class="flex items-center text-sm">
                         <slot name="mobile-app-header-center" />

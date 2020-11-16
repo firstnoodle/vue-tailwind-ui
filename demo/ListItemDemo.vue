@@ -55,6 +55,7 @@
                                 :loading="selectLoading"
                                 loading-text="Searching.."
                                 :remoteMethod="selectFetchOptions"
+                                no-match-option
                                 no-match-option-text="Create requirement"
                                 placeholder="Select requirement"
                                 @select="onSelectOption"

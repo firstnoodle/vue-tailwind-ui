@@ -1,11 +1,11 @@
 <template>
     <router-link :to="to" tag="a" class="flex items-center py-2 px-3 rounded-lg hover:bg-gray-100">
-        <icon v-if="placement === 'left'" value="angle-left" class="text-gray-500 mr-2" />
+        <icon v-if="placement === 'left'" value="arrow-left" class="text-gray-500 mr-2" />
 
         <icon :value="icon" class="text-action mr-2" />
         <span class="text-action text-sm">{{ label }}</span>
 
-        <icon v-if="placement === 'right'" value="angle-right" class="text-gray-500 ml-2" />
+        <icon v-if="placement === 'right'" value="arrow-right" class="text-gray-500 ml-2" />
     </router-link>
 </template>
 

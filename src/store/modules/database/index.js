@@ -7,8 +7,37 @@ import requirements from '~/../demo/data/requirements.js';
 import trend_categories from '~/../demo/data/trend_categories.js';
 import users from '~/../demo/data/users.js';
 
+const timeout = ms => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default {
     namespaced: true,
+    actions: {
+        async addNewRequirement({state, commit}, requirement) {
+            if(typeof requirement !== 'string') return false;
+
+            const descriptions = state.requirements.map(requirement => requirement.description);
+
+            if(descriptions.includes(requirement)) {
+                console.warn(`[store/modules/database@addNewRequirment] requirement (${requirement}) already exist.`);
+                return false;
+            } else {
+                await timeout(2000);
+                const newRequirement = {
+                    id: Date.now(),
+                    description: requirement
+                }
+                commit('ADD_REQUIREMENT', newRequirement);
+                return newRequirement;
+            }
+        }
+    },
+    mutations: {
+        ADD_REQUIREMENT(state, requirement) {
+            state.requirements.push(requirement)
+        }
+    },
     state: {
         audit_user_roles,
         domains,

@@ -27,6 +27,12 @@
                         <!-- User -->
                         <div class="hidden md:block">
                             <div class="ml-4 pr-2 flex items-center md:ml-6">
+                                <button 
+                                    class="flex items-center justify-center h-10 px-4 mr-2 text-white rounded-lg focus:outline-none focus:border-action focus:shadow-outline"
+                                    @click="$store.dispatch('toggleTheme')"
+                                    >
+                                    <icon :value="computedIcon" />
+                                </button>
                                 <nav-item :to="{ name: 'Audits' }" icon="user">NSTQ</nav-item>
                             </div>
                         </div>
@@ -38,10 +44,16 @@
 </template>
 
 <script>
+import Icon from '~/components/Icon';
 import NavItem from '~/components/application/NavItem';
 
 export default {
     name: 'DesktopAppHeader',
-    components: { NavItem }
+    components: { Icon, NavItem },
+    computed: {
+        computedIcon() {
+            return this.$store.state.theme === 'theme-light' ? 'sun' : 'moon';
+        }
+    }
 }
 </script>

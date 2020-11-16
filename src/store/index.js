@@ -26,6 +26,20 @@ export default new Vuex.Store({
         },
         toggleSidebar({ commit, state }) {
             commit('SET_SIDEBAR_VISIBLE', !state.sidebarVisible);
+        },
+        toggleTheme({state, commit}) {
+
+            const body = document.querySelector('body');
+            if(state.theme === 'theme-light') {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                commit('SET_THEME', 'theme-dark');
+            } 
+            else if(state.theme === 'theme-dark') {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                commit('SET_THEME', 'theme-light');
+            }
         }
     },
     mutations: {
@@ -37,6 +51,9 @@ export default new Vuex.Store({
         },
         SET_SIDEBAR_VISIBLE(state, value) {
             state.sidebarVisible = value;
+        },
+        SET_THEME(state, value) {
+            state.theme = value;
         }
     },
     getters: {
@@ -48,7 +65,7 @@ export default new Vuex.Store({
         isMobile: false,
         mobileMenuVisible: false,
         sidebarVisible: false,
-        theme: 'theme-light',
+        theme: 'theme-dark', // initial theme will be the opposite - see toggleTheme action
     },
     modules: { audits, database },
 });

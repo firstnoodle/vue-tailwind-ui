@@ -1,0 +1,45 @@
+/**
+ * Prosemirror
+ */
+ .ProseMirror {
+    @apply p-4 h-full text-sm;
+ }
+
+ .ProseMirror, .css-rich-text {
+
+    p:empty::after {
+        content: "\00A0";
+    }
+
+    & h1 {
+        @apply text-lg font-bold;
+    }
+    & h2 {
+        @apply text-lg font-medium;
+    }
+
+    & ul {
+        & li {
+            list-style: circle;
+            list-style-position: inside;
+
+            & > p {
+                display: inline;
+            }
+        }
+    }
+    & ol {
+        & li {
+            list-style-type: decimal;
+            list-style-position: inside;
+
+            & > p {
+                display: inline;
+            }
+        }
+    }
+}
+
+.ProseMirror:focus {
+    @apply outline-none;
+}
