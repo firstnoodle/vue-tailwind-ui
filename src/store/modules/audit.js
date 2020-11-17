@@ -1,4 +1,5 @@
-import listModule from '~/store/modules/list/index';
+import crudModule from '~/store/modules/crud.js';
+import findings from '~/store/modules/findings.js';
 
 export default {
     namespaced: true,
@@ -11,9 +12,10 @@ export default {
         scope: '<p>This is the default scope. It consists of three items:</p><p><ol><li>First item</li><li>Second item</li><li>Third item</li></ol></p><p>And that is it!</p>',
     },
     modules: { 
-        focusAreas: listModule, 
-        requirements: listModule, 
-        suggestions: listModule, 
-        team: listModule 
+        findings,
+        focusAreas: crudModule, 
+        requirements: crudModule, 
+        suggestions: crudModule, 
+        team: crudModule 
     }
 }

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import auditModule from '~/store/modules/audit/index';
+import auditModule from '~/store/modules/audit.js';
 import BaseButton from '~/components/BaseButton';
 import Pagination from '~/components/Pagination';
 import ViewHeader from '~/components/application/ViewHeader';

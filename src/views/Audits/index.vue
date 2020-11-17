@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import auditModule from '~/store/modules/audit/index';
+import auditModule from '~/store/modules/audit.js';
 import AuditsViewHeader from '~/views/Audits/Header';
 import AuditsViewNav from '~/views/Audits/Nav';
 import IconButton from '~/components/IconButton';
