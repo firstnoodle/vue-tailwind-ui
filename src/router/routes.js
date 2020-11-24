@@ -98,7 +98,7 @@ export default [
                 }
             },
             {
-                path: 'findings',
+                path: 'findings/:finding?',
                 component: AuditFindings,
                 name: 'Audit findings',
                 meta: {
