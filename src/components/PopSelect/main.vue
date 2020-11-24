@@ -146,7 +146,6 @@ export default {
             options: [],
             optionsCount: 0,
             popperOptions: {
-                appendToBody: true,
                 placement: 'bottom-start',
                 modifiers: [
                     {
