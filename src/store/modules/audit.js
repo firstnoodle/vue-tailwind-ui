@@ -9,7 +9,7 @@ export default {
         }
     },
     state: {
-        scope: '<p>This is the default scope. It consists of three items:</p><p><ol><li>First item</li><li>Second item</li><li>Third item</li></ol></p><p>And that is it!</p>',
+        scope: '<p>The audit covers the Quality Management System and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
     },
     modules: { 
         findings,
