@@ -1,7 +1,7 @@
 import crud from './crud.js';
 
 export default {
-    amespaced: true,
+    namespaced: true,
     actions: {
         ...crud.actions,
     },
