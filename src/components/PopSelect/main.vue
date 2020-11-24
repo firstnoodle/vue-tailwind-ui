@@ -358,6 +358,14 @@ export default {
             }
         },
 
+        onOptionDestroy(index) {
+            if (index > -1) {
+                this.optionsCount--;
+                this.filteredOptionsCount--;
+                this.options.splice(index, 1);
+            }
+        },
+
         onPopperHide() {
             // console.log('hide');
         },
