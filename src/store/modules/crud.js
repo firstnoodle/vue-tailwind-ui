@@ -80,6 +80,15 @@ export default {
                 }
             );
         },
+        UPDATE_ITEM_ATTRIBUTE(state, {id, attribute, value}) {
+            const item = state.items.find(item => item.id === id);
+            if(!item || item[attribute] === undefined) return;
+            Vue.set(
+                item,
+                attribute,
+                value
+            )
+        },
         UPDATE_ITEMS(state, value) {
             state.items = value;
         }
