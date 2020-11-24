@@ -122,10 +122,6 @@ export default {
         }
     },
 
-    created() {
-        console.log(this.tag);
-    },
-
     mounted() {
         if (this.native) return;
         this.$nextTick(this.update);
