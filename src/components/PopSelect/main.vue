@@ -474,7 +474,7 @@ export default {
 .pop-select-trigger {
 
     @apply border border-subtle text-action;
-    @apply inline-flex items-center px-2 py-1 border rounded-md cursor-pointer ;
+    @apply inline-flex items-center border rounded-md cursor-pointer ;
 
     &:hover {
         @apply bg-blue-100 border-action;
