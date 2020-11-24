@@ -9,7 +9,7 @@ export default {
         ...crud.getters,
     },
     state: {
-        ...crud.state,
+        ...crud.state(),
     },
     mutations: {
         ...crud.mutations,
