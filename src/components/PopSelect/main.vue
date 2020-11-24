@@ -1,7 +1,7 @@
 <template>
     <base-popper 
         :options="popperOptions"
-        :appendToBody="false"
+        :appendToBody="true"
         @hide="onPopperHide"
         @show="onPopperShow"
         :forceShow="visible"
