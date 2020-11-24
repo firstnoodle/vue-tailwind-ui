@@ -31,6 +31,7 @@
             <scrollbar
                 wrap-class=""
                 view-class=""
+                viewHeight="max-h-56"
                 ref="scrollbar"
                 v-show="true"
                 >
