@@ -9,15 +9,15 @@
             <transition-group type="transition">
                 <list-item 
                     v-for="item in suggestions"
-                    :key="item.listId"
+                    :key="item.uiState.listId"
                     :draggable="true" 
-                    :edit="item.edit"
+                    :edit="item.uiState.edit"
                     editable
                     @edit="onItemEdit(item)"
                     @delete="$store.commit(`audits/${audit_id}/suggestions/DELETE_ITEM`, item.id)"
                     class="last:mb-4"
                     >
-                    <div class="css-rich-text w-full" v-html="item.description"></div>
+                    <div class="css-rich-text w-full" v-html="item.data.description"></div>
 
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
@@ -130,8 +130,8 @@ export default {
         onItemEdit(item) {
             this.$store.dispatch(`audits/${this.audit_id}/suggestions/cancelEditItems`);
             this.showAddNewButton = false;
-            item.edit = true
-            this.editorContent = item.description;
+            item.uiState.edit = true
+            this.editorContent = item.data.description;
         },
 
         onOpenNewItem() {
@@ -147,7 +147,6 @@ export default {
 
         saveItem() {                
             this.posting = true;
-            console.log(this.editorContent);
             setTimeout(() => {
                 this.$store.commit(`audits/${this.audit_id}/suggestions/SAVE_ITEM`, { id: Date.now(), description: this.editorContent });
                 this.editorContent = '';

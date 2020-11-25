@@ -32,16 +32,16 @@
             <transition-group type="transition">
                 <list-item 
                     v-for="item in requirements"
-                    :key="item.listId"
+                    :key="item.uiState.listId"
                     :draggable="true" 
-                    :edit="item.edit"
+                    :edit="item.uiState.edit"
                     selectable
-                    :selected="item.selected"
+                    :selected="item.uiState.selected"
                     @delete="$store.commit(`audits/${audit_id}/requirements/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"
                     class="last:mb-4"
                     >
-                    <div class="inline-flex w-full">{{ item.description }}</div>
+                    <div class="inline-flex w-full">{{ item.data.description }}</div>
 
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
@@ -166,19 +166,27 @@ export default {
     created() {
         this.audit_id = this.$route.params.id; 
 
-        const defaultRequirements = requirementsTable
-            .filter(requirement => (requirement.default))
-            .map(requirement => {
-                return {
-                    id: requirement.id,
-                    listId: requirement.id,
-                    description: requirement.description,
-                    edit: false,
-                    selected: false,
-                }
-            });
+        // add defaults?
+        if(this.$store.state.audits[this.audit_id].requirements.items.length === 0) {
+            const defaultRequirements = requirementsTable
+                .filter(requirement => (requirement.default))
+                .map((requirement, index) => {
+                    return {
+                        id: Date.now() + index,
+                        data: {
+                            id: requirement.id,
+                            description: requirement.description,
+                        },
+                        uiState: {
+                            edit: false,
+                            listId: requirement.id,
+                            selected: false,
+                        }
+                    }
+                });
 
-        this.$store.commit(`audits/${this.audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
+            this.$store.commit(`audits/${this.audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
+        }
     },
 
     beforeDestroy() {
@@ -226,7 +234,7 @@ export default {
         },
 
         getRequirementDisabledState(option) {
-            const ids = this.$store.state.audits[this.audit_id].requirements.items.map(item => item.id);
+            const ids = this.$store.state.audits[this.audit_id].requirements.items.map(item => item.data.id);
             const result = ids.includes(option.value.id);
             return result;
         },
@@ -243,7 +251,7 @@ export default {
 
         onItemSelect(id) {
             const target = this.$store.state.audits[this.audit_id].requirements.items.find(requirement => requirement.id === id);
-            target.selected = !target.selected;
+            target.uiState.selected = !target.uiState.selected;
         },
 
         onOpenNewItem() {

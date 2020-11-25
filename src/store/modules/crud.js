@@ -3,19 +3,22 @@ import Vue from 'vue';
 export default {
     namespaced: true,
     getters: {
+        getItemById: state => id => {
+            return state.items.find(item => item.id === id);
+        },
         itemsSelectedCount: state => {
-            return state.items.filter(item => item.selected).length;
+            return state.items.filter(item => item.uiState.selected).length;
         },
         itemUnsaved: () => item => {
-            return item.id === -1; 
+            return !item.id; 
         },
         savedItemsCount: state => {
-            return state.items.filter(item => item.id !== -1).length;
+            return state.items.filter(item => item.id).length;
         }
     },
     actions: {
         cancelEditItem({commit}, item) {
-            if(item.id === -1) {
+            if(!item.id) {
                 commit('DELETE_ITEM', item.id);
             } else if(item.edit) {
                 commit('CANCEL_EDIT_ITEM', item.id);
@@ -27,14 +30,14 @@ export default {
             }
         },
         deleteSelectedItems({state, commit}) {
-            commit('UPDATE_ITEMS', state.items.filter(item => !item.selected));
+            commit('UPDATE_ITEMS', state.items.filter(item => !item.uiState.selected));
         },
         toggleAllItems({state, getters, commit}) {
             const selected = !getters.itemsSelectedCount;
             commit(
                 'UPDATE_ITEMS',
                 state.items.map(item => {
-                    item.selected = selected;
+                    item.uiState.selected = selected;
                     return item;
                 })
             )
@@ -44,7 +47,7 @@ export default {
         CANCEL_EDIT_ITEM(state, id) {
             Vue.set(
                 state.items.find(item => item.id === id),
-                'edit',
+                ['state', 'edit'],
                 false
             );
         },
@@ -54,11 +57,13 @@ export default {
                 delete item.id;
             }
             state.items.push({
-                ...item,
-                edit: true,
-                id: -1,
-                listId: Date.now(),
-                selected: false
+                data: item,
+                id: null,
+                uiState: {
+                    edit: true,
+                    listId: Date.now(),
+                    selected: false
+                }
             });
         },
         DELETE_ITEM(state, id) {
@@ -68,15 +73,18 @@ export default {
             );
         },
         SAVE_ITEM(state, item) {
-            const { listId } = state.items.find(item => item.edit);
+            const target = state.items.find(item => item.uiState.edit);
             Vue.set(
                 state.items,
-                state.items.findIndex(item => item.edit),
+                state.items.findIndex(item => item.uiState.edit),
                 {
-                    ...item,
-                    edit: false,
-                    listId,
-                    selected: false,
+                    data: item,
+                    id: Date.now(),
+                    uiState: {
+                        edit: false,
+                        listId: target.uiState.listId,
+                        selected: false,
+                    }
                 }
             );
         },
