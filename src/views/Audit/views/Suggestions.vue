@@ -10,9 +10,10 @@
                 <list-item 
                     v-for="item in suggestions"
                     :key="item.uiState.listId"
-                    :draggable="true" 
-                    :edit="item.uiState.edit"
+                    deletable
+                    draggable
                     editable
+                    :edit="item.uiState.edit"
                     @edit="onItemEdit(item)"
                     @delete="$store.commit(`audits/${audit_id}/suggestions/DELETE_ITEM`, item.id)"
                     class="last:mb-4"

@@ -10,10 +10,11 @@
                 <list-item 
                     v-for="item in team"
                     :key="item.uiState.listId"
-                    :edit="item.uiState.edit"
+                    deletable
+                    draggable
                     editable
+                    :edit="item.uiState.edit"
                     @edit="onItemEdit(item)"
-                    :draggable="true" 
                     @delete="$store.commit(`audits/${audit_id}/team/DELETE_ITEM`, item.id)"
                     class="last:mb-4"
                     >

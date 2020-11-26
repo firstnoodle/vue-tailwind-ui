@@ -33,9 +33,10 @@
                 <list-item 
                     v-for="item in requirements"
                     :key="item.uiState.listId"
-                    :draggable="true" 
-                    :edit="item.uiState.edit"
+                    deletable
+                    draggable
                     selectable
+                    :edit="item.uiState.edit"
                     :selected="item.uiState.selected"
                     @delete="$store.commit(`audits/${audit_id}/requirements/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"

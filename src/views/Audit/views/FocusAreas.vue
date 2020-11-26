@@ -10,7 +10,8 @@
                 <list-item 
                     v-for="item in focusAreas"
                     :key="item.uiState.listId"
-                    :draggable="true" 
+                    deletable
+                    draggable
                     :edit="item.uiState.edit"
                     @delete="$store.commit(`audits/${audit_id}/focusAreas/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"
