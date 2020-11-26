@@ -10,7 +10,8 @@
                 <list-item 
                     v-for="(item, index) in findings"
                     :key="item.uiState.listId"
-                    :draggable="true" 
+                    deletable
+                    draggable
                     :edit="item.uiState.edit"
                     @delete="$store.commit(`audits/${audit_id}/findings/DELETE_ITEM`, item.id)"
                     class="last:mb-4"
@@ -18,11 +19,11 @@
 
                     <!-- Title, severity, department, open in popup -->
                     <router-link :to="{ name: 'Audit findings', params: { id: audit_id, finding: item.id }}" class="w-full">
-                        <div class="w-full mb-2 text-sm text-primary font-bold focus:outline-none">
+                        <div class="w-full mb-2 text-sm text-primary font-bold">
                             <span class="font-light">{{ `Q${index+1}` }}</span> 
                             {{ item.data.title }}
                         </div>
-                        <div class="pt-1 pb-2">
+                        <div class="pt-1 pb-2" v-if="item.data.severity">
                             <severity-tag :severity="item.data.severity" />
                         </div>
                     </router-link>
@@ -31,24 +32,14 @@
                         <div class="flex pr-0 md:pr-16 mb-2">
                             <!-- <inline-finding-editor :finding="currentFinding" /> -->
                             <div class="w-full p-2 border border-subtle foucs-within:border-action rounded-md focus-within:shadow-outline">
-                                <input v-model="findingTitle" ref="findingTitleInput" type="text" class="w-full mb-2 text-sm text-primary font-bold focus:outline-none" />
-                                <pop-select 
-                                    v-model="selectedSeverity"
-                                    clearSelectionText="No Severity" 
-                                    icon="warning"
-                                    null-label="Severity"
-                                    @change="onSeverityChange"
-                                    @clear="onSeverityClear" 
-                                    >
-                                    <template #options>
-                                        <pop-select-option 
-                                            v-for="option in severityOptions" 
-                                            :key="option.value"
-                                            :label="option.label"
-                                            :value="option.value"
-                                            />
-                                    </template>
-                                </pop-select>
+                                <input 
+                                    v-model="findingTitle" 
+                                    placeholder="Finding title - keep it short and precise" 
+                                    ref="findingTitleInput" 
+                                    type="text" 
+                                    class="css-placeholder w-full mb-2 text-sm text-primary font-bold focus:outline-none" 
+                                    />
+                                <severity-select v-model="selectedSeverity" @change="onSeverityChange" />
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -98,15 +89,14 @@ import BaseButton from '~/components/BaseButton.js';
 import draggable from 'vuedraggable';
 import FindingModal from '~/components/FindingModal';
 import ListItem from '~/components/ListItem';
-import PopSelect from '~/components/PopSelect/main';
-import PopSelectOption from '~/components/PopSelect/option';
+import SeveritySelect from '~/components/SeveritySelect';
 import SeverityTag from '~/components/SeverityTag';
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Findings',
-    components: { BaseButton, draggable, FindingModal, ListItem, PopSelect, PopSelectOption, SeverityTag, ViewContent, ViewContentFooterLink },
+    components: { BaseButton, draggable, FindingModal, ListItem, SeveritySelect, SeverityTag, ViewContent, ViewContentFooterLink },
     data() {
         return {
             audit_id: null,
@@ -122,9 +112,9 @@ export default {
             posting: false,
             selectedSeverity: null,
             severityOptions: [
-                { label: 'Minor', value: 'Minor' },
-                { label: 'Major', value: 'Major' },
-                { label: 'Critical', value: 'Critical' },
+                { label: 'MINOR', value: 'MINOR' },
+                { label: 'MAJOR', value: 'MAJOR' },
+                { label: 'CRITICAL', value: 'CRITICAL' },
             ],
             showAddNewButton: true,
         }
@@ -221,3 +211,11 @@ export default {
     }
 }
 </script>
+
+
+<style lang="scss" scoped>
+.css-placeholder::placeholder, .css-placeholder::-webkit-input-placeholder {
+    font-weight: normal;
+    font-style: italic;
+}
+</style>
