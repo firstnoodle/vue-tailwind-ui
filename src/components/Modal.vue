@@ -1,7 +1,7 @@
 <template>
-        <div class="flex flex-col max-w-2xl h-full mx-auto p-8 bg-white shadow-xl rounded-lg">
-            <header class="flex-0 relative flex items-center justify-between w-full mb-4">
     <div class="z-10 fixed w-screen h-screen top-0 left-0 p-4 md:p-8 bg-black bg-opacity-25" style="height: -webkit-fill-available" @click.self="$emit('close')">
+        <div class="flex flex-col max-w-2xl h-full mx-auto p-4 bg-white shadow-xl rounded-lg">
+            <header class="flex-0 relative flex items-center justify-between w-full md:px-4 md:pt-4 mb-4">
                 <div class="flex items-center text-brand">
                     <slot name="title" />
                 </div>
