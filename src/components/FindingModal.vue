@@ -52,15 +52,11 @@
                 </div>
 
                 <!-- FOCUS AREA -->
-                <!-- <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
-                    <icon value="crosshair" />
-                    <span class="ml-1 text-sm font-light">Focus area</span>
-                </div> -->
                 <pop-select
                     v-model="selectedFocusArea"
                     clearSelectionText="No Focus Area" 
                     icon="crosshair"
-                    null-label="Set Focus Area"
+                    null-label="Focus Area"
                     @change="onFocusAreaChange"
                     @clear="onFocusAreaClear" 
                     >
@@ -75,10 +71,24 @@
                 </pop-select>
 
                 <!-- TREND CATEGORY -->
-                <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
-                    <icon value="trend" />
-                    <span class="ml-1 text-sm font-light">Trend category</span>
-                </div>
+                <pop-select
+                    v-model="selectedTrendCategory"
+                    clearSelectionText="No Trend Category" 
+                    filterable
+                    icon="trend"
+                    null-label="Trend Category"
+                    @change="onTrendCategoryChange"
+                    @clear="onTrendCategoryClear" 
+                    >
+                    <template #options>
+                        <pop-select-option 
+                            v-for="option in trendCategoryOptions" 
+                            :key="option.label"
+                            :label="option.label"
+                            :value="option.value"
+                            />
+                    </template>
+                </pop-select>
             </div>
 
             <!-- DESCRIPTION -->
@@ -215,6 +225,7 @@
 <script>
 import focusAreaTable from '~/../demo/data/focus_areas';
 import referencesTable from '~/../demo/data/references';
+import trendCategoriesTable from '~/../demo/data/trend_categories';
 import draggable from 'vuedraggable';
 
 import Icon from '~/components/Icon';
@@ -248,6 +259,7 @@ export default {
             findingTitle: null,
             focusAreaOptions: null,
             referenceOptions: null,
+            trendCategoryOptions: null,
             referenceSelectLoading: false,
             savedContent: null,
             savingDescription: false,
@@ -255,6 +267,7 @@ export default {
             savingTitle: false,
             selectedFocusArea: null,
             selectedReferenceOption: null,
+            selectedTrendCategory: null,
             showAddNewReferenceButton: true,
         }
     },
@@ -304,6 +317,14 @@ export default {
             .map(item => {
                 return {
                     label: item.name,
+                    value: item.id
+                }
+            });
+
+        this.trendCategoryOptions = trendCategoriesTable
+            .map(item => {
+                return {
+                    label: item.label,
                     value: item.id
                 }
             })
@@ -403,6 +424,14 @@ export default {
 
         onFocusAreaClear() {
             this.selectedFocusArea = null;
+        },
+
+        onTrendCategoryChange(value) {
+            this.selectedTrendCategory = value;
+        },
+
+        onTrendCategoryClear() {
+            this.selectedTrendCategory = null;
         },
 
         onOpenNewReference() {
