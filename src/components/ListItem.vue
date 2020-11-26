@@ -1,7 +1,8 @@
 <template>
     <div 
         v-if="!edit" 
-        class="flex justify-between items-stretch py-1 bg-default border-b border-subtle text-sm text-primary"
+        class="flex justify-between items-stretch py-1 bg-default text-sm text-primary"
+        :class="{ 'border-b border-subtle' : !singleton }"
         >
         
         <div v-if="draggable" class="hidden md:flex flex-none items-center h-8 mr-2">
@@ -22,8 +23,8 @@
 
         <!-- UI controls -->
         <div class="flex-none h-full pl-2">
-            <icon-button v-if="this.editable" value="edit" @click="$emit('edit')" />
-            <pop-over ref="popover">
+            <icon-button v-if="editable" value="edit" @click="$emit('edit')" />
+            <pop-over v-if="deletable" ref="popover">
                 <template #popover>
                     <div class="w-20 flex flex-col">
                         <base-button plain type="primary" @click="$refs.popover.close()" class="w-full mb-2">Cancel</base-button>
@@ -52,6 +53,10 @@ export default {
     name: 'ListItem',
     components: { BaseButton, Checkbox, Icon, IconButton, PopOver },
     props: {
+        deletable: {
+            type: Boolean,
+            default: false
+        },
         draggable: {
             type: Boolean,
             default: false
@@ -69,6 +74,10 @@ export default {
             default: false
         },
         selected: {
+            type: Boolean,
+            default: false
+        },
+        singleton: {
             type: Boolean,
             default: false
         }
