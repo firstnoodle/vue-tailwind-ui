@@ -43,18 +43,36 @@
 
             <!-- SEVERITY -->
             <severity-select v-model="computedFinding.data.severity" @change="onSeverityChange" />
+
             <div class="mt-4 space-x-2">
-                <!-- DEPARTMENT -->
+                <!-- DEPARTMENT linked to Auditee -->
                 <div class="inline-flex items-center text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
                     <icon value="building" />
                     <span class="ml-1 text-sm font-light">Department</span>
                 </div>
 
                 <!-- FOCUS AREA -->
-                <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
+                <!-- <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
                     <icon value="crosshair" />
                     <span class="ml-1 text-sm font-light">Focus area</span>
-                </div>
+                </div> -->
+                <pop-select
+                    v-model="selectedFocusArea"
+                    clearSelectionText="No Focus Area" 
+                    icon="crosshair"
+                    null-label="Set Focus Area"
+                    @change="onFocusAreaChange"
+                    @clear="onFocusAreaClear" 
+                    >
+                    <template #options>
+                        <pop-select-option 
+                            v-for="option in focusAreaOptions" 
+                            :key="option.label"
+                            :label="option.label"
+                            :value="option.value"
+                            />
+                    </template>
+                </pop-select>
 
                 <!-- TREND CATEGORY -->
                 <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
@@ -195,6 +213,7 @@
 </template>
 
 <script>
+import focusAreaTable from '~/../demo/data/focus_areas';
 import referencesTable from '~/../demo/data/references';
 import draggable from 'vuedraggable';
 
@@ -204,12 +223,14 @@ import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
 import ListItem from '~/components/ListItem';
 import Modal from '~/components/Modal';
+import PopSelect from '~/components/PopSelect/main';
+import PopSelectOption from '~/components/PopSelect/option';
 import SeveritySelect from '~/components/SeveritySelect';
 import TextEditor from '~/components/TextEditor';
 
 export default {
     name: 'FindingModal',
-    components: { draggable, FnSelect, FnSelectOption, Icon, IconButton, ListItem, Modal, SeveritySelect, TextEditor },
+    components: { draggable, FnSelect, FnSelectOption, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
     data() {
         return {
             audit_id: null,
@@ -225,12 +246,14 @@ export default {
             editTitle: false,
             finding_id: null,
             findingTitle: null,
+            focusAreaOptions: null,
             referenceOptions: null,
             referenceSelectLoading: false,
             savedContent: null,
             savingDescription: false,
             savingReference: false,
             savingTitle: false,
+            selectedFocusArea: null,
             selectedReferenceOption: null,
             showAddNewReferenceButton: true,
         }
@@ -277,10 +300,13 @@ export default {
         this.findingTitle = this.computedFinding.data.title;
         this.editorContent = this.computedFinding.data.description;
 
-        // FETCH AUDIT_FOCUS_AREAS 
-        console.log(this.$store.state.audits[this.audit_id].focusAreas.items.map(({data}) => {
-            return data;
-        }));
+        this.focusAreaOptions = focusAreaTable
+            .map(item => {
+                return {
+                    label: item.name,
+                    value: item.id
+                }
+            })
     },
     mounted() {
         // this.savedContent = this.editorContent = this.$refs.editor.editor.getHTML();
@@ -369,6 +395,14 @@ export default {
         onEditDescription() {
             this.editDescription = true
             this.$nextTick(() => this.$refs.editor.focus());
+        },
+
+        onFocusAreaChange(value) {
+            this.selectedFocusArea = value;
+        },
+
+        onFocusAreaClear() {
+            this.selectedFocusArea = null;
         },
 
         onOpenNewReference() {
