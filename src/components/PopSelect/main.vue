@@ -8,7 +8,7 @@
         trigger="soft"
         v-clickoutside="handleClose"
         >
-        <div ref="popper" class="popper max-w-xs rounded-lg shadow-md bg-default border border-subtle">
+        <div ref="popper" class="z-20 popper max-w-xs rounded-lg shadow-md bg-default border border-subtle">
             <header v-if="filterable" class="flex items-center border-b border-subtle overflow-hidden">
                 <icon value="magnifying-glass" class="pl-4 pr-2 text-gray-600" />
                 <input 
@@ -49,13 +49,13 @@
 
         <button 
             slot="reference"
-            :class="{ 'is-visible' : visible, 'has-selection' : selected.label }"
+            :class="{ 'is-visible' : visible, 'has-selection' : selected.currentLabel }"
             class="pop-select-trigger" 
             style="padding: 0.125rem 0.5rem"
             @click.stop="toggleMenu"
             >
             <icon :value="icon" />
-            <span class="ml-1 text-sm font-light">{{ selected.label || nullLabel }}</span>
+            <span class="ml-1 text-sm font-light">{{ selected.currentLabel || nullLabel }}</span>
         </button>
 
     </base-popper>
