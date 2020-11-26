@@ -1,7 +1,8 @@
 <template>
     <span 
-        class="inline-flex items-center rounded-md"
-        :class="computedBgClass"
+        @click="$emit('click')"
+        class="inline-flex items-center text-sm rounded-md"
+        :class="computedClass"
         style="padding: 0.125rem 0.5rem"
         >
         <icon value="warning" class="mr-1" />
@@ -19,17 +20,17 @@ export default {
         severity: {
             type: String,
             validator: value => {
-                return ['Minor', 'Major', 'Critical'].indexOf(value) !== -1;
+                return ['MINOR', 'MAJOR', 'CRITICAL'].indexOf(value) !== -1;
             }
         }
     },
     computed: {
-        computedBgClass() {
-            if(this.severity === 'Minor') return 'bg-blue-200';
-            if(this.severity === 'Major') return 'bg-yellow-400';
-            if(this.severity === 'Critical') return 'bg-red-400';
+        computedClass() {
+            if(this.severity === 'MINOR') return 'bg-light-blue-40 text-light-blue-darker';
+            if(this.severity === 'MAJOR') return 'bg-golden-sun-lighter text-default';
+            if(this.severity === 'CRITICAL') return 'bg-lava-red-darker text-white';
             return null;
-        }
+        },
     }
 }
 </script>
