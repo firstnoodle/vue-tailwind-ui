@@ -11,7 +11,9 @@
                 tag="main"
                 class="flex-1"
                 >
-                <slot />
+                <div class="md:px-4 md:py-1">
+                    <slot />
+                </div>
             </scrollbar>
             <footer class="flex-0">
                 <slot name="footer" />
