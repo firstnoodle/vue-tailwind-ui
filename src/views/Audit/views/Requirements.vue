@@ -166,28 +166,6 @@ export default {
 
     created() {
         this.audit_id = this.$route.params.id; 
-
-        // add defaults?
-        if(this.$store.state.audits[this.audit_id].requirements.items.length === 0) {
-            const defaultRequirements = requirementsTable
-                .filter(requirement => (requirement.default))
-                .map((requirement, index) => {
-                    return {
-                        id: Date.now() + index,
-                        data: {
-                            id: requirement.id,
-                            description: requirement.description,
-                        },
-                        uiState: {
-                            edit: false,
-                            listId: requirement.id,
-                            selected: false,
-                        }
-                    }
-                });
-
-            this.$store.commit(`audits/${this.audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
-        }
     },
 
     beforeDestroy() {

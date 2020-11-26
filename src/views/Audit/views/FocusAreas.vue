@@ -130,31 +130,13 @@ export default {
     created() {
         this.audit_id = this.$route.params.id; 
 
-        // add defaults?
-        if(this.$store.state.audits[this.audit_id].focusAreas.items.length === 0) {
-            const defaultFocusAreas = focusAreasTable
-                .map((focusArea, index) => {
-                    return {
-                        id: Date.now() + index,
-                        data: focusArea,
-                        uiState: {
-                            edit: false,
-                            listId: focusArea.id,
-                            selected: false
-                        }
-                    }
-                });
-
-            this.focusAreaOptions = focusAreasTable
-                .map(focusArea => {
-                    return {
-                        label: focusArea.name,
-                        value: focusArea
-                    }
-                });
-
-            this.$store.commit(`audits/${this.audit_id}/focusAreas/UPDATE_ITEMS`, defaultFocusAreas);
-        }
+        this.focusAreaOptions = focusAreasTable
+            .map(focusArea => {
+                return {
+                    label: focusArea.name,
+                    value: focusArea
+                }
+            });
     },
 
     beforeDestroy() {
