@@ -1,6 +1,6 @@
 <template>
     <view-layout>
-        <audits-view-header slot="desktop-view-header" />
+        <audits-view-header slot="desktop-view-header" @new-audit="createAudit" />
         <audits-view-nav slot="sidebar" />
 
         <template #mobile-app-header-left>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import focusAreas from '~/../demo/data/focus_areas';
+import requirements from '~/../demo/data/requirements';
 import auditModule from '~/store/modules/audit.js';
 import AuditsViewHeader from '~/views/Audits/Header';
 import AuditsViewNav from '~/views/Audits/Nav';
@@ -39,9 +41,53 @@ export default {
     },
     methods: {
         createAudit() {
-            const id = Date.now();
-            this.$store.registerModule(['audits', id.toString()], auditModule);
-            this.$router.push({ name: 'Audit details',  params: { id }});
+            const audit_id = Date.now();
+            this.$store.registerModule(['audits', audit_id], auditModule);
+
+            /**
+             * Add default focusAreas
+             */
+            const defaultFocusAreas = focusAreas
+                .map((focusArea, index) => {
+                    return {
+                        id: Date.now() + index,
+                        data: focusArea,
+                        uiState: {
+                            edit: false,
+                            listId: focusArea.id,
+                            selected: false
+                        }
+                    }
+                });
+            this.$store.commit(`audits/${audit_id}/focusAreas/UPDATE_ITEMS`, defaultFocusAreas);
+
+            /**
+             * Add default requirements
+             */
+            const defaultRequirements = requirements
+                .filter(requirement => (requirement.default))
+                .map((requirement, index) => {
+                    return {
+                        id: Date.now() + index,
+                        data: {
+                            id: requirement.id,
+                            description: requirement.description,
+                        },
+                        uiState: {
+                            edit: false,
+                            listId: requirement.id,
+                            selected: false,
+                        }
+                    }
+                });
+
+            this.$store.commit(`audits/${audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
+
+            /**
+             * TODO: Add default informationRequests
+             */
+
+            this.$router.push({ name: 'Audit details',  params: { id: audit_id }});
         }
     }
 }
