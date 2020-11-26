@@ -1,10 +1,14 @@
 import Vue from 'vue';
+import { setNestedProp } from '~/utils/vue';
 
 export default {
     namespaced: true,
     getters: {
         getItemById: state => id => {
             return state.items.find(item => item.id === id);
+        },
+        getItemIndex: state => id => {
+            return state.items.findIndex(item => item.id === id);
         },
         itemsSelectedCount: state => {
             return state.items.filter(item => item.uiState.selected).length;
@@ -20,7 +24,7 @@ export default {
         cancelEditItem({commit}, item) {
             if(!item.id) {
                 commit('DELETE_ITEM', item.id);
-            } else if(item.edit) {
+            } else if(item.uiState.edit) {
                 commit('CANCEL_EDIT_ITEM', item.id);
             }
         },
@@ -45,9 +49,9 @@ export default {
     },
     mutations: {
         CANCEL_EDIT_ITEM(state, id) {
-            Vue.set(
+            setNestedProp(
                 state.items.find(item => item.id === id),
-                ['state', 'edit'],
+                'uiState.edit', 
                 false
             );
         },
@@ -88,15 +92,12 @@ export default {
                 }
             );
         },
-        UPDATE_ITEM_ATTRIBUTE(state, {id, attribute, value}) {
+
+        UPDATE_ITEM_ATTRIBUTE(state, {id, path, value}) {
             const item = state.items.find(item => item.id === id);
-            if(!item || item[attribute] === undefined) return;
-            Vue.set(
-                item,
-                attribute,
-                value
-            )
+            setNestedProp(item, path, value);
         },
+
         UPDATE_ITEMS(state, value) {
             state.items = value;
         }
