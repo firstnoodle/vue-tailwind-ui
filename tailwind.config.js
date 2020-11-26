@@ -5,6 +5,9 @@ module.exports = {
       ...theme('colors'), // keeping the default colors for now
       default: 'var(--background-default-color)',
       action: 'var(--action)',
+      'light-blue-40': 'var(--light-blue-40)',
+      'golden-sun-lighter': 'var(--golden-sun-lighter)',
+      'lava-red-darker': 'var(--lava-red-darker)',
     }),
     borderColor: theme => ({
       ...theme('colors'),
@@ -12,7 +15,7 @@ module.exports = {
       action: 'var(--action-color)',
       subtle: 'var(--border-subtle-color)',
       default: 'var(--border-default-color)',
-      strong: 'var(--border-strong-color)'
+      strong: 'var(--border-strong-color)',
     }),
     textColor: theme => ({
       ...theme('colors'), // keeping the default colors for now
@@ -20,6 +23,7 @@ module.exports = {
       action: 'var(--action-color)',
       primary: 'var(--text-primary-color)',
       secondary: 'var(--text-secondary-color)',
+      'light-blue-darker': 'var(--light-blue-darker)'
     }),
     extend: {
       cursor: {
