@@ -50,12 +50,6 @@
                     <span class="ml-1 text-sm font-light">Department</span>
                 </div>
 
-                <!-- KEYWORD -->
-                <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
-                    <icon value="tag" />
-                    <span class="ml-1 text-sm font-light">Keyword</span>
-                </div>
-
                 <!-- FOCUS AREA -->
                 <div class="inline-flex items-center px-2 py-1 text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
                     <icon value="crosshair" />
