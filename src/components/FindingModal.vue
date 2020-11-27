@@ -45,11 +45,26 @@
             <severity-select v-model="computedFinding.data.severity" @change="onSeverityChange" />
 
             <div class="mt-4">
-                <!-- DEPARTMENT linked to Auditee -->
-                <div class="mr-2 mb-2 inline-flex items-center text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
-                    <icon value="building" />
-                    <span class="ml-1 text-sm font-light">Department</span>
-                </div>
+                <!-- DEPARTMENT TODO: linked to Auditee -->
+                <pop-select
+                    v-model="selectedDepartment"
+                    clearSelectionText="No Department" 
+                    filterable
+                    icon="building"
+                    null-label="Department"
+                    class="mr-2 mb-2"
+                    @change="onDepartmentChange"
+                    @clear="onDepartmentClear" 
+                    >
+                    <template #options>
+                        <pop-select-option 
+                            v-for="option in departmentOptions" 
+                            :key="option.label"
+                            :label="option.label"
+                            :value="option.value"
+                            />
+                    </template>
+                </pop-select>
 
                 <!-- FOCUS AREA -->
                 <pop-select
@@ -240,6 +255,7 @@ export default {
     data() {
         return {
             audit_id: null,
+            departmentOptions: null,
             descriptionSaved: false,
             dragOptions: {
                 animation: 200,
@@ -261,6 +277,7 @@ export default {
             savingDescription: false,
             savingReference: false,
             savingTitle: false,
+            selectedDepartment: null,
             selectedFocusArea: null,
             selectedReferenceOption: null,
             selectedTrendCategory: null,
@@ -309,6 +326,14 @@ export default {
         this.findingTitle = this.computedFinding.data.title;
         this.editorContent = this.computedFinding.data.description;
 
+        this.departmentOptions = [
+            { label: 'Department 1', value: 1 },
+            { label: 'Department 2', value: 2 },
+            { label: 'Department 3', value: 3 },
+            { label: 'Department 4', value: 4 },
+            { label: 'Department 5', value: 5 },
+        ];
+
         this.focusAreaOptions = focusAreaTable
             .map(item => {
                 return {
@@ -323,7 +348,7 @@ export default {
                     label: item.label,
                     value: item.id
                 }
-            })
+            });
     },
     mounted() {
         // this.savedContent = this.editorContent = this.$refs.editor.editor.getHTML();
@@ -411,6 +436,14 @@ export default {
         onEditDescription() {
             this.editDescription = true
             this.$nextTick(() => this.$refs.editor.focus());
+        },
+
+        onDepartmentChange(value) {
+            this.selectedDepartment = value;
+        },
+
+        onDepartmentClear() {
+            this.selectedDepartment = null;
         },
 
         onFocusAreaChange(value) {
