@@ -71,7 +71,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ $store.getters[`audits/${audit_id}/team/itemUnsaved`](item) ? 'Add team member' : 'Update team member' }}
+                                {{ item.id ? 'Update team member' : 'Add team member' }}
                             </base-button>
                             <base-button @click="cancelEditUser(item)" plain type="primary">Cancel</base-button>
                         </div>
