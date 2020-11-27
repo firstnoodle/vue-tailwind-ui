@@ -112,7 +112,15 @@
                         <span class="css-rich-text " v-html="computedFinding.data.description"></span>
                     </list-item>
                 </div>
-                <text-editor v-else ref="editor" :content="editorContent" @change="onEditorChange">
+                <text-editor 
+                    v-else 
+                    emphasis
+                    heading
+                    history
+                    list-styles
+                    ref="editor" 
+                    :content="editorContent" 
+                    @change="onEditorChange">
                     <template #header>
                         <base-button 
                             plain
@@ -153,38 +161,25 @@
                                 :key="item.uiState.listId"
                                 :edit="item.uiState.edit"
                                 deletable
+                                editable
                                 draggable
                                 class="last:mb-4"
                                 @delete="onReferenceDelete(item)"
+                                @edit="onReferenceEdit(item)"
                                 >
-                                <div class="inline-flex w-full">{{ item.data.description }}</div>
+                                <div class="css-rich-text inline-flex w-full" v-html="item.data.description"></div>
 
                                 <template #edit>
                                     <div class="flex pr-0 md:pr-16 mb-2">
                                         <div class="w-full">
-                                            <fn-select 
-                                                v-model="selectedReferenceOption" 
-                                                filterable
-                                                :focus-after-select="false"
-                                                initial-text="Enter reference text"
-                                                :loading="referenceSelectLoading"
-                                                loading-text="Searching.."
-                                                no-match-option
-                                                no-match-option-text="Create reference"
-                                                placeholder="Select reference"
-                                                ref="referenceSelect"
-                                                :remoteMethod="fetchReferences"
-                                                @createNew="onCreateNewReference"
-                                                @select="onSelectReference"
-                                                >
-                                                    <fn-select-option 
-                                                        v-for="reference in referenceOptions" 
-                                                        :key="reference.id" 
-                                                        :label="reference.label" 
-                                                        :value="reference"
-                                                        :disabled="getReferenceOptionDisabledState(reference)"
-                                                    />
-                                            </fn-select>
+                                            <text-editor 
+                                                ref="referenceEditor" 
+                                                emphasis
+                                                inline
+                                                minimal
+                                                :content="referenceEditorContent" 
+                                                @change="onReferenceEditorChange" 
+                                                />
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-2">
@@ -230,8 +225,6 @@ import draggable from 'vuedraggable';
 
 import Icon from '~/components/Icon';
 import IconButton from '~/components/IconButton';
-import FnSelect from '~/components/Select.js';
-import FnSelectOption from '~/components/SelectOption';
 import ListItem from '~/components/ListItem';
 import Modal from '~/components/Modal';
 import PopSelect from '~/components/PopSelect/main';
@@ -241,7 +234,7 @@ import TextEditor from '~/components/TextEditor';
 
 export default {
     name: 'FindingModal',
-    components: { draggable, FnSelect, FnSelectOption, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
+    components: { draggable, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
     data() {
         return {
             audit_id: null,
@@ -261,6 +254,7 @@ export default {
             referenceOptions: null,
             trendCategoryOptions: null,
             referenceSelectLoading: false,
+            referenceEditorContent: '',
             savedContent: null,
             savingDescription: false,
             savingReference: false,
@@ -283,7 +277,7 @@ export default {
             return false;
         },
         computedReferenceSaveButtonDisabled() {
-            if(!this.selectedReferenceOption) return true;
+            if(this.referenceEditorContent.length === 0) return true;
             return false;
         },
         computedStatusMessage() {
@@ -336,8 +330,7 @@ export default {
         cancelEditReference(item) {
             if(!item) return;
 
-            this.selectedReferenceOption = null;
-            this.referenceOptions = null;
+            this.referenceEditorContent = '';
             this.$store.dispatch(
                 `audits/${this.audit_id}/findings/cancelEditFindingReference`, 
                 { 
@@ -426,6 +419,20 @@ export default {
             this.selectedFocusArea = null;
         },
 
+        onReferenceEdit(item) {
+            this.$store.dispatch(`audits/${this.audit_id}/findings/cancelEditFindingReferences`, this.finding_id);
+            this.showAddNewReferenceButton = false;
+            item.uiState.edit = true
+            this.referenceEditorContent = item.data.description;
+            this.$nextTick(() => {
+                this.$refs.referenceEditor[0].focus();
+            });
+        },
+
+        onReferenceEditorChange(value) {
+            this.referenceEditorContent = value;
+        },
+
         onTrendCategoryChange(value) {
             this.selectedTrendCategory = value;
         },
@@ -444,7 +451,7 @@ export default {
             );
             this.showAddNewReferenceButton = false;
             this.$nextTick(() => {
-                this.$refs.referenceSelect[0].focus();
+                this.$refs.referenceEditor[0].focus();
             });
         },
 
@@ -500,9 +507,8 @@ export default {
         saveReference() {                
             this.savingReference = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.audit_id}/findings/SAVE_FINDING_REFERENCE`, { finding_id: this.finding_id, reference: this.selectedReferenceOption.value });
-                this.selectedReferenceOption = null;
-                this.referenceOptions = null;
+                this.$store.commit(`audits/${this.audit_id}/findings/SAVE_FINDING_REFERENCE`, { finding_id: this.finding_id, reference: { description: this.referenceEditorContent }});
+                this.referenceEditorContent = '';
                 this.savingReference = false;
 
                 this.showAddNewReferenceButton = true;
