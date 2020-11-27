@@ -23,7 +23,7 @@ export default {
         cancelEditFindingReferences({state, dispatch}, finding_id) {
             const finding = state.items.find(item => item.id === finding_id);
             for(const reference of finding.data.references) {
-                dispatch('cancelEditFindingReference', finding.id, reference.id);
+                dispatch('cancelEditFindingReference', { finding_id: finding.id, reference_id: reference.id });
             }
         },
     },
