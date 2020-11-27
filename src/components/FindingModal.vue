@@ -193,7 +193,7 @@
                                             :loading="savingReference" 
                                             @click.stop.prevent="saveReference" 
                                         >
-                                            {{ 'Add requirement' }}
+                                            {{ item.id ? 'Update reference' : 'Add reference' }}
                                         </base-button>
                                         <base-button @click="cancelEditReference(item)" plain type="primary">Cancel</base-button>
                                     </div>
