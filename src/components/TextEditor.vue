@@ -187,7 +187,6 @@ export default {
     },
     methods: {
         focus() {
-            console.log('focus');
             this.editor.focus();
         },
         onClickOutside() {
