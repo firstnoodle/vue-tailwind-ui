@@ -18,7 +18,7 @@
                     >
 
                     <!-- Title, severity, department, open in popup -->
-                    <router-link :to="{ name: 'Audit findings', params: { id: audit_id, finding: item.id }}" class="w-full">
+                    <router-link :to="{ name: 'Audit findings', params: { audit: audit_id, finding: item.id }}" class="w-full">
                         <div class="w-full mb-2 text-sm text-primary font-bold">
                             <span class="font-light">{{ `Q${index+1}` }}</span> 
                             {{ item.data.title }}
@@ -74,7 +74,7 @@
         </div>
 
         <portal to="modal">
-            <finding-modal v-if="$route.params.finding" @close="$router.push({ name: 'Audit findings', params: { id: audit_id, finding: null }})" />
+            <finding-modal v-if="$route.params.finding" @close="$router.push({ name: 'Audit findings', params: { audit: audit_id, finding: null }})" />
         </portal>
 
         <template #footer>
@@ -99,7 +99,7 @@ export default {
     components: { BaseButton, draggable, FindingModal, ListItem, SeveritySelect, SeverityTag, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: this.$route.params.id,
+            audit_id: this.$route.params.audit,
             currentFinding: null,
             dragOptions: {
                 animation: 200,

@@ -54,7 +54,7 @@ export default [
         },
     },
     {
-        path: '/audits/:id',
+        path: '/audits/:audit',
         component: Audit,
         meta: {
             title: 'Audit',

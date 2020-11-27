@@ -20,7 +20,7 @@ export default {
     components: { AuditRating, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: this.$route.params.id,
+            audit_id: this.$route.params.audit,
         }
     }
 }

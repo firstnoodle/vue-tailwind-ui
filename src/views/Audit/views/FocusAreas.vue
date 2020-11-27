@@ -98,7 +98,7 @@ export default {
     components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: this.$route.params.id,
+            audit_id: this.$route.params.audit,
             dragOptions: {
                 animation: 200,
                 group: "description",

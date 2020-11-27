@@ -254,7 +254,7 @@ export default {
     components: { draggable, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
     data() {
         return {
-            audit_id: this.$route.params.id,
+            audit_id: this.$route.params.audit,
             departmentOptions: null,
             descriptionSaved: false,
             dragOptions: {
