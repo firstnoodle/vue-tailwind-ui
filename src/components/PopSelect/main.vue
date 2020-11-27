@@ -2,8 +2,6 @@
     <base-popper 
         :options="popperOptions"
         :appendToBody="true"
-        @hide="onPopperHide"
-        @show="onPopperShow"
         :forceShow="visible"
         trigger="soft"
         v-clickoutside="handleClose"
@@ -363,16 +361,6 @@ export default {
                 this.optionsCount--;
                 this.filteredOptionsCount--;
                 this.options.splice(index, 1);
-            }
-        },
-
-        onPopperHide() {
-            // console.log('hide');
-        },
-
-        onPopperShow() {
-            if(this.$refs.input) {
-                this.$nextTick(() => this.$refs.input.focus());
             }
         },
 
