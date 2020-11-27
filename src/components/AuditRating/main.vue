@@ -49,6 +49,7 @@ export default {
     components: { RatingButton, RatingLabel },
     data() {
         return {
+            audit_id: this.$route.params.audit,
             options: [
                 "Not meeting standards",
                 "Low",
