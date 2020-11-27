@@ -460,7 +460,10 @@ export default {
                     this.visible = !this.visible;
                 }
                 if (this.visible) {
-                    if(this.$refs.input) this.$refs.input.focus();
+                    if(this.$refs.input) {
+                        // this.$nextTick(() => this.$refs.input.focus());
+                        setTimeout(() => this.$refs.input.focus(), 200);
+                    }
                     if(this.$refs.reference) this.$refs.reference.focus();
                 }
             }
