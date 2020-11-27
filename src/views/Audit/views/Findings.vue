@@ -111,11 +111,6 @@ export default {
             modalVisible: false,
             posting: false,
             selectedSeverity: null,
-            severityOptions: [
-                { label: 'MINOR', value: 'MINOR' },
-                { label: 'MAJOR', value: 'MAJOR' },
-                { label: 'CRITICAL', value: 'CRITICAL' },
-            ],
             showAddNewButton: true,
         }
     },
