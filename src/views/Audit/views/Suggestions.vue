@@ -23,7 +23,15 @@
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
                             <div class="w-full">
-                                <text-editor inline ref="editor" :content="editorContent" @change="onEditorChange" />
+                                <text-editor 
+                                    emphasis
+                                    history
+                                    inline 
+                                    list-styles
+                                    ref="editor" 
+                                    :content="editorContent" 
+                                    @change="onEditorChange" 
+                                    />
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -35,7 +43,6 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ 'Add suggestion' }}
                                 {{ item.id ? 'Update suggestion' : 'Add suggestion' }}
                             </base-button>
                             <base-button @click="cancelEditSuggestion(item)" plain type="primary">Cancel</base-button>
