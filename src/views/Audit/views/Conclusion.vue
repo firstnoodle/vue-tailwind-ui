@@ -1,7 +1,7 @@
 <template>
     <view-content title="Conclusion" icon="conclusion">
 
-        <audit-rating />
+        <audit-rating :rating="$store.state.audits[audit_id].rating" @rating-changed="onRatingChange" />
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Audit suggestions' }" icon="message" label="Suggestions" placement="left" />
@@ -21,6 +21,14 @@ export default {
     data() {
         return {
             audit_id: this.$route.params.audit,
+        }
+    },
+    methods: {
+        onRatingChange(value) {
+            this.$store.commit(
+                `audits/${this.audit_id}/UPDATE_RATING`, 
+                value === this.$store.state.audits[this.audit_id].rating ? null : value
+            );
         }
     }
 }
