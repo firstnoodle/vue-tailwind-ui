@@ -52,7 +52,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ 'Add focus area' }}
+                                {{ item.id ? 'Update focus area' : 'Add focus area' }}
                             </base-button>
                             <base-button @click="cancelEditFocusArea(item)" plain type="primary">Cancel</base-button>
                         </div>
