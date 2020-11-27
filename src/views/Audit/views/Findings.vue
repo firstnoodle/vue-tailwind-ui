@@ -31,7 +31,7 @@
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
                             <!-- <inline-finding-editor :finding="currentFinding" /> -->
-                            <div class="w-full p-2 border border-subtle foucs-within:border-action rounded-md focus-within:shadow-outline">
+                            <div class="w-full p-2 border border-subtle rounded-md focus-within:shadow-outline focus-within:border-action">
                                 <input 
                                     v-model="findingTitle" 
                                     placeholder="Finding title - keep it short and precise" 
