@@ -51,7 +51,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ 'Add finding' }}
+                                {{ item.id ? 'Update finding' : 'Add finding' }}
                             </base-button>
                             <base-button @click="cancelEditFinding(item)" plain type="primary">Cancel</base-button>
                         </div>
