@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import crud from './crud.js';
 import { setNestedProp } from '~/utils/vue';
+import { SEVERITY_LEVELS } from '~/constants';
 
 export default {
     namespaced: true,
@@ -40,7 +41,16 @@ export default {
                 title: '',
                 trendCategory: null,
             }
-        }
+        },
+        numberOfMinorFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.MINOR).length;
+        },
+        numberOfMajorFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.MAJOR).length;
+        },
+        numberOfCriticalFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.CRITICAL).length;
+        },
     },
     state: {
         ...crud.state(),
