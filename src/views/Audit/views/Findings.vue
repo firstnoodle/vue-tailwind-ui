@@ -210,6 +210,7 @@ export default {
 
 
 <style lang="scss" scoped>
+// we dont want the title placeholder to be bold
 .css-placeholder::placeholder, .css-placeholder::-webkit-input-placeholder {
     font-weight: normal;
     font-style: italic;
