@@ -12,14 +12,10 @@
                 Overall rating
             </div>
             <div class="flex">
-                <rating-label>Not meeting<br>standards</rating-label>
-                <rating-label>Low</rating-label>
-                <rating-label>Satisfactory</rating-label>
-                <rating-label>High</rating-label>
-                <rating-label>Outstanding</rating-label>
+                <rating-label v-for="option in auditRatingOptions" :key="option">{{ option }}</rating-label>
             </div>
             <div class="w-full flex border-t-2 border-white">
-                <rating-button v-for="option in options" :key="option" :active="selectedOption === option" @click="selectedOption = option" />
+                <rating-button v-for="option in auditRatingOptions" :key="option" :active="option === rating" @click="$emit('rating-changed', option)" />
             </div>
         </div>
         <div class="flex-0 inline-block">
@@ -27,9 +23,7 @@
                 Number and<br>severity<br>of findings
             </div>
             <div class="flex">
-                <rating-label>Critical</rating-label>
-                <rating-label>Major</rating-label>
-                <rating-label>Minor</rating-label>
+                <rating-label v-for="option in severityLevelOptions" :key="option">{{ option }}</rating-label>
             </div>
             <div class="w-full flex border-t-2 border-white">
                 <div class="flex items-center justify-center h-10 w-1/3 bg-red-700 text-sm text-white border-r border-white">1</div>
@@ -41,23 +35,26 @@
 </template>
 
 <script>
+import { AUDIT_RATINGS, SEVERITY_LEVELS } from '~/constants';
 import RatingButton from './RatingButton';
 import RatingLabel from './RatingLabel';
 
 export default {
     name: 'AuditRating',
     components: { RatingButton, RatingLabel },
+    props: {
+        rating: {
+            type: String,
+            validator: value => {
+                return Object.values(AUDIT_RATINGS).indexOf(value) !== -1;
+            }
+        }
+    },
     data() {
         return {
             audit_id: this.$route.params.audit,
-            options: [
-                "Not meeting standards",
-                "Low",
-                "Satisfactory",
-                "High",
-                "Outstanding"
-            ],
-            selectedOption: null,
+            auditRatingOptions: Object.values(AUDIT_RATINGS),
+            severityLevelOptions: Object.values(SEVERITY_LEVELS),
         }
     },
 }
