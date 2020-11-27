@@ -1,14 +1,12 @@
 <template>
     <base-popper 
         :options="popperOptions"
-        :appendToBody="false"
-        @hide="onPopperHide"
-        @show="onPopperShow"
+        :appendToBody="true"
         :forceShow="visible"
         trigger="soft"
         v-clickoutside="handleClose"
         >
-        <div ref="popper" class="popper max-w-xs rounded-lg shadow-md bg-default border border-subtle">
+        <div ref="popper" class="z-20 popper max-w-xs rounded-lg shadow-md bg-default border border-subtle">
             <header v-if="filterable" class="flex items-center border-b border-subtle overflow-hidden">
                 <icon value="magnifying-glass" class="pl-4 pr-2 text-gray-600" />
                 <input 
@@ -31,6 +29,7 @@
             <scrollbar
                 wrap-class=""
                 view-class=""
+                viewHeight="max-h-56"
                 ref="scrollbar"
                 v-show="true"
                 >
@@ -48,13 +47,13 @@
 
         <button 
             slot="reference"
-            :class="{ 'is-visible' : visible, 'has-selection' : selected.label }"
+            :class="{ 'is-visible' : visible, 'has-selection' : selected.currentLabel }"
             class="pop-select-trigger" 
             style="padding: 0.125rem 0.5rem"
             @click.stop="toggleMenu"
             >
             <icon :value="icon" />
-            <span class="ml-1 text-sm font-light">{{ selected.label || nullLabel }}</span>
+            <span class="ml-1 text-sm font-light">{{ selected.currentLabel || nullLabel }}</span>
         </button>
 
     </base-popper>
@@ -145,7 +144,6 @@ export default {
             options: [],
             optionsCount: 0,
             popperOptions: {
-                appendToBody: true,
                 placement: 'bottom-start',
                 modifiers: [
                     {
@@ -358,13 +356,11 @@ export default {
             }
         },
 
-        onPopperHide() {
-            // console.log('hide');
-        },
-
-        onPopperShow() {
-            if(this.$refs.input) {
-                this.$nextTick(() => this.$refs.input.focus());
+        onOptionDestroy(index) {
+            if (index > -1) {
+                this.optionsCount--;
+                this.filteredOptionsCount--;
+                this.options.splice(index, 1);
             }
         },
 
@@ -452,7 +448,11 @@ export default {
                     this.visible = !this.visible;
                 }
                 if (this.visible) {
-                    (this.$refs.input || this.$refs.reference).focus();
+                    if(this.$refs.input) {
+                        // this.$nextTick(() => this.$refs.input.focus());
+                        setTimeout(() => this.$refs.input.focus(), 200);
+                    }
+                    if(this.$refs.reference) this.$refs.reference.focus();
                 }
             }
         },
@@ -465,7 +465,7 @@ export default {
 .pop-select-trigger {
 
     @apply border border-subtle text-action;
-    @apply inline-flex items-center px-2 py-1 border rounded-md cursor-pointer ;
+    @apply inline-flex items-center border rounded-md cursor-pointer ;
 
     &:hover {
         @apply bg-blue-100 border-action;

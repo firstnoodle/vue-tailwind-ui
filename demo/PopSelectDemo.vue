@@ -9,7 +9,6 @@
             @change="onSelectChange"
             @clear="onClear" 
             >
-
             <template #options>
                 <pop-select-option 
                     v-for="option in options" 

@@ -5,6 +5,10 @@
     @apply p-4 h-full text-sm;
  }
 
+ .minimal > .ProseMirror {
+     @apply p-2;
+ }
+
  .ProseMirror, .css-rich-text {
 
     p:empty::after {

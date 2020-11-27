@@ -9,16 +9,17 @@
             <transition-group type="transition">
                 <list-item 
                     v-for="item in team"
-                    :key="item.listId"
-                    :edit="item.edit"
+                    :key="item.uiState.listId"
+                    deletable
+                    draggable
                     editable
+                    :edit="item.uiState.edit"
                     @edit="onItemEdit(item)"
-                    :draggable="true" 
                     @delete="$store.commit(`audits/${audit_id}/team/DELETE_ITEM`, item.id)"
                     class="last:mb-4"
                     >
-                    <div class="inline-flex w-2/3 md:w-1/2">{{ item.initials + ' (' + item.name + ')' }}</div>
-                    <div class="inline-flex w-1/3 md:w-1/2">{{ item.role }}</div>
+                    <div class="inline-flex w-2/3 md:w-1/2">{{ item.data.initials + ' (' + item.data.name + ')' }}</div>
+                    <div class="inline-flex w-1/3 md:w-1/2">{{ item.data.role }}</div>
 
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
@@ -70,7 +71,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ $store.getters[`audits/${audit_id}/team/itemUnsaved`](item) ? 'Add team member' : 'Update team member' }}
+                                {{ item.id ? 'Update team member' : 'Add team member' }}
                             </base-button>
                             <base-button @click="cancelEditUser(item)" plain type="primary">Cancel</base-button>
                         </div>
@@ -206,7 +207,7 @@ export default {
         },
 
         getUserDisabledState(option) {
-            const ids = this.$store.state.audits[this.audit_id].team.items.map(o => o.id);
+            const ids = this.$store.state.audits[this.audit_id].team.items.map(o => o.data.id);
             const result = ids.includes(option.value.id);
             return result;
         },
@@ -214,18 +215,18 @@ export default {
         onItemEdit(item) {
             this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditItems`);
             this.showAddNewButton = false;
-            item.edit = true
+            item.uiState.edit = true
             this.selectedUserOption = {
-                label: `${item.initials} (${item.name})`,
+                label: `${item.data.initials} (${item.data.name})`,
                 value: {
-                    id: item.id,
-                    initials: item.initials,
-                    name: item.name
+                    id: item.data.id,
+                    initials: item.data.initials,
+                    name: item.data.name
                 }
             };
             this.selectedRoleOption = {
-                label: item.role,
-                value: item.role
+                label: item.data.role,
+                value: item.data.role
             };
         },
 

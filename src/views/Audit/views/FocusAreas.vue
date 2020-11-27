@@ -9,14 +9,15 @@
             <transition-group type="transition">
                 <list-item 
                     v-for="item in focusAreas"
-                    :key="item.listId"
-                    :draggable="true" 
-                    :edit="item.edit"
+                    :key="item.uiState.listId"
+                    deletable
+                    draggable
+                    :edit="item.uiState.edit"
                     @delete="$store.commit(`audits/${audit_id}/focusAreas/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"
                     class="last:mb-4"
                     >
-                    <div class="inline-flex w-full">{{ item.name }}</div>
+                    <div class="inline-flex w-full">{{ item.data.name }}</div>
 
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
@@ -51,7 +52,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ 'Add focus area' }}
+                                {{ item.id ? 'Update focus area' : 'Add focus area' }}
                             </base-button>
                             <base-button @click="cancelEditFocusArea(item)" plain type="primary">Cancel</base-button>
                         </div>
@@ -93,7 +94,7 @@ import ViewContentFooterLink from '~/components/application/ViewContentFooterLin
 import focusAreasTable from '~/../demo/data/focus_areas.js';
 
 export default {
-    name: 'Requirements',
+    name: 'FocusAreas',
     components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem, ViewContent, ViewContentFooterLink },
     data() {
         return {
@@ -129,18 +130,6 @@ export default {
     created() {
         this.audit_id = this.$route.params.id; 
 
-        const defaultFocusAreas = focusAreasTable
-            .map(focusArea => {
-                return {
-                    id: focusArea.id,
-                    listId: focusArea.id,
-                    name: focusArea.name,
-                    description: focusArea.description,
-                    edit: false,
-                    selected: false,
-                }
-            });
-
         this.focusAreaOptions = focusAreasTable
             .map(focusArea => {
                 return {
@@ -148,8 +137,6 @@ export default {
                     value: focusArea
                 }
             });
-
-        this.$store.commit(`audits/${this.audit_id}/focusAreas/UPDATE_ITEMS`, defaultFocusAreas);
     },
 
     beforeDestroy() {
@@ -168,7 +155,7 @@ export default {
         },
 
         getFocusAreaDisabledState(option) {
-            const ids = this.$store.state.audits[this.audit_id].focusAreas.items.map(item => item.id);
+            const ids = this.$store.state.audits[this.audit_id].focusAreas.items.map(item => item.data.id);
             const result = ids.includes(option.value.id);
             return result;
         },
@@ -198,7 +185,6 @@ export default {
             setTimeout(() => {
                 this.$store.commit(`audits/${this.audit_id}/focusAreas/SAVE_ITEM`, { ...this.selectedFocusAreaOption.value });
                 this.selectedFocusAreaOption = null;
-                this.focusAreaOptions = null;
                 this.posting = false;
 
                 this.showAddNewButton = true;

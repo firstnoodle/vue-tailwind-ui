@@ -352,7 +352,7 @@ export default Vue.component('select', {
             'div', 
             { 
                 style: 'max-height: 160px',
-                class: 'popper overflow-y-scroll block text-sm border border-default rounded shadow-lg overflow-hidden',
+                class: 'z-20 popper overflow-y-scroll block text-sm border border-default rounded shadow-lg overflow-hidden',
             }, 
             this.renderPopperContent(createElement)
         );
