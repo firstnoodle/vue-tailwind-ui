@@ -81,7 +81,7 @@
                                 :loading="posting" 
                                 @click.stop.prevent="saveItem" 
                             >
-                                {{ 'Add requirement' }}
+                                {{ item.id ? 'Update requirement' : 'Add requirement' }}
                             </base-button>
                             <base-button @click="cancelEditRequirement(item)" plain type="primary">Cancel</base-button>
                         </div>
