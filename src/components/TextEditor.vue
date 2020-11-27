@@ -9,9 +9,10 @@
             'border-subtle' : !softFocus 
             }"
     >
-        <editor-content class="flex-1 overflow-y-auto rounded-t" :editor="editor" />
+        <editor-content :class="{ 'minimal' : minimal }" class="flex-1 overflow-y-auto rounded-t" :editor="editor" />
         <!-- MENU -->
         <editor-menu-bar
+            v-if="history"
             class="flex-0 min-h-0 p-1 rounded-b overflow-hidden"
             :class="computedMenuClass"
             :editor="editor"
@@ -19,43 +20,49 @@
         >
             <div class="flex items-center justify-between">
                 <div>
-                    <text-editor-button @click="onEditorMenuClick(commands.undo)">
+                    <text-editor-button v-if="history" @click="onEditorMenuClick(commands.undo)">
                         <icon value="arrow-left" />
                     </text-editor-button>
-                    <text-editor-button @click="onEditorMenuClick(commands.redo)">
+                    <text-editor-button v-if="history" @click="onEditorMenuClick(commands.redo)">
                         <icon value="arrow-right" />
                     </text-editor-button>
                     <text-editor-button 
+                        v-if="emphasis"
                         :active="isActive.bold()" 
                         @click="onEditorMenuClick(commands.bold)"
                         >
                         {{'B'}}
                     </text-editor-button>
                     <text-editor-button 
+                        v-if="emphasis"
                         :active="isActive.italic()" 
                         @click="onEditorMenuClick(commands.italic)"
                         >
                         {{'I'}}
                     </text-editor-button>
                     <text-editor-button 
+                        v-if="emphasis"
                         :active="isActive.underline()" 
                         @click="onEditorMenuClick(commands.underline)"
                         >
                         {{'U'}}
                     </text-editor-button>
                     <text-editor-button
+                        v-if="heading"
                         :active="isActive.heading({ level: 1 })"
                         @click="onSpecialCommand(commands.heading({ level: 1 }))"
                         >
                         {{'H1'}}
                     </text-editor-button>
                     <text-editor-button
+                        v-if="listStyles"
                         :active="isActive.bullet_list()"
                         @click="onEditorMenuClick(commands.bullet_list)"
                         >
                         <icon value="itenary" />
                     </text-editor-button>
                     <text-editor-button
+                        v-if="listStyles"
                         :active="isActive.ordered_list()"
                         @click="onEditorMenuClick(commands.ordered_list)"
                         >
@@ -102,14 +109,34 @@ export default {
             type: String,
             required: true
         },
+        emphasis: {
+            type: Boolean,
+            default: false
+        },
         expandVertically: {
+            type: Boolean,
+            default: false
+        },
+        heading: {
+            type: Boolean,
+            default: false
+        },
+        history: {
             type: Boolean,
             default: false
         },
         inline: {
             type: Boolean,
             default: false
-        }
+        },
+        listStyles: {
+            type: Boolean,
+            default: false
+        },
+        minimal: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -160,6 +187,7 @@ export default {
     },
     methods: {
         focus() {
+            console.log('focus');
             this.editor.focus();
         },
         onClickOutside() {
