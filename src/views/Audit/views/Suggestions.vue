@@ -36,6 +36,7 @@
                                 @click.stop.prevent="saveItem" 
                             >
                                 {{ 'Add suggestion' }}
+                                {{ item.id ? 'Update suggestion' : 'Add suggestion' }}
                             </base-button>
                             <base-button @click="cancelEditSuggestion(item)" plain type="primary">Cancel</base-button>
                         </div>
