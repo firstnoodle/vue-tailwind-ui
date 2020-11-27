@@ -254,7 +254,7 @@ export default {
     components: { draggable, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.id,
             departmentOptions: null,
             descriptionSaved: false,
             dragOptions: {
@@ -266,7 +266,7 @@ export default {
             editorContent: null,
             editDescription: false,
             editTitle: false,
-            finding_id: null,
+            finding_id: this.$route.params.finding,
             findingTitle: null,
             focusAreaOptions: null,
             referenceOptions: null,
@@ -321,8 +321,6 @@ export default {
         }
     },
     created() {
-        this.audit_id = this.$route.params.id;
-        this.finding_id = this.$route.params.finding;
         this.findingTitle = this.computedFinding.data.title;
         this.editorContent = this.computedFinding.data.description;
 

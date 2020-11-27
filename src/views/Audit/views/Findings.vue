@@ -99,7 +99,7 @@ export default {
     components: { BaseButton, draggable, FindingModal, ListItem, SeveritySelect, SeverityTag, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.id,
             currentFinding: null,
             dragOptions: {
                 animation: 200,
@@ -144,10 +144,6 @@ export default {
     },
     beforeRouteUpdate (to, from, next) {
         next();
-    },
-
-    created() {
-        this.audit_id = this.$route.params.id; 
     },
 
     beforeDestroy() {

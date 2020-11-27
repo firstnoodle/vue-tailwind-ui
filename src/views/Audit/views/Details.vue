@@ -15,6 +15,11 @@ import ViewContentFooterLink from '~/components/application/ViewContentFooterLin
 
 export default {
     name: 'Details',
-    components: { ViewContent, ViewContentFooterLink }
+    components: { ViewContent, ViewContentFooterLink },
+    data() {
+        return {
+            audit_id: this.$route.params.id,
+        }
+    }
 }
 </script>

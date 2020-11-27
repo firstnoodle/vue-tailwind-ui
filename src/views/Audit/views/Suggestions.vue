@@ -86,7 +86,7 @@ export default {
     components: { BaseButton, draggable, ListItem, TextEditor, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.id,
             dragOptions: {
                 animation: 200,
                 group: "description",
@@ -111,10 +111,6 @@ export default {
                 this.$store.commit(`audits/${this.audit_id}/suggestions/UPDATE_ITEMS`, value)
             }
         }
-    },
-
-    created() {
-        this.audit_id = this.$route.params.id; 
     },
 
     beforeDestroy() {
