@@ -44,9 +44,9 @@
             <!-- SEVERITY -->
             <severity-select v-model="computedFinding.data.severity" @change="onSeverityChange" />
 
-            <div class="mt-4 space-x-2">
+            <div class="mt-4">
                 <!-- DEPARTMENT linked to Auditee -->
-                <div class="inline-flex items-center text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
+                <div class="mr-2 mb-2 inline-flex items-center text-action border border-subtle rounded-md" style="padding: 0.125rem 0.5rem">
                     <icon value="building" />
                     <span class="ml-1 text-sm font-light">Department</span>
                 </div>
@@ -57,6 +57,7 @@
                     clearSelectionText="No Focus Area" 
                     icon="crosshair"
                     null-label="Focus Area"
+                    class="mr-2 mb-2"
                     @change="onFocusAreaChange"
                     @clear="onFocusAreaClear" 
                     >
@@ -77,6 +78,7 @@
                     filterable
                     icon="trend"
                     null-label="Trend Category"
+                    class="mr-2 mb-2"
                     @change="onTrendCategoryChange"
                     @clear="onTrendCategoryClear" 
                     >
