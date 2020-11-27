@@ -25,7 +25,6 @@
             >
             <icon value="warning" />
             <span class="mx-1 text-sm font-light">{{ value || 'Set severity' }}</span>
-            <!-- <icon value="angle-down opacity-50" /> -->
         </button>
     </base-popper>
 </template>
