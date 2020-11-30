@@ -123,7 +123,7 @@ export default {
             );
         },
         CREATE_FINDING_FOCUS_AREA_DESCRIPTION(state, focusArea) {
-            state.findingFocusAreaDescriptions[focusArea] = 'Test string for debugging';
+            state.findingFocusAreaDescriptions[focusArea] = '';
         },
         DELETE_FINDING_FOCUS_AREA_DESCRIPTION(state, focusArea) {
             Vue.delete(state.findingFocusAreaDescriptions, focusArea);
