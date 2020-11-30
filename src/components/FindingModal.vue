@@ -47,62 +47,62 @@
             <div class="mt-4">
                 <!-- DEPARTMENT TODO: linked to Auditee -->
                 <pop-select
-                    v-model="selectedDepartment"
+                    v-model="computedFinding.data.department"
                     clearSelectionText="No Department" 
                     filterable
                     icon="building"
                     null-label="Department"
-                    class="mr-2 mb-2"
+                    class="inline-block mr-2 mb-2"
                     @change="onDepartmentChange"
-                    @clear="onDepartmentClear" 
+                    @clear="onDepartmentChange(null)" 
                     >
                     <template #options>
                         <pop-select-option 
                             v-for="option in departmentOptions" 
                             :key="option.label"
                             :label="option.label"
-                            :value="option.value"
+                            :value="option"
                             />
                     </template>
                 </pop-select>
 
                 <!-- FOCUS AREA -->
                 <pop-select
-                    v-model="selectedFocusArea"
+                    v-model="computedFinding.data.focusArea"
                     clearSelectionText="No Focus Area" 
                     icon="crosshair"
                     null-label="Focus Area"
-                    class="mr-2 mb-2"
+                    class="inline-block mr-2 mb-2"
                     @change="onFocusAreaChange"
-                    @clear="onFocusAreaClear" 
+                    @clear="onFocusAreaChange(null)" 
                     >
                     <template #options>
                         <pop-select-option 
                             v-for="option in focusAreaOptions" 
                             :key="option.label"
                             :label="option.label"
-                            :value="option.value"
+                            :value="option"
                             />
                     </template>
                 </pop-select>
 
                 <!-- TREND CATEGORY -->
                 <pop-select
-                    v-model="selectedTrendCategory"
+                    v-model="computedFinding.data.trendCategory"
                     clearSelectionText="No Trend Category" 
                     filterable
                     icon="trend"
                     null-label="Trend Category"
-                    class="mr-2 mb-2"
+                    class="inline-block mr-2 mb-2"
                     @change="onTrendCategoryChange"
-                    @clear="onTrendCategoryClear" 
+                    @clear="onTrendCategoryChange(null)" 
                     >
                     <template #options>
                         <pop-select-option 
                             v-for="option in trendCategoryOptions" 
                             :key="option.label"
                             :label="option.label"
-                            :value="option.value"
+                            :value="option"
                             />
                     </template>
                 </pop-select>
@@ -254,7 +254,7 @@ export default {
     components: { draggable, Icon, IconButton, ListItem, Modal, PopSelect, PopSelectOption, SeveritySelect, TextEditor },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.audit,
             departmentOptions: null,
             descriptionSaved: false,
             dragOptions: {
@@ -266,7 +266,7 @@ export default {
             editorContent: null,
             editDescription: false,
             editTitle: false,
-            finding_id: null,
+            finding_id: this.$route.params.finding,
             findingTitle: null,
             focusAreaOptions: null,
             referenceOptions: null,
@@ -321,8 +321,6 @@ export default {
         }
     },
     created() {
-        this.audit_id = this.$route.params.id;
-        this.finding_id = this.$route.params.finding;
         this.findingTitle = this.computedFinding.data.title;
         this.editorContent = this.computedFinding.data.description;
 
@@ -440,6 +438,14 @@ export default {
 
         onDepartmentChange(value) {
             this.selectedDepartment = value;
+            this.$store.commit(
+                `audits/${this.audit_id}/findings/UPDATE_ITEM_ATTRIBUTE`,
+                {
+                    id: this.finding_id,
+                    path: 'data.department',
+                    value: this.selectedDepartment.label
+                }
+            );
         },
 
         onDepartmentClear() {
@@ -448,10 +454,13 @@ export default {
 
         onFocusAreaChange(value) {
             this.selectedFocusArea = value;
-        },
-
-        onFocusAreaClear() {
-            this.selectedFocusArea = null;
+            this.$store.dispatch(
+                `audits/${this.audit_id}/findings/updateFindingFocusArea`,
+                {
+                    finding_id: this.finding_id,
+                    focusArea: this.selectedFocusArea.label
+                }
+            );
         },
 
         onReferenceEdit(item) {
@@ -470,6 +479,14 @@ export default {
 
         onTrendCategoryChange(value) {
             this.selectedTrendCategory = value;
+            this.$store.commit(
+                `audits/${this.audit_id}/findings/UPDATE_ITEM_ATTRIBUTE`,
+                {
+                    id: this.finding_id,
+                    path: 'data.trendCategory',
+                    value: this.selectedTrendCategory.label
+                }
+            );
         },
 
         onTrendCategoryClear() {

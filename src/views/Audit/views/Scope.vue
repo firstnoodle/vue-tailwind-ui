@@ -1,7 +1,15 @@
 <template>
     <view-content title="Scope" icon="scope" fitToViewHeight>
 
-        <text-editor ref="editor" expand-vertically :content="editorContent" @change="onEditorChange">
+        <text-editor 
+            ref="editor" 
+            emphasis
+            expand-vertically 
+            heading
+            history
+            :content="editorContent" 
+            @change="onEditorChange"
+            >
             <template #header>
                 <span class="mr-2 text-xs text-secondary">
                     {{ computedStatusMessage }}
@@ -36,7 +44,7 @@ export default {
     components: { BaseButton, TextEditor, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.audit,
             editorContent: null,
             savedContent: null,
             saving: false,
@@ -55,7 +63,6 @@ export default {
         }
     },
     created() {
-        this.audit_id = this.$route.params.id;
         this.editorContent = this.$store.state.audits[this.audit_id].scope;
     },
     mounted() {

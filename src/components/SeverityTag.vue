@@ -7,28 +7,34 @@
         >
         <icon value="warning" class="mr-1" />
         {{ severity }}
+        <span v-if="count" class="ml-2 font-bold">{{ count }}</span>
     </span>
 </template>
 
 <script>
+import { SEVERITY_LEVELS } from '~/constants';
 import Icon from '~/components/Icon';
 
 export default {
     name: 'SeverityTag',
     components: { Icon },
     props: {
+        count: {
+            type: Number,
+            required: false
+        },
         severity: {
             type: String,
             validator: value => {
-                return ['MINOR', 'MAJOR', 'CRITICAL'].indexOf(value) !== -1;
+                return Object.values(SEVERITY_LEVELS).indexOf(value) !== -1;
             }
         }
     },
     computed: {
         computedClass() {
-            if(this.severity === 'MINOR') return 'bg-light-blue-40 text-light-blue-darker';
-            if(this.severity === 'MAJOR') return 'bg-golden-sun-lighter text-default';
-            if(this.severity === 'CRITICAL') return 'bg-lava-red-darker text-white';
+            if(this.severity === SEVERITY_LEVELS.MINOR) return 'bg-light-blue-40 text-light-blue-darker';
+            if(this.severity === SEVERITY_LEVELS.MAJOR) return 'bg-golden-sun-lighter text-default';
+            if(this.severity === SEVERITY_LEVELS.CRITICAL) return 'bg-lava-red-darker text-white';
             return null;
         },
     }

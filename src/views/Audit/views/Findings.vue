@@ -13,12 +13,12 @@
                     deletable
                     draggable
                     :edit="item.uiState.edit"
-                    @delete="$store.commit(`audits/${audit_id}/findings/DELETE_ITEM`, item.id)"
+                    @delete="$store.dispatch(`audits/${audit_id}/findings/deleteFinding`, item.id)"
                     class="last:mb-4"
                     >
 
                     <!-- Title, severity, department, open in popup -->
-                    <router-link :to="{ name: 'Audit findings', params: { id: audit_id, finding: item.id }}" class="w-full">
+                    <router-link :to="{ name: 'Audit findings', params: { audit: audit_id, finding: item.id }}" class="w-full">
                         <div class="w-full mb-2 text-sm text-primary font-bold">
                             <span class="font-light">{{ `Q${index+1}` }}</span> 
                             {{ item.data.title }}
@@ -74,7 +74,7 @@
         </div>
 
         <portal to="modal">
-            <finding-modal v-if="$route.params.finding" @close="$router.push({ name: 'Audit findings', params: { id: audit_id, finding: null }})" />
+            <finding-modal v-if="$route.params.finding" @close="$router.push({ name: 'Audit findings', params: { audit: audit_id, finding: null }})" />
         </portal>
 
         <template #footer>
@@ -99,7 +99,7 @@ export default {
     components: { BaseButton, draggable, FindingModal, ListItem, SeveritySelect, SeverityTag, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.audit,
             currentFinding: null,
             dragOptions: {
                 animation: 200,
@@ -111,11 +111,6 @@ export default {
             modalVisible: false,
             posting: false,
             selectedSeverity: null,
-            severityOptions: [
-                { label: 'MINOR', value: 'MINOR' },
-                { label: 'MAJOR', value: 'MAJOR' },
-                { label: 'CRITICAL', value: 'CRITICAL' },
-            ],
             showAddNewButton: true,
         }
     },
@@ -144,10 +139,6 @@ export default {
     },
     beforeRouteUpdate (to, from, next) {
         next();
-    },
-
-    created() {
-        this.audit_id = this.$route.params.id; 
     },
 
     beforeDestroy() {
@@ -214,6 +205,7 @@ export default {
 
 
 <style lang="scss" scoped>
+// we dont want the title placeholder to be bold
 .css-placeholder::placeholder, .css-placeholder::-webkit-input-placeholder {
     font-weight: normal;
     font-style: italic;

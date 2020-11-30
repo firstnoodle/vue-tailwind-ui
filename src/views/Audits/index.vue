@@ -87,7 +87,7 @@ export default {
              * TODO: Add default informationRequests
              */
 
-            this.$router.push({ name: 'Audit details',  params: { id: audit_id }});
+            this.$router.push({ name: 'Audit details',  params: { audit: audit_id }});
         }
     }
 }
