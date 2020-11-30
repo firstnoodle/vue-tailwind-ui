@@ -25,12 +25,12 @@
             >
             <icon value="warning" />
             <span class="mx-1 text-sm font-light">{{ value || 'Set severity' }}</span>
-            <!-- <icon value="angle-down opacity-50" /> -->
         </button>
     </base-popper>
 </template>
 
 <script>
+import { SEVERITY_LEVELS } from '~/constants';
 import Clickoutside from '~/utils/click-outside';
 import BasePopper from '~/components/BasePopper';
 import Icon from '~/components/Icon';
@@ -44,16 +44,16 @@ export default {
         value: {
             type: String,
             validator: value => {
-                return ['MINOR', 'MAJOR', 'CRITICAL'].indexOf(value) !== -1;
+                return Object.values(SEVERITY_LEVELS).indexOf(value) !== -1;
             }
         },
     },
     data() {
         return {
             options: [
-                { name: 'MINOR', bgColor: 'bg-light-blue-40', textColor: 'text-light-blue-darker' },
-                { name: 'MAJOR', bgColor: 'bg-golden-sun-lighter', textColor: 'text-granite-grey-darkest' },
-                { name: 'CRITICAL', bgColor: 'bg-lava-red-darker', textColor: 'text-white' },
+                { name: SEVERITY_LEVELS.MINOR, bgColor: 'bg-light-blue-40', textColor: 'text-light-blue-darker' },
+                { name: SEVERITY_LEVELS.MAJOR, bgColor: 'bg-golden-sun-lighter', textColor: 'text-granite-grey-darkest' },
+                { name: SEVERITY_LEVELS.CRITICAL, bgColor: 'bg-lava-red-darker', textColor: 'text-white' },
             ],
             popperOptions: {
                 placement: 'bottom-start',
@@ -71,9 +71,9 @@ export default {
     },
     computed: {
         computedButtonClass() {
-            if(this.value === 'MINOR') return 'border border-blue-300 bg-light-blue-40 text-light-blue-darker';
-            if(this.value === 'MAJOR') return 'border border-yellow-600 bg-golden-sun-lighter text-default';
-            if(this.value === 'CRITICAL') return 'border border-red-800 bg-lava-red-darker text-white';
+            if(this.value === SEVERITY_LEVELS.MINOR) return 'border border-blue-300 bg-light-blue-40 text-light-blue-darker';
+            if(this.value === SEVERITY_LEVELS.MAJOR) return 'border border-yellow-600 bg-golden-sun-lighter text-default';
+            if(this.value === SEVERITY_LEVELS.CRITICAL) return 'border border-red-800 bg-lava-red-darker text-white';
             return 'border border-action bg-white text-action';
         }
     },

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import crud from './crud.js';
 import { setNestedProp } from '~/utils/vue';
+import { SEVERITY_LEVELS } from '~/constants';
 
 export default {
     namespaced: true,
@@ -26,6 +27,30 @@ export default {
                 dispatch('cancelEditFindingReference', { finding_id: finding.id, reference_id: reference.id });
             }
         },
+        deleteFinding: ({dispatch, commit}, finding_id) => {
+            commit('DELETE_ITEM', finding_id);
+            dispatch('updateFindingFocusAreas')
+        },
+        updateFindingFocusArea({state, commit, dispatch}, {finding_id, focusArea}) {
+            commit('UPDATE_FINDING_FOCUS_AREA', {finding_id, focusArea});
+
+            // create findingFocusAreaDescription?
+            if(state.findingFocusAreaDescriptions[focusArea] === undefined) {
+                commit('CREATE_FINDING_FOCUS_AREA_DESCRIPTION', focusArea);
+            }
+
+            dispatch('updateFindingFocusAreas');
+        },
+        updateFindingFocusAreas({state, commit, getters}) {
+            const oldFindingFocusAreas = Object.keys(state.findingFocusAreaDescriptions);
+            const currentFindingFocusAreas = Object.keys(getters.findingsByFocusArea);
+            for(const item of oldFindingFocusAreas) {
+                if(!currentFindingFocusAreas.includes(item)) {
+                    commit('DELETE_FINDING_FOCUS_AREA_DESCRIPTION', item);
+                }
+            }
+
+        }
     },
     getters: {
         ...crud.getters,
@@ -40,10 +65,33 @@ export default {
                 title: '',
                 trendCategory: null,
             }
-        }
+        },
+        findingsByFocusArea: state => {
+            const focusAreas = {};
+            state.items.forEach(finding => {
+                const focusArea = finding.data.focusArea;
+                if(focusArea) {
+                    if(focusAreas[focusArea] === undefined) {
+                        focusAreas[focusArea] = [];
+                    }
+                    focusAreas[focusArea].push(finding);
+                }
+            });
+            return focusAreas;
+        },
+        numberOfMinorFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.MINOR).length;
+        },
+        numberOfMajorFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.MAJOR).length;
+        },
+        numberOfCriticalFindings: state => {
+            return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.CRITICAL).length;
+        },
     },
     state: {
         ...crud.state(),
+        findingFocusAreaDescriptions: {}
     },
     mutations: {
         ...crud.mutations,
@@ -80,6 +128,12 @@ export default {
                 false
             );
         },
+        CREATE_FINDING_FOCUS_AREA_DESCRIPTION(state, focusArea) {
+            state.findingFocusAreaDescriptions[focusArea] = '';
+        },
+        DELETE_FINDING_FOCUS_AREA_DESCRIPTION(state, focusArea) {
+            Vue.delete(state.findingFocusAreaDescriptions, focusArea);
+        },
         DELETE_FINDING_REFERENCE(state, {finding, reference}) {
             Vue.delete(
                 finding.data.references, 
@@ -112,20 +166,6 @@ export default {
                 selected: false,
             });
             setNestedProp(target, 'id', Date.now());
-
-            // Vue.set(
-            //     finding.data.references,
-            //     finding.data.references.findIndex(item => item.uiState.edit),
-            //     {
-            //         data: reference,
-            //         id: Date.now(),
-            //         uiState: {
-            //             edit: false,
-            //             listId: target.uiState.listId,
-            //             selected: false,
-            //         }
-            //     }
-            // );
         },
         UPDATE_FINDING_FOCUS_AREA(state, {finding_id, focusArea}) {
             const finding = state.items.find(item => item.id === finding_id);

@@ -98,7 +98,7 @@ export default {
     components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem, ViewContent, ViewContentFooterLink },
     data() {
         return {
-            audit_id: null,
+            audit_id: this.$route.params.audit,
             dragOptions: {
                 animation: 200,
                 group: "description",
@@ -128,8 +128,6 @@ export default {
     },
 
     created() {
-        this.audit_id = this.$route.params.id; 
-
         this.focusAreaOptions = focusAreasTable
             .map(focusArea => {
                 return {

@@ -210,6 +210,8 @@ export default {
 
         this.$on('handleOptionClick', this.handleOptionSelect);
         this.$on('setSelected', this.setSelected);
+
+        this.setSelected();
     },
     methods: {
         clearSelection(event) {
