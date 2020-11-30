@@ -107,6 +107,7 @@ export default {
             }
 
             console.log('ADD_FINDING_REFERENCE', finding);
+            // TODO
             // this push seems to happen on all findings..
             // actually no. Because even if you make a ref in a finding and then create a new finding, that reference 
             // will also be in the new finding
