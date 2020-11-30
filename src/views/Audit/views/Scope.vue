@@ -1,7 +1,15 @@
 <template>
     <view-content title="Scope" icon="scope" fitToViewHeight>
 
-        <text-editor ref="editor" expand-vertically :content="editorContent" @change="onEditorChange">
+        <text-editor 
+            ref="editor" 
+            emphasis
+            expand-vertically 
+            heading
+            history
+            :content="editorContent" 
+            @change="onEditorChange"
+            >
             <template #header>
                 <span class="mr-2 text-xs text-secondary">
                     {{ computedStatusMessage }}
