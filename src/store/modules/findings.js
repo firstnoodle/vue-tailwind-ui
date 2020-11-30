@@ -54,9 +54,15 @@ export default {
         ADD_FINDING_REFERENCE(state, {finding_id, reference}) {
             const finding = state.items.find(item => item.id === finding_id);
             if(!finding) {
-                console.error(`[ ADD_FINDING_REFERENCE ] no id passed..`);
+                console.error(`[ ADD_FINDING_REFERENCE ] no finding_id passed..`);
                 return;
             }
+
+            console.log('ADD_FINDING_REFERENCE', finding);
+            // this push seems to happen on all findings..
+            // actually no. Because even if you make a ref in a finding and then create a new finding, that reference 
+            // will also be in the new finding
+
             finding.data.references.push({
                 id: null,
                 data: reference,
@@ -85,19 +91,52 @@ export default {
             const target = finding.data.references.find(item => item.uiState.edit);
             // console.log('test', reference, finding, target);
             // console.log(finding.data.references.findIndex(item => item.uiState.edit));
-            Vue.set(
-                finding.data.references,
-                finding.data.references.findIndex(item => item.uiState.edit),
-                {
-                    data: reference,
-                    id: Date.now(),
-                    uiState: {
-                        edit: false,
-                        listId: target.uiState.listId,
-                        selected: false,
-                    }
-                }
-            );
+            // Vue.set(
+            //     finding.data.references,
+            //     finding.data.references.findIndex(item => item.uiState.edit),
+            //     {
+            //         data: reference,
+            //         id: Date.now(),
+            //         uiState: {
+            //             edit: false,
+            //             listId: target.uiState.listId,
+            //             selected: false,
+            //         }
+            //     }
+            // );
+            
+            setNestedProp(target, 'data', reference);
+            setNestedProp(target, 'uiState', {
+                edit: false,
+                listId: target.uiState.listId,
+                selected: false,
+            });
+            setNestedProp(target, 'id', Date.now());
+
+            // Vue.set(
+            //     finding.data.references,
+            //     finding.data.references.findIndex(item => item.uiState.edit),
+            //     {
+            //         data: reference,
+            //         id: Date.now(),
+            //         uiState: {
+            //             edit: false,
+            //             listId: target.uiState.listId,
+            //             selected: false,
+            //         }
+            //     }
+            // );
+        },
+        UPDATE_FINDING_FOCUS_AREA(state, {finding_id, focusArea}) {
+            const finding = state.items.find(item => item.id === finding_id);
+            if(!finding) {
+                console.error(`[ UPDATE_FINDING_REFERENCES ] no finding was found`);
+                return;
+            }
+            finding.data.focusArea = focusArea;
+        },
+        UPDATE_FINDING_FOCUS_AREA_DESCRIPTION(state, {focusArea, description}) {
+            state.findingFocusAreaDescriptions[focusArea] = description;
         },
         UPDATE_FINDING_REFERENCES(state, {finding_id, value}) {
             const finding = state.items.find(item => item.id === finding_id);
