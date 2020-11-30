@@ -16,7 +16,6 @@
                             </div>
                             <div class="hidden md:block">
                                 <div class="flex items-baseline space-x-2">
-                                    <nav-item :to="{ name: 'Dashboard' }" exact icon="dashboard">Dashboard</nav-item>
                                     <nav-item :to="{ name: 'Audits' }" icon="phase">Audits</nav-item>
                                     <nav-item :to="{ name: 'Auditors' }" icon="team">Auditors</nav-item>
                                     <nav-item :to="{ name: 'Findings' }" icon="index-finger-right">Findings</nav-item>

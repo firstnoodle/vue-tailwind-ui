@@ -11,7 +11,6 @@
             <div class="mt-1 font-light">AuditTool</div>
         </div>
         <nav class="bg-white w-full h-full px-6 pb-6 pt-8 overflow-y-auto">
-            <nav-item :to="{ name: 'Dashboard' }" icon="dashboard" exact>Dashboard</nav-item>
             <nav-item :to="{ name: 'Audits' }" icon="phase">Audits</nav-item>
             <nav-item :to="{ name: 'Auditors' }" icon="team">Auditors</nav-item>
             <nav-item :to="{ name: 'Findings' }" icon="index-finger-right">Findings</nav-item>

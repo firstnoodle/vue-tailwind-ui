@@ -1,4 +1,3 @@
-import Dashboard from '~/views/Dashboard/Index';
 import Audit from '~/views/Audit/Index';
 import Auditors from '~/views/Auditors/Index';
 import Audits from '~/views/Audits/Index';
@@ -17,15 +16,6 @@ import AuditSuggestions from '~/views/Audit/views/Suggestions';
 import AuditTeam from '~/views/Audit/views/Team';
 
 export default [
-    {
-        path: '/',
-        component: Dashboard,
-        name: 'Dashboard',
-        meta: {
-            title: 'Dashboard',
-            requiresAuth: true,
-        },
-    },
     {
         path: '/auditors',
         component: Auditors,
