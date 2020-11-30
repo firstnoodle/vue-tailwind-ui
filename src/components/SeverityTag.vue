@@ -7,6 +7,7 @@
         >
         <icon value="warning" class="mr-1" />
         {{ severity }}
+        <span v-if="count" class="ml-2 font-bold">{{ count }}</span>
     </span>
 </template>
 
@@ -18,6 +19,10 @@ export default {
     name: 'SeverityTag',
     components: { Icon },
     props: {
+        count: {
+            type: Number,
+            required: false
+        },
         severity: {
             type: String,
             validator: value => {
