@@ -454,12 +454,11 @@ export default {
 
         onFocusAreaChange(value) {
             this.selectedFocusArea = value;
-            this.$store.commit(
-                `audits/${this.audit_id}/findings/UPDATE_ITEM_ATTRIBUTE`,
+            this.$store.dispatch(
+                `audits/${this.audit_id}/findings/updateFindingFocusArea`,
                 {
-                    id: this.finding_id,
-                    path: 'data.focusArea',
-                    value: this.selectedFocusArea.label
+                    finding_id: this.finding_id,
+                    focusArea: this.selectedFocusArea.label
                 }
             );
         },
