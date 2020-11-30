@@ -13,7 +13,7 @@
                     deletable
                     draggable
                     :edit="item.uiState.edit"
-                    @delete="$store.commit(`audits/${audit_id}/findings/DELETE_ITEM`, item.id)"
+                    @delete="$store.dispatch(`audits/${audit_id}/findings/deleteFinding`, item.id)"
                     class="last:mb-4"
                     >
 
