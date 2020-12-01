@@ -1,0 +1,15 @@
+.css-calendar-cell.is-selected {
+    @apply bg-blue-600 text-white;
+}
+
+.css-calendar-cell.is-disabled {
+    @apply bg-gray-100 text-gray-600 rounded-none cursor-not-allowed;
+}
+
+.css-calendar-cell.is-inactive {
+    @apply text-gray-400;
+}
+
+.css-calendar-cell.is-current {
+    @apply font-bold text-blue-600;
+}

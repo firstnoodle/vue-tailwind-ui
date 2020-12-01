@@ -10,12 +10,12 @@
 
                 <!-- mobile overlay -->
                 <transition name="fade" v-if="$slots.sidebar">
-                    <div v-if="$store.getters['sidebarVisible']" class="flex md:hidden fixed top-0 left-0 w-screen min-h-screen bg-black bg-opacity-25"></div>
+                    <div v-if="$store.getters['sidebarVisible']" class="z-10 flex md:hidden fixed top-0 left-0 w-screen min-h-screen bg-black bg-opacity-25"></div>
                 </transition>
 
                 <transition name="slide" v-if="$slots.sidebar">
                     <!-- TODO: verify style -webkit-fill-available -->
-                    <aside v-if="computedSidebarVisible" class="fixed top-0 left-0 md:relative flex-0 w-56 bg-default border-r border-subtle overflow-y-auto" style="height: -webkit-fill-available">
+                    <aside v-if="computedSidebarVisible" class="z-10 fixed top-0 left-0 md:relative flex-0 w-56 bg-default border-r border-subtle overflow-y-auto" style="height: -webkit-fill-available">
                         <slot name="sidebar" />
                     </aside>
                 </transition>
