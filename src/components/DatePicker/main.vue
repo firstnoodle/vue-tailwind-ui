@@ -158,7 +158,7 @@ export default {
     },
     data() {
         return {
-            inputContent: '2020',
+            inputContent: null,
             inputFormat: DATE_TIME,
             inputValid: false,
             defaultOptions: {
