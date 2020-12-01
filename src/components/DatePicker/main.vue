@@ -119,11 +119,7 @@
                 @change="onInputChange"
             />
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
-                <svg class="inline" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.5 9.5H7.5V6.5L8.5 6.5V9.5Z"/>
-                    <path d="M7.5 11.5H8.5V10.5H7.5V11.5Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.49613 2.12854C7.34713 2.21546 7.22315 2.33945 7.13623 2.48845L1.00675 12.9961C0.728465 13.4732 0.889601 14.0855 1.36665 14.3638C1.51959 14.453 1.69347 14.5 1.87052 14.5H14.1295C14.6818 14.5 15.1295 14.0523 15.1295 13.5C15.1295 13.3229 15.0825 13.1491 14.9933 12.9961L8.86378 2.48845C8.60538 2.04547 8.05896 1.87489 7.60026 2.07559L7.49613 2.12854ZM1.87052 13.5L8.00001 2.993L14.1295 13.5H1.87052Z"/>
-                </svg>
+                <icon value="warning" />
             </span>
         </div>
     </base-popper>
@@ -135,13 +131,14 @@ import { WEEKDAYS } from "~/utils/time/calendar.js";
 import { dateIsValid } from "~/utils/time/dates.js";
 import { DATE_TIME } from "~/utils/input-formatting.js";
 import BasePopper from '~/components/BasePopper';
+import Icon from '~/components/Icon';
 import RenderlessCalendar from "~/components/RenderlessCalendar.js";
 import NavButton from "./NavButton";
 import FormattedInput from '~/components/FormattedInput';
 
 export default {
     name: 'Calendar',
-    components: { BasePopper, FormattedInput, NavButton, RenderlessCalendar },
+    components: { BasePopper, FormattedInput, Icon, NavButton, RenderlessCalendar },
     props: {
         value: {
             type: String,
