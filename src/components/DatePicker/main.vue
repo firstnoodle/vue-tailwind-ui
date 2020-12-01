@@ -131,7 +131,7 @@
 
 <script>
 import { loopRange } from "~/utils/array.js";
-import { disableWeekday, WEEKDAYS } from "~/utils/time/calendar.js";
+import { WEEKDAYS } from "~/utils/time/calendar.js";
 import { dateIsValid } from "~/utils/time/dates.js";
 import { DATE_TIME } from "~/utils/input-formatting.js";
 import BasePopper from '~/components/BasePopper';
@@ -166,7 +166,6 @@ export default {
             inputValid: false,
             defaultOptions: {
                 weekStart: 1,
-                disabledDate: disableWeekday("sunday")
             },
             popperOpen: false,
             weekdays: null,
