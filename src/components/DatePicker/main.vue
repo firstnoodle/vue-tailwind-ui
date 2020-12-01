@@ -5,7 +5,6 @@
         :appendToBody="true"
         :forceShow="visible"
         :options="popperOptions"
-        v-clickoutside="handleClose"
     >
         <div class="popper">
             <renderless-calendar 
@@ -13,6 +12,7 @@
                 class="block w-64 p-4 text-xs bg-default border border-gray-300 rounded shadow-md"
                 :value="value" 
                 :options="options"
+                v-clickoutside="handleClose"
                 >
                 <div
                     slot="MONTH"
@@ -105,8 +105,8 @@
 
         <div 
             slot="reference" 
-            class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-action"
-            :class="{ 'shadow-outline border-action' : visible }"
+            class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md focus-within:shadow-outline focus-within:border-action"
+            :class="{ 'shadow-outline border-action' : visible, 'shadow-inner-sm' : !visible }"
             @click="focus"
             >
             <formatted-input 
@@ -120,7 +120,7 @@
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
                 <tooltip placement="bottom">
                     <icon value="warning" />
-                    <span slot="message">Invalid date<br>Use <strong>2020-12-01</strong></span>
+                    <span slot="message">Invalid date.<br>Use this format<br><strong>2020-12-31</strong></span>
                 </tooltip>
             </span>
         </div>
