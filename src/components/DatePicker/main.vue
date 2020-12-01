@@ -118,7 +118,10 @@
                 @change="onInputChange"
             />
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
-                <icon value="warning" />
+                <tooltip placement="bottom">
+                    <icon value="warning" />
+                    <span slot="message">Invalid date<br>Use 2020-12-01</span>
+                </tooltip>
             </span>
         </div>
     </base-popper>
@@ -135,10 +138,11 @@ import Icon from '~/components/Icon';
 import RenderlessCalendar from "~/components/RenderlessCalendar.js";
 import NavButton from "./NavButton";
 import FormattedInput from '~/components/FormattedInput';
+import Tooltip from '~/components/Tooltip';
 
 export default {
     name: 'Calendar',
-    components: { BasePopper, FormattedInput, Icon, NavButton, RenderlessCalendar },
+    components: { BasePopper, FormattedInput, Icon, NavButton, RenderlessCalendar, Tooltip },
     directives: { Clickoutside },
     props: {
         value: {
