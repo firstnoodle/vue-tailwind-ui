@@ -6,7 +6,7 @@ export default Vue.component('tooltip', {
     props: {
         text: {
             type: String,
-            required: true
+            required: false
         },
         bgcolor: {
             type: String,
@@ -23,7 +23,11 @@ export default Vue.component('tooltip', {
     },
 
     render(createElement) {
-        const tooltipLabelElement = createElement('span', { attrs: { class: `text-${this.textcolor}` } }, this.text);
+        const tooltipLabelElement = createElement(
+            'span', 
+            { attrs: { class: `text-${this.textcolor}` } }, 
+            this.$slots.message || this.text
+        );
 
         const tooltipAttrs = { class: `popper px-2 py-1 rounded bg-${this.bgcolor} text-${this.bgcolor} text-xs shadow-md` };
         const tooltipElement = createElement('div', { attrs: tooltipAttrs }, [tooltipLabelElement]);
