@@ -1,5 +1,6 @@
 import crudModule from '~/store/modules/crud.js';
 import findings from '~/store/modules/findings.js';
+import team from '~/store/modules/team.js';
 
 export default {
     namespaced: true,
@@ -24,6 +25,6 @@ export default {
         focusAreas: crudModule, 
         requirements: crudModule, 
         suggestions: crudModule, 
-        team: crudModule 
+        team
     }
 }
