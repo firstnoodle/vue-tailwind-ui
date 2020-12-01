@@ -120,7 +120,7 @@
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
                 <tooltip placement="bottom">
                     <icon value="warning" />
-                    <span slot="message">Invalid date<br>Use 2020-12-01</span>
+                    <span slot="message">Invalid date<br>Use <strong>2020-12-01</strong></span>
                 </tooltip>
             </span>
         </div>
