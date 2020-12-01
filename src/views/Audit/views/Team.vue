@@ -234,7 +234,7 @@ export default {
                 {
                     initials: null,
                     name: null,
-                    role: null
+                    role: null,
                 }
             );
             this.showAddNewButton = false;
@@ -257,7 +257,14 @@ export default {
         saveItem() {                
             this.posting = true;
             setTimeout(() => {
-                this.$store.commit(`audits/${this.audit_id}/team/SAVE_ITEM`, { ...this.selectedUserOption.value, role: this.selectedRoleOption.value });
+                this.$store.commit(
+                    `audits/${this.audit_id}/team/SAVE_ITEM`, 
+                    { 
+                        ...this.selectedUserOption.value, 
+                        role: this.selectedRoleOption.value, 
+                        activities: [] 
+                    }
+                );
                 this.selectedUserOption = null;
                 this.selectedRoleOption = null;
                 this.userOptions = null;
