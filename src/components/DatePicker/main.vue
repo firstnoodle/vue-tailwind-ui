@@ -9,7 +9,7 @@
                 {
                     name: 'offset',
                     options: {
-                        offset: [0, 0],
+                        offset: [0, 2],
                     },
                 }
             ]
@@ -27,8 +27,8 @@
                     slot-scope="{ calendar, changeView, moveViewDate, viewData, viewMonth }"
                 >
                     <nav class="w-56 grid grid-cols-7">
-                        <nav-button icon="double-left" @click="moveViewDate(-1, 'YEAR')" />
-                        <nav-button icon="single-left" @click="moveViewDate(-1, 'MONTH')" />
+                        <nav-button icon="angle-double-left" @click="moveViewDate(-1, 'YEAR')" />
+                        <nav-button icon="angle-left" @click="moveViewDate(-1, 'MONTH')" />
                         <div class="col-span-3 flex justify-center">
                             <button class="inline-flex items-center h-8 text-blue-600 mr-1" @mouseup="changeView('YEAR')">{{ viewMonth.slice(0,3) }}</button>
                             <button
@@ -38,8 +38,8 @@
                                 {{ calendar.dateCursor.getUTCFullYear() }}
                             </button>
                         </div>
-                        <nav-button icon="single-right" @click="moveViewDate(1, 'MONTH')" />
-                        <nav-button icon="double-right" @click="moveViewDate(1, 'YEAR')" />
+                        <nav-button icon="angle-right" @click="moveViewDate(1, 'MONTH')" />
+                        <nav-button icon="angle-double-right" @click="moveViewDate(1, 'YEAR')" />
                     </nav>
                     <header class="w-56 grid grid-cols-7">
                         <div class="flex items-center justify-center w-8 h-8 text-gray-800 select-none" v-for="day in weekdays" :key="day">{{ day.slice(0, 3) }}</div>
@@ -111,7 +111,7 @@
             </renderless-calendar>
         </div>
 
-        <div slot="reference" class="relative inline-flex overflow-hidden pl-2 pr-8 py-1 border border-gray-400 rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-blue-600">
+        <div slot="reference" class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-blue-600">
             <formatted-input 
                 :value="inputContent" 
                 :format="options.format"
