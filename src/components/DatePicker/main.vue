@@ -1,19 +1,11 @@
 <template>
     <base-popper
         ref="popper"
-        trigger="clickToOpen"
+        trigger="soft"
         :appendToBody="true"
-        :options="{
-            placement: 'bottom-start',
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 2],
-                    },
-                }
-            ]
-        }"
+        :forceShow="visible"
+        :options="popperOptions"
+        v-clickoutside="handleClose"
     >
         <div class="popper">
             <renderless-calendar 
@@ -111,11 +103,18 @@
             </renderless-calendar>
         </div>
 
-        <div slot="reference" class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-blue-600">
+        <div 
+            slot="reference" 
+            class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-action"
+            :class="{ 'shadow-outline border-action' : visible }"
+            @click="focus"
+            >
             <formatted-input 
+                ref="input"
                 :value="inputContent" 
                 :format="options.format"
-                placeholder="2020-01-01" 
+                placeholder="eg. 2020-01-01" 
+                @focus="visible = true"
                 @change="onInputChange"
             />
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
@@ -126,6 +125,7 @@
 </template>
 
 <script>
+import Clickoutside from '~/utils/click-outside';
 import { loopRange } from "~/utils/array.js";
 import { WEEKDAYS } from "~/utils/time/calendar.js";
 import { dateIsValid } from "~/utils/time/dates.js";
@@ -139,10 +139,11 @@ import FormattedInput from '~/components/FormattedInput';
 export default {
     name: 'Calendar',
     components: { BasePopper, FormattedInput, Icon, NavButton, RenderlessCalendar },
+    directives: { Clickoutside },
     props: {
         value: {
-            type: String,
-            required: true,
+            type: [ String, Date ],
+            required: false,
         },
         options: {
             type: Object,
@@ -165,6 +166,18 @@ export default {
                 weekStart: 1,
             },
             popperOpen: false,
+            popperOptions: {
+                placement: 'bottom-start',
+                modifiers: [
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [0, 2],
+                        },
+                    }
+                ]
+            },
+            visible: false,
             weekdays: null,
         };
     },
@@ -179,13 +192,18 @@ export default {
         })
     },
     methods: {
+        handleClose() {
+            this.visible = false;
+        },
+
         onDateClick(date) {
             if(date.disabled) return;
             const formattedDate = this.formatDate(date.date);
             this.inputValid = (dateIsValid(formattedDate) && formattedDate.length === this.options.format.format.length) || formattedDate.length === 0;
             this.inputContent = formattedDate;
             this.$emit('change', formattedDate);
-            this.$refs.popper.doClose();
+            this.visible = false;
+            // this.$refs.popper.doClose();
         },
 
         onInputChange(value) {
@@ -195,6 +213,11 @@ export default {
 
             if(!currentValidity && this.inputValid) this.$emit('change', this.inputContent);
             else if(currentValidity && !this.inputValid) this.$emit('change', null);
+        },
+
+        focus() {
+            this.$refs.input.focus();
+            this.visible = true;
         },
 
         formatDate(date) {
