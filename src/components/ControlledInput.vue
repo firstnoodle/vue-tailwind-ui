@@ -2,7 +2,7 @@
     <input
         v-model="inputValue"
         ref="input"
-        class="py-2 text-sm text-primary leading-tight bg-default focus:outline-none"
+        class="py-2 text-sm text-primary leading-tight bg-transparent focus:outline-none"
         :placeholder="placeholder"
         @focus="$emit('focus')"
         @input="onInput"
