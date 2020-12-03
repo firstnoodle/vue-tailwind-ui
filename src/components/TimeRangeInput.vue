@@ -1,35 +1,61 @@
 <template>
     <div
-        class="relative inline-flex items-center overflow-hidden pl-3 pr-8 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-action"
+        class="relative inline-flex items-center overflow-hidden pl-1 pr-8 py-1 border border-default rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-action"
+        :class="{ 'border-red-500 focus:border-red-600' : errorMessage }"
         >
+        <!-- Mobile -->
         <input 
             :value="range.from"
-            ref="fromInput"
+            ref="fromInputMobile"
             type="time" 
-            placeholder="00:00" 
-            class="py-2 text-sm text-primary leading-tight bg-transparent focus:outline-none" 
+            class="inline-block md:hidden p-1 text-sm text-primary leading-tight bg-transparent focus:outline-none" 
             @input="onInput"
+            />
+
+        <!-- Desktop -->
+        <input 
+            :value="range.from"
+            ref="fromInputDesktop"
+            type="text" 
+            placeholder="07:45" 
+            style="width: 6ch"
+            class="hidden md:inline-block p-1 text-sm text-primary leading-tight bg-transparent rounded-md hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-inner" 
+            :class="{ 'text-primary' : fromFormatValid, 'text-red-700' : !fromFormatValid }"
+            @input="onKeyboardInput"
             />
 
         <icon 
             value="arrow-right" 
-            class="px-2 text-secondary" 
+            class="mr-1 text-secondary" 
             />
 
+        <!-- Mobile -->
         <input 
             :value="range.to"
-            ref="toInput"
+            ref="toInputMobile"
             type="time" 
-            placeholder="00:00" 
-            class="py-2 text-sm text-primary leading-tight bg-transparent focus:outline-none" 
+            class="inline-block md:hidden p-1 text-sm text-primary leading-tight bg-transparent focus:outline-none" 
             @input="onInput"
             />
 
-        <span v-show="errorMessage" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
-            <tooltip placement="bottom">
+        <!-- Desktop -->
+        <input 
+            :value="range.to"
+            ref="toInputDesktop"
+            type="text" 
+            placeholder="13:05" 
+            style="width: 6ch"
+            class="hidden md:inline-block p-1 text-sm text-primary leading-tight bg-transparent rounded-md hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-inner" 
+            :class="{ 'text-primary' : toFormatValid, 'text-red-700' : !toFormatValid }"
+            @input="onKeyboardInput"
+            />
+
+        <span class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
+            <tooltip v-if="errorMessage" placement="bottom">
                 <icon value="warning" />
                 <div slot="message">{{ errorMessage }}</div>
             </tooltip>
+            <icon v-if="valid" value="check" class="text-green-600" />
         </span>
     </div>
 </template>
@@ -46,11 +72,13 @@ export default {
             validator: value => {
                 return value.from !== undefined && value.to !== undefined;
             }
-        }
+        },
     },
     data() {
         return {
             errorMessage: null,
+            fromFormatValid: false,
+            toFormatValid: false,
             valid: false,
         }
     },
@@ -63,25 +91,64 @@ export default {
         }
     },
     methods: {
+        getInputs() {
+            let from, to;
+            if(this.$store.state.isMobile) {
+                from = this.$refs.fromInputMobile.value;
+                to = this.$refs.toInputMobile.value;
+            } else {
+                from = this.$refs.fromInputDesktop.value;
+                to = this.$refs.toInputDesktop.value;
+            }
+            return { from, to };
+        },
+
+        onKeyboardInput() {
+            const oldFrom = this.fromFormatValid;
+
+            this.validateFormats(this.getInputs());
+
+            if(!oldFrom && this.fromFormatValid) {
+                this.$refs.toInputDesktop.focus();
+            }
+
+            this.onInput();
+        },
+
         onInput() {
             this.validate();
+            const payload = this.getInputs();
+
+            if(this.range.from) {
+                if(this.range.from.length === 1 && payload.from.length === 2) {
+                    payload.from += ':';
+                } else if(this.range.from.slice(-1) === ':' && payload.from.slice(-1) === ':') {
+                    payload.from = this.range.from;
+                }
+            }
+            if(this.range.to) {
+                if(this.range.to.length === 1 && payload.to.length === 2) {
+                    payload.to += ':';
+                }
+            }
+
             this.$emit(
                 'change', 
-                { 
-                    from: this.$refs.fromInput.value, 
-                    to: this.$refs.toInput.value,
+                {
+                    ...payload,
                     valid: this.valid
                 }
             );
         },
+
         timeToDecimal(timeString) {
             if(!timeString.includes(':')) return null;
+            if(!this.validateFormat(timeString)) return;
             const [hours, minutes] = timeString.split(':');
             return parseInt(hours) + (parseInt(minutes)/60);
         },
-        updateErrorMessage() {
-            console.log('updateErrorMessage');
 
+        updateErrorMessage() {
             if(!this.range.from || !this.range.to) return null;
 
             const fromInDecimals = this.timeToDecimal(this.range.from);
@@ -96,9 +163,12 @@ export default {
             }
             return null;
         },
+
         validate() {
-            const fromInDecimals = this.timeToDecimal(this.$refs.fromInput.value);
-            const toInDecimals = this.timeToDecimal(this.$refs.toInput.value);
+            const { from, to } = this.getInputs();
+
+            const fromInDecimals = this.timeToDecimal(from);
+            const toInDecimals = this.timeToDecimal(to);
 
             if(!fromInDecimals || !toInDecimals) {
                 this.valid = false;
@@ -109,6 +179,15 @@ export default {
             }
 
             this.valid = true;
+        },
+
+        validateFormat(timeString) {
+            return /^([012]|[01][0-9]|2[0-3]):[0-5][0-9]$/.test(timeString);
+        },
+
+        validateFormats({from, to}) {
+            this.fromFormatValid = this.validateFormat(from);
+            this.toFormatValid = this.validateFormat(to);
         }
     }
 }
