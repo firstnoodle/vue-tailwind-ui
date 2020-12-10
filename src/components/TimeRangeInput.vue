@@ -96,7 +96,7 @@ export default {
     methods: {
         focus() {
             // TODO: store should not be accessed from this component
-            if(this.$store.state.isMobile) { 
+            if(!this.$store.state.isMobile) { 
                 this.$refs.fromInputDesktop.focus();
             }
         },
