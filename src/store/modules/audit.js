@@ -5,6 +5,9 @@ import team from '~/store/modules/team.js';
 export default {
     namespaced: true,
     mutations: {
+        SET_ID(state, id) {
+            state.id = id;
+        },
         UPDATE_CONCLUSION(state, value) {
             state.conclusion = value;
         },
