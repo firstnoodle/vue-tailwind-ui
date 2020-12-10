@@ -1,5 +1,5 @@
 <template>
-    <view-content title="Suggestions" icon="message">
+    <view-content title="Suggestions" icon="index-finger-up">
 
         <draggable 
             v-model="suggestions" 

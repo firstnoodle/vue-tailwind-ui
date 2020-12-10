@@ -19,7 +19,7 @@
             <span class="ml-4 text-sm">Audit team</span>
         </router-link>
         <router-link :to="{ name: 'Audit requirements' }" tag="a" class="link">
-            <icon value="index-finger-up" />
+            <icon value="itenary" />
             <span class="ml-4 text-sm">Requirements</span>
         </router-link>
         <router-link :to="{ name: 'Audit scope' }" tag="a" class="link">
@@ -48,7 +48,7 @@
             <span class="ml-4 text-sm">Findings</span>
         </router-link>
         <router-link :to="{ name: 'Audit suggestions' }" tag="a" class="link">
-            <icon value="message" />
+            <icon value="index-finger-up" />
             <span class="ml-4 text-sm">Suggestions</span>
         </router-link>
         <router-link :to="{ name: 'Audit conclusion' }" tag="a" class="link">
