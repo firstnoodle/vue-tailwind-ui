@@ -184,8 +184,8 @@ export default {
             finding.data.references = value;
         }
     },
-    state: {
+    state: () => ({
         ...crud.state(),
         findingFocusAreaDescriptions: {}
-    },
+    }),
 }

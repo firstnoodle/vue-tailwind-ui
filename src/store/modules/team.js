@@ -160,10 +160,13 @@ export default {
             });
         },
         leadAuditors: state => {
-            return state.items
+            const leadAuditors = state.items
                 .filter(user => user.data.role === ROLES.LEAD_AUDITOR)
                 .map(leadAuditor => leadAuditor.data.initials)
-                .join(', ');
+            if(leadAuditors.length > 0) {
+                return leadAuditors.join(', ');
+            }
+            return null;
         }
     },
     mutations: {

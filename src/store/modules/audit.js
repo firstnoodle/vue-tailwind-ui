@@ -15,11 +15,12 @@ export default {
             state.scope = value;
         }
     },
-    state: {
+    state: () => ({
+        id: null,
         conclusion: '',
         rating: null,
         scope: '<p>The audit covers the Quality Management System and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
-    },
+    }),
     modules: { 
         findings,
         focusAreas: crudModule, 
