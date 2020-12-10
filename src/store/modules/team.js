@@ -84,6 +84,7 @@ export default {
                 commit('DELETE_EMPTY_DATE', target);
                 return;
             }
+            const activitiesToBeDeleted = [];
             state.items.forEach(user => {
                 user.data.activities.forEach(activity => {
                     if(activity.data.date === date.data.date) {
@@ -167,6 +168,18 @@ export default {
                 return leadAuditors.join(', ');
             }
             return null;
+        },
+        showDateUserAddActivityButton: () => (date, user) => {
+            // check if user has activities on the given date that are being edited
+            console.log(user.data.initials, date.data.date);
+            let result = true;
+            user.data.activities.forEach(activity => {
+                if(activity.data.date === date.data.date && activity.uiState.edit === true) {
+                    result = false;
+                }
+            })
+            console.log('return false');
+            return result;
         }
     },
     mutations: {
