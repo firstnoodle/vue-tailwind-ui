@@ -235,6 +235,7 @@ export default {
                     initials: null,
                     name: null,
                     role: null,
+                    activities: []
                 }
             );
             this.showAddNewButton = false;
