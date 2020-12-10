@@ -126,6 +126,7 @@ export default {
             return user.data.activities
                 .filter(activity => activity.data.date === date.data.date)
                 .sort((a,b) => {
+                    if(!a.id) return 1;
                     if (timeToDecimal(a.data.start_time) < timeToDecimal(b.data.start_time)) return -1;
                     if (timeToDecimal(a.data.start_time) > timeToDecimal(b.data.start_time)) return 1;
                     return 0;
@@ -152,6 +153,7 @@ export default {
                 })
             })
             return uniqueDates.sort((a,b) => {
+                if(!b.id) return -1;
                 if (dateIsBefore(a.data.date, b.data.date)) return -1;
                 if (dateIsAfter(a.data.date, b.data.date)) return 1;
                 return 0;
