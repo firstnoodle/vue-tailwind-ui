@@ -11,6 +11,18 @@ export const unitIsValid = unit => {
     return Object.keys(TIME_IN_MILLISECONDS).indexOf(unit) !== -1;
 }
 
+export const validateFormat = timeString => {
+    return /^([012]|[01][0-9]|2[0-3]):[0-5][0-9]$/.test(timeString);
+};
+
+export const timeToDecimal = timeString => {
+    if(!timeString) return null;
+    if(!timeString.includes(':')) return null;
+    if(!validateFormat(timeString)) return;
+    const [hours, minutes] = timeString.split(':');
+    return parseInt(hours) + (parseInt(minutes)/60);
+};
+
 class TIME {
 
     UNITS = {
