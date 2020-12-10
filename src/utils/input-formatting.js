@@ -92,4 +92,7 @@ export const processInputValue = (currentValue, type, {key, keyCode}) => {
  * @param {String} value
  * @param {Object} type
  */
-export const inputValid = (value, type) => type.regex.test(value);
+export const inputValid = (value, type) => {
+    if(type.regex === undefined) return false;
+    return type.regex.test(value)
+};
