@@ -1,7 +1,7 @@
 <template>
     <div 
         v-if="!edit" 
-        class="flex justify-between items-stretch py-1 bg-default text-sm text-primary"
+        class="flex justify-between items-stretch w-full py-1 bg-default text-sm text-primary"
         :class="{ 'border-b border-subtle' : !singleton }"
         >
         
@@ -35,9 +35,10 @@
                     <icon-button value="trash" />
                 </template>
             </pop-over>
+            <slot name="customButton" />
         </div>
     </div>
-    <div v-else class="relative first:py-0 first:pb-2 py-4 bg-white border-b border-subtle last:border-none text-sm text-primary">
+    <div v-else class="relative w-full first:py-0 first:pb-2 py-4 bg-white border-b border-subtle last:border-none text-sm text-primary">
         <slot name="edit"/>
     </div>
 </template>
