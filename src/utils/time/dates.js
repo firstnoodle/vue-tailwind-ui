@@ -45,6 +45,9 @@ export const dateDelta = (date1, date2, unit) => {
 export const dateIsAfter = (subjectDate, targetDate) => {
     if(subjectDate === null || subjectDate === undefined || targetDate === null || targetDate === undefined) return null;
 
+    subjectDate = parseDate(subjectDate);
+    targetDate = parseDate(targetDate);
+
     return subjectDate.getTime() > targetDate.getTime();
 };
 
@@ -57,6 +60,9 @@ export const dateIsAfter = (subjectDate, targetDate) => {
 export const dateIsBefore = (subjectDate, targetDate) => {
     if(subjectDate === null || subjectDate === undefined || targetDate === null || targetDate === undefined) return null;
 
+    subjectDate = parseDate(subjectDate);
+    targetDate = parseDate(targetDate);
+    
     return subjectDate.getTime() < targetDate.getTime();
 };
 
