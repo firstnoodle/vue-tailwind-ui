@@ -88,10 +88,13 @@ export default {
             state.items.forEach(user => {
                 user.data.activities.forEach(activity => {
                     if(activity.data.date === date.data.date) {
-                        commit('DELETE_USER_ACTIVITY', { user, activity });
+                        activitiesToBeDeleted.push({ user, activity });
                     }
                 })
             });
+            activitiesToBeDeleted.forEach(userActivity => {
+                commit('DELETE_USER_ACTIVITY', userActivity);
+            })
         },
 
         saveUserActivity({commit, state}, { user, activity}) {
