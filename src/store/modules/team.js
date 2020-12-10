@@ -253,41 +253,8 @@ export default {
             setNestedProp(date, attribute, value);
         }
     },
-    state: {
-        //  state.items = [
-        //       {
-        //           id: 1,
-        //           data: {
-        //               name: '',
-        //               initials: '',
-        //               role: '',
-        //               activities: [
-        //                   {
-        //                      id: 1,
-        //                      data: {
-        //                          description: '',
-        //                          date: '2020-12-03',
-        //                          start_time: '10:00',
-        //                          end_time: '11:00',
-        //                      },
-        //                      uiState: {
-        //                          edit: false,
-        //                          listId: 123456787,
-        //                          selected: false,
-        //                      }
-        //                   }
-        //               ]
-        //           },
-        //          uiState: {
-        //              edit: false,
-        //              listId: 123456778,
-        //              selected: false,
-        //          }
-        //       }
-        //  ]
-         
+    state: () => ({
         ...crud.state(),
-        // emptyDates contains dates that doesn't yet have any activities
-        emptyDates: [], 
-    }
+        emptyDates: [], // emptyDates contains dates that doesn't yet have any activities
+    })
 };
