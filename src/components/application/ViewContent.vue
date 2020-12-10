@@ -1,11 +1,11 @@
 <template>
     <section class="flex flex-col h-full">
         <header 
-            class="flex items-center py-2 text-brand border-b border-subtle" 
+            class="flex items-center py-2 text-brand border-b border-brand" 
             :class="{ 'flex-0 min-h-0' : fitToViewHeight }"
             >
             <icon :value="icon" />
-            <span class="ml-2 text-sm">
+            <span class="ml-2 text-sm font-bold">
                 {{ title }}
             </span>
         </header>
