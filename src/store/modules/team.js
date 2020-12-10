@@ -52,7 +52,6 @@ export default {
         },
 
         cancelEditDate({commit}, date) {
-            console.log('cancelEditDate', date);
             if(!date.id) {
                 commit('DELETE_DATE', date);
             } else if(date.uiState.edit) {
@@ -99,7 +98,6 @@ export default {
                 return date.data.date === activity.data.date;
             });
             if(dateToBeDeleted) {
-                console.log('dateToBeDeleted', dateToBeDeleted);
                 commit('DELETE_EMPTY_DATE', activity.data.date);
             }
 
@@ -245,11 +243,9 @@ export default {
          * Used by 'changeDate' action to set multiple activities grouped under a single date
          */
         UPDATE_ACTIVITY_DATE(state, {activity, date}) {
-            console.log(activity, date)
             setNestedProp(activity, 'data.date', date);
         },
         UPDATE_DATE_ATTRIBUTE(state, {date, attribute, value}) {
-            console.log(date, attribute, value);
             setNestedProp(date, attribute, value);
         }
     },
