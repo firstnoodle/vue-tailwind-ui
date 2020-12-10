@@ -98,7 +98,7 @@ export default {
                 return date.data.date === activity.data.date;
             });
             if(dateToBeDeleted) {
-                commit('DELETE_EMPTY_DATE', activity.data.date);
+                commit('DELETE_EMPTY_DATE', activity);
             }
 
             commit('SAVE_USER_ACTIVITY', {user, activity});
@@ -217,7 +217,7 @@ export default {
             }
         },
         DELETE_EMPTY_DATE(state, date) {
-            const index = state.emptyDates.findIndex(d => d.data.date === date);
+            const index = state.emptyDates.findIndex(d => d.data.date === date.data.date);
             Vue.delete(state.emptyDates, index);
         },
         SAVE_DATE(state, {date, value}) {
