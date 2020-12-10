@@ -165,7 +165,7 @@ export default {
         return {
             inputContent: null,
             inputFormat: DATE_TIME,
-            inputValid: false,
+            inputValid: true,
             defaultOptions: {
                 weekStart: 1,
             },
@@ -186,6 +186,8 @@ export default {
         };
     },
     created() {
+        this.inputContent = this.value;
+        this.inputValid = this.value;
         this.weekdays = WEEKDAYS.map((day, index) => {
             return WEEKDAYS[
                 loopRange(
@@ -194,6 +196,11 @@ export default {
                 )
             ];
         })
+    },
+    watch: {
+        value() {
+            this.inputContent = this.value;
+        }
     },
     methods: {
         handleClose() {
