@@ -7,6 +7,13 @@ export const AUDIT_RATINGS = {
     OUTSTANDING: "Outstanding"
 };
 
+export const ROLES = {
+    LEAD_AUDITOR: 'Lead auditor',
+    AUDITOR: 'Auditor',
+    TECHNICAL_EXPERT: 'Technical expert',
+    OBSERVER: 'Observer'
+};
+
 export const SEVERITY_LEVELS = {
     MINOR: "Minor",
     MAJOR: "Major",
