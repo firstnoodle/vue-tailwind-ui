@@ -247,9 +247,12 @@ export default {
 
         onAddNewActivity(date, user) {
             this.showAddNewActivityButton = false;
+            this.activityTimeRange = this.getEmptyActivityTimeRange();
+            this.activityDescription = '';
+            this.$store.dispatch(`audits/${this.audit_id}/team/cancelEditUserActivities`);
             this.$store.dispatch(`audits/${this.audit_id}/team/addUserActivity`, {date, user})
             this.$nextTick(() => {
-                // this.$refs.timeRangeInput[0].focus();
+                this.$refs.timeRangeInput[0].focus();
             });
         },
 
