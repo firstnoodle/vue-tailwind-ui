@@ -70,9 +70,6 @@
                                 <icon value="user" class="mr-2 text-secondary" />
                                 {{ `${user.data.initials} (${user.data.name}) - ${user.data.role}` }}
                             </span>
-                            <div slot="customButton">
-                                <icon-button value="plus" @click="onAddNewActivity(date, user)" />
-                            </div>
                         </list-item>
 
 
@@ -135,8 +132,20 @@
                             </list-item>
                         </div>
 
+                        <div class="py-3 pl-4 md:pl-8" v-if="$store.getters[`audits/${audit_id}/team/showDateUserAddActivityButton`](date, user)">
+                            <base-button 
+                                icon="plus"
+                                plain 
+                                text
+                                type="primary" 
+                                @click.stop.prevent="onAddNewActivity(date, user)" 
+                                >
+                                Add activity
+                            </base-button>
+                        </div>
                     </div>
                 </div>
+
 
                 <!-- Add new date button -->
             </div>
@@ -166,7 +175,6 @@ import { DATE } from "~/utils/input-formatting.js";
 import BaseButton from '~/components/BaseButton';
 import DatePicker from '~/components/DatePicker/main';
 import Icon from '~/components/Icon';
-import IconButton from '~/components/IconButton';
 import ListItem from '~/components/ListItem';
 import TextEditor from '~/components/TextEditor';
 import TimeRangeInput from '~/components/TimeRangeInput';
@@ -176,7 +184,7 @@ import ViewContentFooterLink from '~/components/application/ViewContentFooterLin
 
 export default {
     name: 'Agenda',
-    components: { BaseButton, DatePicker, Icon, IconButton, ListItem, TextEditor, TimeRangeInput, ViewContent, ViewContentFooterLink },
+    components: { BaseButton, DatePicker, Icon, ListItem, TextEditor, TimeRangeInput, ViewContent, ViewContentFooterLink },
     data() {
         return {
             audit_id: this.$route.params.audit,
