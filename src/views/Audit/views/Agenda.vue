@@ -172,6 +172,7 @@
 
 <script>
 import { DATE } from "~/utils/input-formatting.js";
+import { stringifyDate } from "~/utils/time/dates.js";
 import BaseButton from '~/components/BaseButton';
 import DatePicker from '~/components/DatePicker/main';
 import Icon from '~/components/Icon';
@@ -193,6 +194,14 @@ export default {
             options: {
                 format: DATE,
                 weekStart: 1,
+                disabledDate: date => {
+                    for(const d of this.$store.getters[`audits/${this.audit_id}/team/getAllDatesChronologically`]) {
+                        if(d.data.date === stringifyDate(date)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
             },
             savingActivity: false,
             savingDate: false,
