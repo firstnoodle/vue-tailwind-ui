@@ -126,6 +126,9 @@ export default {
     },
     getters: {
         ...crud.getters,
+        /**
+         * Get activities for users on a given date
+         */
         dateUserActivities: () => (date, user) => {
             return user.data.activities
                 .filter(activity => activity.data.date === date.data.date)
@@ -136,6 +139,9 @@ export default {
                     return 0;
                 });
         },
+        /**
+         * Get an array of chronological dates - both of empty dates and dates that has activities
+         */
         getAllDatesChronologically: state => {
             // chronological list with combined dates from user activities and state.openDates
             // also use for disabling dates in DatePicker..
@@ -163,6 +169,10 @@ export default {
                 return 0;
             });
         },
+        /**
+         * Get a comma separated string of Lead Auditor initials
+         * Normally there is only one Lead Auditor, but this supports the possibility of multiple
+         */
         leadAuditors: state => {
             const leadAuditors = state.items
                 .filter(user => user.data.role === ROLES.LEAD_AUDITOR)
@@ -172,17 +182,17 @@ export default {
             }
             return null;
         },
+        /**
+         * Check if user has activities on the given date that are being edited
+         * This is to hide the addActivity button for a user on a given date
+         */
         showDateUserAddActivityButton: () => (date, user) => {
-            // check if user has activities on the given date that are being edited
-            console.log(user.data.initials, date.data.date);
-            let result = true;
-            user.data.activities.forEach(activity => {
+            for(const activity of user.data.activities) {
                 if(activity.data.date === date.data.date && activity.uiState.edit === true) {
-                    result = false;
+                    return false;
                 }
-            })
-            console.log('return false');
-            return result;
+            }
+            return true;
         }
     },
     mutations: {
