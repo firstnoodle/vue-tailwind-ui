@@ -124,7 +124,6 @@
                     {{ 'Add description' }}
                 </base-button>
                 <div v-else-if="!editDescription" class="w-full mt-4 mb-8">
-                    <!-- <div class="text-sm text-primary" v-html="computedFinding.data.description"></div> -->
                     <list-item @edit="onEditDescription" @click.native="onEditDescription" editable singleton>
                         <span class="css-rich-text " v-html="computedFinding.data.description"></span>
                     </list-item>

@@ -13,10 +13,11 @@
         </template>
 
         <div slot="main" class="w-full min-h-full">
-            <icon-button value="document" @click="modalVisible = true" />
-            <portal to="modal">
-                <modal v-if="modalVisible" @close="modalVisible = false" />
-            </portal>
+            <audit-list-item 
+                v-for="audit in $store.state.audits" 
+                :key="audit.id" 
+                :audit="audit" 
+                />
         </div>
     </view-layout>
 </template>
@@ -25,24 +26,20 @@
 import focusAreas from '~/../demo/data/focus_areas';
 import requirements from '~/../demo/data/requirements';
 import auditModule from '~/store/modules/audit.js';
+import AuditListItem from '~/components/application/AuditListItem';
 import AuditsViewHeader from '~/views/Audits/Header';
 import AuditsViewNav from '~/views/Audits/Nav';
 import IconButton from '~/components/IconButton';
-import Modal from '~/components/Modal';
 import ViewLayout from '~/components/application/ViewLayout';
 
 export default {
     name: 'Audits',
-    components: { AuditsViewHeader, AuditsViewNav, IconButton, Modal, ViewLayout },
-    data() {
-        return {
-            modalVisible: false
-        }
-    },
+    components: { AuditListItem, AuditsViewHeader, AuditsViewNav, IconButton, ViewLayout },
     methods: {
         createAudit() {
             const audit_id = Date.now();
             this.$store.registerModule(['audits', audit_id], auditModule);
+            this.$store.commit(`audits/${audit_id}/SET_ID`, audit_id);
 
             /**
              * Add default focusAreas
@@ -82,11 +79,6 @@ export default {
                 });
 
             this.$store.commit(`audits/${audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
-
-            /**
-             * TODO: Add default informationRequests
-             */
-
             this.$router.push({ name: 'Audit details',  params: { audit: audit_id }});
         }
     }

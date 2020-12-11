@@ -16,11 +16,11 @@
                     </div>
                     <div class="flex items-center mr-4 lg:mr-8">
                         <icon value="calendar" class="hidden lg:inline-block text-gray-600" />
-                        <span class="ml-2 text-sm font-light text-gray-800 truncate">05 Apr 2020</span>
+                        <span class="ml-2 text-sm font-light text-gray-800 truncate">{{ computedAgendaStartDate }}</span>
                     </div>
                     <div class="flex items-center mr-4 lg:mr-8">
                         <icon value="authority" class="hidden lg:inline-block text-gray-600" />
-                        <span class="ml-2 text-sm font-light text-gray-800 truncate">NSTQ</span>
+                        <span class="ml-2 text-sm font-light text-gray-800 truncate">{{ $store.getters[`audits/${audit_id}/team/leadAuditors`] }}</span>
                     </div>
                     <tooltip text="Biopharm New Haemophilia API &amp; Biopharm QA API" placement="bottom" >
                         <div class="flex items-center mr-4 lg:mr-8">
@@ -42,8 +42,22 @@ import BaseButton from '~/components/BaseButton';
 import Icon from '~/components/Icon';
 import Tooltip from '~/components/Tooltip';
 import ViewHeader from '~/components/application/ViewHeader';
+
 export default {
     name: 'Header',
-    components: { BaseButton, Icon, Tooltip, ViewHeader }
+    components: { BaseButton, Icon, Tooltip, ViewHeader },
+    data() {
+        return {
+            audit_id: this.$route.params.audit,
+        }
+    },
+    computed: {
+        computedAgendaStartDate() {
+            if(this.$store.getters[`audits/${this.audit_id}/team/getAllDatesChronologically`].length > 0) {
+                return this.$store.getters[`audits/${this.audit_id}/team/getAllDatesChronologically`][0].data.date;
+            }
+            return 'none';
+        }
+    }
 }
 </script>

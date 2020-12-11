@@ -1,0 +1,18 @@
+input[type="date"], input[type="time"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // min-height: 1.5rem;
+}
+
+// input[type="time"]::-webkit-contacts-auto-fill-button {
+//     visibility: hidden;
+//     display: none !important;
+//     pointer-events: none;
+//     position: absolute;
+//     right: 0;
+//   }
+
+// input[type="time"]::-webkit-calendar-picker-indicator {
+//     display: none;
+// }

@@ -4,6 +4,7 @@
 @import './scrollbar.scss';
 @import './text-editor.scss';
 @import './calendar.scss';
+@import './inputs.scss';
 
 @tailwind base;
 @tailwind components;
@@ -65,7 +66,8 @@
     --brand-color: var(--true-blue);
     --action-color: var(--light-blue-default);
 
-    --background-default-color: #FFF;;
+    --background-default-color: #FFF;
+    --background-tooltip: black;
 
     --text-primary-color: var(--granite-grey-darkest);
     --text-secondary-color: var(--granite-grey-darker);
@@ -80,6 +82,7 @@
     --action-color: var(--light-blue-default);
 
     --background-default-color: #222;
+    --background-tooltip: white;
 
     --text-primary-color: #EEE;
     --text-secondary-color: #BBB;

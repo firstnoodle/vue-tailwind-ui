@@ -28,7 +28,7 @@ import { sameWidth } from '~/utils/popper-modifiers';
  */
 
 
-export default Vue.component('select', {
+export default Vue.component('InputSelect', {
     components: { BaseButton, BasePopper, Icon, FnSelectOption },
     props: {
         value: {

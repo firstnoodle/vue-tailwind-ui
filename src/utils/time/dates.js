@@ -45,6 +45,9 @@ export const dateDelta = (date1, date2, unit) => {
 export const dateIsAfter = (subjectDate, targetDate) => {
     if(subjectDate === null || subjectDate === undefined || targetDate === null || targetDate === undefined) return null;
 
+    subjectDate = parseDate(subjectDate);
+    targetDate = parseDate(targetDate);
+
     return subjectDate.getTime() > targetDate.getTime();
 };
 
@@ -57,6 +60,9 @@ export const dateIsAfter = (subjectDate, targetDate) => {
 export const dateIsBefore = (subjectDate, targetDate) => {
     if(subjectDate === null || subjectDate === undefined || targetDate === null || targetDate === undefined) return null;
 
+    subjectDate = parseDate(subjectDate);
+    targetDate = parseDate(targetDate);
+    
     return subjectDate.getTime() < targetDate.getTime();
 };
 
@@ -171,4 +177,26 @@ export const parseDate = date => {
  */
 export const printDate = date => {
     console.log(date.toISOString().substr(0, 16).replace('T', ' '));
+};
+
+/**
+ * Stringify date
+ * @param {String|Date} date 
+ */
+export const stringifyDate = date => {
+    date = parseDate(date);
+    if (!dateIsValid(date)) return null;
+
+    return date.toISOString().substr(0, 10);
+};
+
+/**
+ * Stringify datetime
+ * @param {String|Date} date 
+ */
+export const stringifyDatetime = date => {
+    date = parseDate(date);
+    if (!dateIsValid(date)) return null;
+
+    return date.toISOString().substr(0, 16).replace('T', ' ');
 };

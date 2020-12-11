@@ -89,10 +89,6 @@ export default {
             return state.items.filter(item => item.data.severity === SEVERITY_LEVELS.CRITICAL).length;
         },
     },
-    state: {
-        ...crud.state(),
-        findingFocusAreaDescriptions: {}
-    },
     mutations: {
         ...crud.mutations,
         /**
@@ -187,5 +183,9 @@ export default {
             }
             finding.data.references = value;
         }
-    }
+    },
+    state: () => ({
+        ...crud.state(),
+        findingFocusAreaDescriptions: {}
+    }),
 }

@@ -5,6 +5,8 @@
  * Default 
  */
 
+ $arrow-offset: -4px;
+
  [data-popper-arrow],
  [data-popper-arrow]::before {
      position: absolute;
@@ -16,42 +18,42 @@
  [data-popper-arrow]::before {
      content: '';
      transform: rotate(45deg);
-     background: white;
+     background-color: var(--background-tooltip);
  }
  
  .popper[data-popper-placement^='top']>[data-popper-arrow] {
-     bottom: -5px;
+     bottom: $arrow-offset;
 
      &::before {
-        border-bottom: 1px solid rgba(203, 213, 224, 1);
-        border-right: 1px solid rgba(203, 213, 224, 1);
+        border-bottom: 1px solid var(--background-tooltip);
+        border-right: 1px solid var(--background-tooltip);
      }
  }
  
  .popper[data-popper-placement^='bottom']>[data-popper-arrow] {
-     top: -5px;
+     top: $arrow-offset;
 
      &::before {
-        border-top: 1px solid rgba(203, 213, 224, 1);
-        border-left: 1px solid rgba(203, 213, 224, 1);
+        border-top: 1px solid var(--background-tooltip);
+        border-left: 1px solid var(--background-tooltip);
      }
  }
  
  .popper[data-popper-placement^='left']>[data-popper-arrow] {
-     right: -5px;
+     right: $arrow-offset;
 
      &::before {
-        border-top: 1px solid rgba(203, 213, 224, 1);
-        border-right: 1px solid rgba(203, 213, 224, 1);
+        border-top: 1px solid var(--background-tooltip);
+        border-right: 1px solid var(--background-tooltip);
      }
  }
  
  .popper[data-popper-placement^='right']>[data-popper-arrow] {
-     left: -5px;
+     left: $arrow-offset;
 
      &::before {
-        border-bottom: 1px solid rgba(203, 213, 224, 1);
-        border-left: 1px solid rgba(203, 213, 224, 1);
+        border-bottom: 1px solid var(--background-tooltip);
+        border-left: 1px solid var(--background-tooltip);
      }
  }
 
@@ -73,22 +75,22 @@
     [data-popper-arrow]::before {
         content: '';
         transform: rotate(45deg);
-        background: currentColor;
+        background: var(--background-tooltip);
     }
     
     .popper[data-popper-placement^='top']>[data-popper-arrow] {
-        bottom: -4px;
+        bottom: $arrow-offset;
     }
     
     .popper[data-popper-placement^='bottom']>[data-popper-arrow] {
-        top: -4px;
+        top: $arrow-offset;
     }
     
     .popper[data-popper-placement^='left']>[data-popper-arrow] {
-        right: -4px;
+        right: $arrow-offset;
     }
     
     .popper[data-popper-placement^='right']>[data-popper-arrow] {
-        left: -4px;
+        left: $arrow-offset;
     }
  }

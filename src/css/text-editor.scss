@@ -5,8 +5,12 @@
     @apply p-4 h-full text-sm;
  }
 
- .minimal > .ProseMirror {
-     @apply p-2;
+ .css-text-editor--minimal {
+    // @apply rounded-md border border-default;
+
+    & > .ProseMirror {
+        @apply p-2 leading-tight;
+    }
  }
 
  .ProseMirror, .css-rich-text {

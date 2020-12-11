@@ -1,19 +1,20 @@
 <template>
     <div
         v-clickoutside="onClickOutside"
-        class="flex flex-col border rounded focus-within:shadow-outline focus-within:border-action"
+        class="flex flex-col border rounded-md focus-within:shadow-outline focus-within:border-action"
         :class="{ 
             'my-4' : !inline,
             'flex-1 min-h-0' : expandVertically, 
             'shadow-outline border-action' : softFocus, 
-            'border-subtle' : !softFocus 
+            'border-subtle' : !softFocus && !inline,
+            'border-default shadow-inner-sm' : inline
             }"
     >
-        <editor-content :class="{ 'minimal' : minimal }" class="flex-1 overflow-y-auto rounded-t" :editor="editor" />
+        <editor-content :class="{ 'css-text-editor--minimal' : minimal }" class="flex-1 overflow-y-auto rounded-t-md" :editor="editor" />
         <!-- MENU -->
         <editor-menu-bar
             v-if="history"
-            class="flex-0 min-h-0 p-1 rounded-b overflow-hidden"
+            class="flex-0 min-h-0 p-1 rounded-b-md overflow-hidden"
             :class="computedMenuClass"
             :editor="editor"
             v-slot="{ commands, isActive }"

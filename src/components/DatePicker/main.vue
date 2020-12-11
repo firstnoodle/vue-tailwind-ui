@@ -1,19 +1,10 @@
 <template>
     <base-popper
         ref="popper"
-        trigger="clickToOpen"
+        trigger="soft"
         :appendToBody="true"
-        :options="{
-            placement: 'bottom-start',
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 0],
-                    },
-                }
-            ]
-        }"
+        :forceShow="visible"
+        :options="popperOptions"
     >
         <div class="popper">
             <renderless-calendar 
@@ -21,14 +12,15 @@
                 class="block w-64 p-4 text-xs bg-default border border-gray-300 rounded shadow-md"
                 :value="value" 
                 :options="options"
+                v-clickoutside="handleClose"
                 >
                 <div
                     slot="MONTH"
                     slot-scope="{ calendar, changeView, moveViewDate, viewData, viewMonth }"
                 >
                     <nav class="w-56 grid grid-cols-7">
-                        <nav-button icon="double-left" @click="moveViewDate(-1, 'YEAR')" />
-                        <nav-button icon="single-left" @click="moveViewDate(-1, 'MONTH')" />
+                        <nav-button icon="angle-double-left" @click="moveViewDate(-1, 'YEAR')" />
+                        <nav-button icon="angle-left" @click="moveViewDate(-1, 'MONTH')" />
                         <div class="col-span-3 flex justify-center">
                             <button class="inline-flex items-center h-8 text-blue-600 mr-1" @mouseup="changeView('YEAR')">{{ viewMonth.slice(0,3) }}</button>
                             <button
@@ -38,8 +30,8 @@
                                 {{ calendar.dateCursor.getUTCFullYear() }}
                             </button>
                         </div>
-                        <nav-button icon="single-right" @click="moveViewDate(1, 'MONTH')" />
-                        <nav-button icon="double-right" @click="moveViewDate(1, 'YEAR')" />
+                        <nav-button icon="angle-right" @click="moveViewDate(1, 'MONTH')" />
+                        <nav-button icon="angle-double-right" @click="moveViewDate(1, 'YEAR')" />
                     </nav>
                     <header class="w-56 grid grid-cols-7">
                         <div class="flex items-center justify-center w-8 h-8 text-gray-800 select-none" v-for="day in weekdays" :key="day">{{ day.slice(0, 3) }}</div>
@@ -111,41 +103,51 @@
             </renderless-calendar>
         </div>
 
-        <div slot="reference" class="relative inline-flex overflow-hidden pl-2 pr-8 py-1 border border-gray-400 rounded-md shadow-inner-sm focus-within:shadow-outline focus-within:border-blue-600">
+        <div 
+            slot="reference" 
+            class="relative inline-flex overflow-hidden pl-3 pr-8 border border-default rounded-md focus-within:shadow-outline focus-within:border-action"
+            :class="{ 'shadow-outline border-action' : visible, 'shadow-inner-sm' : !visible }"
+            @click="focus"
+            >
             <formatted-input 
+                ref="input"
                 :value="inputContent" 
                 :format="options.format"
-                placeholder="2020-01-01" 
+                placeholder="eg. 2020-01-01" 
+                @focus="visible = true"
                 @change="onInputChange"
             />
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
-                <svg class="inline" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.5 9.5H7.5V6.5L8.5 6.5V9.5Z"/>
-                    <path d="M7.5 11.5H8.5V10.5H7.5V11.5Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.49613 2.12854C7.34713 2.21546 7.22315 2.33945 7.13623 2.48845L1.00675 12.9961C0.728465 13.4732 0.889601 14.0855 1.36665 14.3638C1.51959 14.453 1.69347 14.5 1.87052 14.5H14.1295C14.6818 14.5 15.1295 14.0523 15.1295 13.5C15.1295 13.3229 15.0825 13.1491 14.9933 12.9961L8.86378 2.48845C8.60538 2.04547 8.05896 1.87489 7.60026 2.07559L7.49613 2.12854ZM1.87052 13.5L8.00001 2.993L14.1295 13.5H1.87052Z"/>
-                </svg>
+                <tooltip placement="bottom">
+                    <icon value="warning" />
+                    <span slot="message">Invalid date.<br>Use this format<br><strong>2020-12-31</strong></span>
+                </tooltip>
             </span>
         </div>
     </base-popper>
 </template>
 
 <script>
+import Clickoutside from '~/utils/click-outside';
 import { loopRange } from "~/utils/array.js";
-import { disableWeekday, WEEKDAYS } from "~/utils/time/calendar.js";
+import { WEEKDAYS } from "~/utils/time/calendar.js";
 import { dateIsValid } from "~/utils/time/dates.js";
 import { DATE_TIME } from "~/utils/input-formatting.js";
 import BasePopper from '~/components/BasePopper';
+import Icon from '~/components/Icon';
 import RenderlessCalendar from "~/components/RenderlessCalendar.js";
 import NavButton from "./NavButton";
 import FormattedInput from '~/components/FormattedInput';
+import Tooltip from '~/components/Tooltip';
 
 export default {
     name: 'Calendar',
-    components: { BasePopper, FormattedInput, NavButton, RenderlessCalendar },
+    components: { BasePopper, FormattedInput, Icon, NavButton, RenderlessCalendar, Tooltip },
+    directives: { Clickoutside },
     props: {
         value: {
-            type: String,
-            required: true,
+            type: [ String, Date ],
+            required: false,
         },
         options: {
             type: Object,
@@ -161,18 +163,31 @@ export default {
     },
     data() {
         return {
-            inputContent: '2020',
+            inputContent: null,
             inputFormat: DATE_TIME,
-            inputValid: false,
+            inputValid: true,
             defaultOptions: {
                 weekStart: 1,
-                disabledDate: disableWeekday("sunday")
             },
             popperOpen: false,
+            popperOptions: {
+                placement: 'bottom-start',
+                modifiers: [
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [0, 2],
+                        },
+                    }
+                ]
+            },
+            visible: false,
             weekdays: null,
         };
     },
     created() {
+        this.inputContent = this.value;
+        this.inputValid = this.value;
         this.weekdays = WEEKDAYS.map((day, index) => {
             return WEEKDAYS[
                 loopRange(
@@ -182,14 +197,24 @@ export default {
             ];
         })
     },
+    watch: {
+        value() {
+            this.inputContent = this.value;
+        }
+    },
     methods: {
+        handleClose() {
+            this.visible = false;
+        },
+
         onDateClick(date) {
             if(date.disabled) return;
             const formattedDate = this.formatDate(date.date);
             this.inputValid = (dateIsValid(formattedDate) && formattedDate.length === this.options.format.format.length) || formattedDate.length === 0;
             this.inputContent = formattedDate;
             this.$emit('change', formattedDate);
-            this.$refs.popper.doClose();
+            this.visible = false;
+            // this.$refs.popper.doClose();
         },
 
         onInputChange(value) {
@@ -199,6 +224,11 @@ export default {
 
             if(!currentValidity && this.inputValid) this.$emit('change', this.inputContent);
             else if(currentValidity && !this.inputValid) this.$emit('change', null);
+        },
+
+        focus() {
+            this.$refs.input.focus();
+            this.visible = true;
         },
 
         formatDate(date) {

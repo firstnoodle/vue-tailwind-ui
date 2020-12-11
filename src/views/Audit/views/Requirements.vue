@@ -1,5 +1,5 @@
 <template>
-    <view-content title="Requirements" icon="index-finger-up">
+    <view-content title="Requirements" icon="itenary">
         <!-- Group select menu -->
         <div v-if="$store.getters[`audits/${audit_id}/requirements/savedItemsCount`] > 0" class="flex items-center pl-6 border-b border-subtle">
             <div class="flex items-center py-3 mr-2">
