@@ -6,7 +6,7 @@ import './css/main.scss';
 
 import BaseButton from '~/components/BaseButton.js';
 import BasePopper from '~/components/BasePopper.vue';
-import CheckBox from '~/components/CheckBox.vue';
+import Checkbox from '~/components/Checkbox.vue';
 import Icon from '~/components/Icon.js';
 import IconButton from '~/components/IconButton.vue';
 import ListItem from '~/components/ListItem.vue';
@@ -19,7 +19,7 @@ export default {
   install(Vue) {
     Vue.component("base-button", BaseButton);
     Vue.component("base-popper", BasePopper);
-    Vue.component("check-box", CheckBox);
+    Vue.component("check-box", Checkbox);
     Vue.component("icon", Icon);
     Vue.component("icon-button", IconButton);
     Vue.component("list-item", ListItem);
