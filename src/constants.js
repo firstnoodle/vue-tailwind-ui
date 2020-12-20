@@ -7,25 +7,33 @@ export const AUDIT_RATINGS = {
     OUTSTANDING: "Outstanding"
 };
 
+export const CRITERIAS = {
+    AFTER_OPENING_MEETING: 'The following items should be available AFTER the opening meeting',
+    AT_THE_OPENING_MEETING: 'The following items should be available AT the opening meeting',
+    BEGINNING_OF_THE_AUDIT: 'The following items should be available at the beginning of the audit of each department',
+    BEFORE_DATE: 'The following items should be delivered before DATE',
+    ON_DATE: 'The following items are requested for handout to the auditors on DATE',
+};
+
 export const INFORMATION_REQUEST_CRITERIAS = [
     {
-        criteria: 'The following items should be available AFTER the opening meeting',
+        description: CRITERIAS.AFTER_OPENING_MEETING,
         requiresDate: false
     },
     {
-        criteria: 'The following items should be available AT the opening meeting',
+        description: CRITERIAS.AT_THE_OPENING_MEETING,
         requiresDate: false
     },
     {
-        criteria: 'The following items should be available at the beginning of the audit of each department',
+        description: CRITERIAS.BEGINNING_OF_THE_AUDIT,
         requiresDate: false
     },
     {
-        criteria: 'The following items should be delivered before DATE',
+        description: CRITERIAS.BEFORE_DATE,
         requiresDate: true
     },
     {
-        criteria: 'The following items are requested for handout to the auditors on DATE',
+        description: CRITERIAS.ON_DATE,
         requiresDate: true
     }
 ];
