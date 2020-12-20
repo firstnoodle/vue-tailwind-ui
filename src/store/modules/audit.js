@@ -1,5 +1,6 @@
 import crudModule from '~/store/modules/crud.js';
 import findings from '~/store/modules/findings.js';
+import informationRequests from '~/store/modules/informationRequests.js';
 import team from '~/store/modules/team.js';
 
 export default {
@@ -27,6 +28,7 @@ export default {
     modules: { 
         findings,
         focusAreas: crudModule, 
+        informationRequests,
         requirements: crudModule, 
         suggestions: crudModule, 
         team
