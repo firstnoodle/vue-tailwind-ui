@@ -177,7 +177,7 @@
                         </template>
                     </list-item>
                 </div>
-                <div class="py-2 pl-4 md:pl-8" v-if="showAddNewInformationRequestButton">
+                <div class="py-2 pl-4 md:pl-8" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaPeriodAddInformationRequestButton`](criteria, period)">
                     <base-button 
                         icon="plus"
                         plain 
@@ -189,7 +189,7 @@
                     </base-button>
                 </div>
             </div>
-            <div class="py-2 pl-4 md:pl-8">
+            <div class="py-2 pl-4 md:pl-8" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaAddPeriodButton`](criteria)">
                 <base-button 
                     icon="plus"
                     plain 
