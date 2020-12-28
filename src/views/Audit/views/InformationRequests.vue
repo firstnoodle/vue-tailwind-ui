@@ -1,6 +1,5 @@
 <template>
     <view-content title="Information Requests" icon="information">
-
         <!-- Criterias -->
         <div 
             class="pb-4 mb-8 border-b border-subtle"
@@ -74,7 +73,7 @@
             <div
                 v-for="period in criteria.data.periods"
                 :key="period.uiState.listId"
-                class="pl-4 md:pl-8 py-4 "
+                class="pl-4 md:pl-8 py-2 "
                 >
                 <list-item 
                     deletable
@@ -123,8 +122,74 @@
                         </div>
                     </template>
                 </list-item>
+
+                <!-- Information Requests -->
+                <div class="py-2 pl-4 md:pl-8">
+                    <list-item
+                        v-for="informationRequest in period.data.informationRequests"
+                        :key="informationRequest.uiState.listId"
+                        deletable
+                        editable
+                        selectable
+                        :edit="informationRequest.uiState.edit"
+                        :selected="informationRequest.uiState.selected"
+                        @edit="onInformationRequestEdit(informationRequest)"
+                        @delete="onInformationRequestDelete(criteria, period, informationRequest)"
+                        >
+                        {{ informationRequest.data.description }}
+                        <template #edit>
+                            <fn-select 
+                                v-model="selectedInformationRequest" 
+                                filterable
+                                :focus-after-select="false"
+                                initial-text="Enter information request"
+                                :loading="informationRequestsSelectLoading"
+                                loading-text="Searching.."
+                                no-match-option
+                                no-match-option-text="Create information request"
+                                placeholder="Select information request"
+                                ref="informationRequestSelect"
+                                :remoteMethod="fetchInformationRequests"
+                                @createNew="onCreateNewInformationRequest"
+                                @select="onSelectInformationRequest"
+                                >
+                                    <fn-select-option 
+                                        v-for="informationRequest in informationRequestOptions" 
+                                        :key="informationRequest.id" 
+                                        :label="informationRequest.label" 
+                                        :value="informationRequest"
+                                        :disabled="getInformationRequestDisabledState(informationRequest)"
+                                    />
+                            </fn-select>
+                            <div class="flex items-center space-x-2">
+                                <base-button 
+                                    ref="saveInformationRequestButton"
+                                    icon="plus"
+                                    type="primary"
+                                    :disabled="computedSaveInformationRequestButtonDisabled"
+                                    :loading="savingInformationRequest" 
+                                    @click.stop.prevent="onSaveInformationRequest(criteria, period)" 
+                                >
+                                    {{ informationRequest.id ? 'Update information request' : 'Add information request' }}
+                                </base-button>
+                                <base-button @click="onCancelEditInformationRequest(criteria, period, informationRequest)" plain type="primary">Cancel</base-button>
+                            </div>
+                        </template>
+                    </list-item>
+                </div>
+                <div class="py-2 pl-4 md:pl-8" v-if="showAddNewInformationRequestButton">
+                    <base-button 
+                        icon="plus"
+                        plain 
+                        ref="addNewInformationRequestButton"
+                        type="primary" 
+                        @click.stop.prevent="onAddNewInformationRequest(criteria, period)"
+                        >
+                        Add information request
+                    </base-button>
+                </div>
             </div>
-            <div class="py-3 pl-4 md:pl-8">
+            <div class="py-2 pl-4 md:pl-8">
                 <base-button 
                     icon="plus"
                     plain 
@@ -158,6 +223,7 @@
 <script>
 import { DATE } from "~/utils/input-formatting.js";
 import { INFORMATION_REQUEST_CRITERIAS } from '~/constants';
+import informationRequestsTable from '~/../demo/data/information_requests';
 import BaseButton from '~/components/BaseButton';
 import DatePicker from '~/components/DatePicker/main';
 import FnSelect from '~/components/Select.js';
@@ -177,14 +243,19 @@ export default {
                 format: DATE,
                 weekStart: 1,
             },
+            informationRequestOptions: null,
+            informationRequestsSelectLoading: false,
             savingCriteria: false,
+            savingInformationRequest: false,
             savingPeriod: false,
             selectedCriteria: null,
             selectedCriteriaDate: null,
-            selectedPeriodStartDate: null,
-            selectedPeriodEndDate: null,
             selectedCriteriaOption: null,
+            selectedInformationRequest: null,
+            selectedPeriodEndDate: null,
+            selectedPeriodStartDate: null,
             showAddNewCriteriaButton: true,
+            showAddNewInformationRequestButton: true,
             showAddNewPeriodButton: true
         }
     },
@@ -211,6 +282,13 @@ export default {
             }
             return true;
         },
+        computedSaveInformationRequestButtonDisabled() {
+            // TODO: check that dates are chronological
+            if(this.selectedInformationRequest) {
+                return false;
+            }
+            return true;
+        },
     },
     created() {
         this.criteriaOptions = INFORMATION_REQUEST_CRITERIAS.map(criteria => {
@@ -221,6 +299,35 @@ export default {
         })
     },
     methods: {
+        fakeApiCall(query) {
+            this.informationRequestOptions = informationRequestsTable
+                .filter(informationRequest => {
+                    const targetName = informationRequest.description.toLowerCase();
+                    const queryString = query.toLowerCase();
+                    return targetName.includes(queryString);
+                })
+                .map(informationRequest => {
+                    return { 
+                        label: informationRequest.description,
+                        value: informationRequest 
+                    }
+                });
+
+            this.informationRequestsSelectLoading = false;
+        },
+        fetchInformationRequests(value, charsAdded) {
+            if(this.informationRequestOptions !== null) { // did we make an API call ?
+                if(this.informationRequestOptions.length === 0 && charsAdded > 0) { // do we have any results ?
+                    return;
+                }
+            }
+
+            this.informationRequestsSelectLoading = true;
+            setTimeout(this.fakeApiCall.bind(null, value), 500);
+        },
+        getInformationRequestDisabledState(/* informationRequest */) {
+            return false;
+        },
         onAddNewCriteria() {
             this.$store.commit(
                 `audits/${this.audit_id}/informationRequests/ADD_CRITERIA`
@@ -235,6 +342,15 @@ export default {
                 criteria
             );
             this.showAddNewPeriodButton = false;
+            // this.$nextTick(() => this.$refs.periodStartDatePciker[0].focus());
+        },
+
+        onAddNewInformationRequest(criteria, period) {
+            this.$store.commit(
+                `audits/${this.audit_id}/informationRequests/ADD_INFORMATION_REQUEST`,
+                { criteria,period }
+            );
+            this.showAddNewInformationRequestButton = false;
             // this.$nextTick(() => this.$refs.periodStartDatePciker[0].focus());
         },
 
@@ -258,6 +374,26 @@ export default {
 
             // TODO: this prevents an unwanted ui glitch - $nextTick doesn't do the job...
             setTimeout(() => this.showAddNewPeriodButton = true, 20);
+        },
+
+        onCancelEditInformationRequest(criteria, period, informationRequest) {
+            if(!criteria || !period || !informationRequest) return;
+
+            this.selectedInformationRequest = null;
+            this.$store.dispatch(`audits/${this.audit_id}/informationRequests/cancelEditInformationRequest`, {criteria, period, informationRequest});
+
+            // TODO: this prevents an unwanted ui glitch - $nextTick doesn't do the job...
+            setTimeout(() => this.showAddNewInformationRequestButton = true, 20);
+        },
+
+        onCreateNewInformationRequest(value) {
+            this.$store.dispatch('database/addNewInformationRequest', value)
+                .then(informationRequest => {
+                    this.onSelectInformationRequest({
+                        label: informationRequest.description,
+                        value: informationRequest
+                    });
+                });
         },
 
         onCriteriaDelete(criteria) {
@@ -286,6 +422,18 @@ export default {
             // this.$store.dispatch(`audits/${this.audit_id}/informationRequests/cancelEditCriteria`);
             this.showAddNewPeriodButton = false;
             period.uiState.edit = true;
+        },
+
+        onInformationRequestDelete(criteria, period, informationRequest) {
+            this.$store.commit(`audits/${this.audit_id}/informationRequests/DELETE_INFORMATION_REQUEST`, { criteria, period, informationRequest });
+        },
+
+        onInformationRequestEdit(informationRequest) {
+            this.selectedInformationRequest = informationRequest.data.description;
+
+            // this.$store.dispatch(`audits/${this.audit_id}/informationRequests/cancelEditCriteria`);
+            this.showAddNewInformationRequestButton = false;
+            informationRequest.uiState.edit = true;
         },
 
         onCriteriaDateChange(date) {
@@ -347,6 +495,28 @@ export default {
             }, 1000);
         },
 
+        onSaveInformationRequest(criteria, period) {
+            this.savingInformationRequest = true;
+            setTimeout(() => {
+                this.$store.commit(
+                    `audits/${this.audit_id}/informationRequests/SAVE_INFORMATION_REQUEST`, 
+                    {
+                        criteria,
+                        period,
+                        informationRequest: this.selectedInformationRequest.value
+                    }
+                );
+                this.selectedInformationRequest = null;
+                this.savingInformationRequest = false;
+
+                this.showAddNewInformationRequestButton = true;
+
+                // this.$nextTick(() => {
+                //     this.$refs.addNewButton.$el.focus();
+                // });
+            }, 1000);
+        },
+
         onSelectCriteria(criteria) {
             this.selectedCriteriaOption = criteria;
             this.$nextTick(() => {
@@ -356,7 +526,15 @@ export default {
                     this.$refs.saveCriteriaButton[0].$el.focus();
                 }
             });
-        }
+        },
+
+        onSelectInformationRequest(option) {
+            this.selectedInformationRequest = option;
+
+            this.$nextTick(() => {
+                this.$refs.saveInformationRequestButton[0].$el.focus();
+            });
+        },
     }
 }
 </script>
