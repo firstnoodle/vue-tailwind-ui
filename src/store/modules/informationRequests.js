@@ -20,6 +20,13 @@ export default {
                 commit('CANCEL_EDIT_CRITERIA_PERIOD', period);
             }
         },
+        cancelEditInformationRequest({commit}, {criteria, period, informationRequest}) {
+            if(!informationRequest.id) {
+                commit('DELETE_INFORMATION_REQUEST', {criteria, period, informationRequest});
+            } else if(informationRequest.uiState.edit) {
+                commit('CANCEL_EDIT_INFORMATION_REQUEST', informationRequest);
+            }
+        },
     },
     getters: {
         /**
@@ -60,7 +67,23 @@ export default {
                 data: {
                     start_date: null,
                     end_date: null,
-                    informmation_requests: []
+                    informationRequests: []
+                },
+                uiState: {
+                    edit: true,
+                    listId: Date.now(),
+                    selected: false
+                }
+            })
+        },
+        ADD_INFORMATION_REQUEST(state, { criteria, period }) {
+            const criteriaIndex = state.criterias.findIndex(c => c.id === criteria.id);
+            const periodIndex = state.criterias[criteriaIndex].data.periods.findIndex(p => p.id === period.id);
+            state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests.push({
+                id: null,
+                data: {
+                    description: null,
+                    id: null
                 },
                 uiState: {
                     edit: true,
@@ -83,6 +106,13 @@ export default {
                 false
             );
         },
+        CANCEL_EDIT_INFORMATION_REQUEST(state, informationRequest) {
+            setNestedProp(
+                informationRequest,
+                'uiState.edit', 
+                false
+            );
+        },
         DELETE_CRITERIA(state, criteria) {
             Vue.delete(
                 state.criterias,
@@ -94,6 +124,14 @@ export default {
             Vue.delete(
                 state.criterias[criteriaIndex].data.periods,
                 state.criterias[criteriaIndex].data.periods.findIndex(p => p.id === period.id)
+            );
+        },
+        DELETE_INFORMATION_REQUEST(state, {criteria, period, informationRequest}) {
+            const criteriaIndex = state.criterias.findIndex(c => c.id === criteria.id);
+            const periodIndex = state.criterias[criteriaIndex].data.periods.findIndex(p => p.id === period.id);
+            Vue.delete(
+                state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests,
+                state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests.findIndex(ir => ir.id === informationRequest.id)
             );
         },
         SAVE_CRITERIA(state, criteria) {
@@ -127,7 +165,28 @@ export default {
                     data: {
                         start_date: period.start_date,
                         end_date: period.end_date,
-                        informmation_requests: []
+                        informationRequests: []
+                    },
+                    uiState: {
+                        edit: false,
+                        listId: target.uiState.listId,
+                        selected: false
+                    }
+                }
+            )
+        },
+        SAVE_INFORMATION_REQUEST(state, {criteria, period, informationRequest}) {
+            const criteriaIndex = state.criterias.findIndex(c => c.id === criteria.id);
+            const periodIndex = state.criterias[criteriaIndex].data.periods.findIndex(p => p.id === period.id);
+            const target = state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests.find(ir => ir.uiState.edit);
+            Vue.set(
+                state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests,
+                state.criterias[criteriaIndex].data.periods[periodIndex].data.informationRequests.findIndex(ir => ir.uiState.edit),
+                {
+                    id: Date.now(),
+                    data: {
+                        description: informationRequest.description,
+                        id: informationRequest.id
                     },
                     uiState: {
                         edit: false,
@@ -147,7 +206,7 @@ export default {
         //             {
         //                 start_date: '',
         //                 end_date: '',
-        //                 informmation_requests: [
+        //                 informationRequests: [
         //                     {
         //                         id: 1,
         //                         description: ''
