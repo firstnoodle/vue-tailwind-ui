@@ -165,7 +165,7 @@ export default {
                     data: {
                         start_date: period.start_date,
                         end_date: period.end_date,
-                        informationRequests: []
+                        informationRequests: target.data.informationRequests
                     },
                     uiState: {
                         edit: false,
