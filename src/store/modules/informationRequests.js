@@ -33,12 +33,24 @@ export default {
          * Check if user has activities on the given date that are being edited
          * This is to hide the addActivity button for a user on a given date
          */
-        showCriteriaPeriodButton: () => (criteria, period) => {
+        showCriteriaAddPeriodButton: () => criteria => {
+            if(criteria.uiState.edit) return false;
+
             for(const p of criteria.data.periods) {
-                if(p.data.start_date === period.data.start_date && 
-                    p.data.end_date === period.data.end_date && 
-                    p.uiState.edit === true) {
+                if(p.uiState.edit === true) {
                     return false;
+                }
+            }
+            return true;
+        },
+        showCriteriaPeriodAddInformationRequestButton: () => (criteria, period) => {
+            if(period.uiState.edit) return false;
+
+            for(const p of criteria.data.periods) {
+                if(p.id === period.id) {
+                    for(const ir of p.data.informationRequests) {
+                        if(ir.uiState.edit) return false;
+                    }
                 }
             }
             return true;
