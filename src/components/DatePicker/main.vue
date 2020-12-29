@@ -114,7 +114,7 @@
                 :value="inputContent" 
                 :format="options.format"
                 placeholder="eg. 2020-01-01" 
-                @focus="visible = true"
+                @focus="onInputFocus"
                 @change="onInputChange"
             />
             <span v-show="!inputValid" class="absolute flex items-center justify-center w-8 h-full right-0 top-0 text-red-500">
@@ -148,6 +148,10 @@ export default {
         value: {
             type: [ String, Date ],
             required: false,
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
         options: {
             type: Object,
@@ -226,9 +230,17 @@ export default {
             else if(currentValidity && !this.inputValid) this.$emit('change', null);
         },
 
+        onInputFocus() {
+            if(!this.disabled) {
+                this.visible = true;
+            }
+        },
+
         focus() {
-            this.$refs.input.focus();
-            this.visible = true;
+            if(!this.disabled) {
+                this.$refs.input.focus();
+                this.visible = true;
+            }
         },
 
         formatDate(date) {
