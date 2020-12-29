@@ -19,9 +19,6 @@
             class="mt-auto" 
             :class="{ 'flex-0 min-h-0' : fitToViewHeight }"
             >
-            <div class="mb-10">
-                TESTING
-            </div>
             <div class="flex items-center justify-between py-2 border-t border-subtle">
                 <slot name="footer" />
             </div>
