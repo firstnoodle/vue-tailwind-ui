@@ -24,6 +24,8 @@
 
 <script>
 import focusAreas from '~/../demo/data/focus_areas';
+import informationRequests from '~/../demo/data/information_requests';
+import { CRITERIAS } from '~/enums';
 import requirements from '~/../demo/data/requirements';
 import auditModule from '~/store/modules/audit.js';
 import AuditListItem from '~/components/application/AuditListItem';
@@ -77,8 +79,55 @@ export default {
                         }
                     }
                 });
-
             this.$store.commit(`audits/${audit_id}/requirements/UPDATE_ITEMS`, defaultRequirements);
+
+
+            /**
+             * Add default informationRequests
+             */
+            const defaultInformationRequests = [{
+                id: Date.now(),
+                data: {
+                    criteria: CRITERIAS.BEFORE_THE_AUDIT,
+                    date: null,
+                    periods: [
+                        {
+                            id: Date.now(),
+                            data: {
+                                start_date: '2020-01-01',
+                                end_date: '2020-01-07',
+                                informationRequests: informationRequests
+                                    .map((informationRequest, index) => {
+                                        return {
+                                            id: Date.now() + index,
+                                            data: {
+                                                id: informationRequest.id,
+                                                description: informationRequest.description,
+                                            },
+                                            uiState: {
+                                                edit: false,
+                                                listId: informationRequest.id,
+                                                selected: false,
+                                            }
+                                        }
+                                    })
+                            },
+                            uiState: {
+                                edit: false,
+                                listId: Date.now(),
+                                selected: false
+                            }
+                        }
+                    ]
+                },
+                uiState: {
+                    edit: false,
+                    listId: Date.now(),
+                    selected: false
+                }
+            }];
+            this.$store.commit(`audits/${audit_id}/informationRequests/UPDATE_CRITERIAS`, defaultInformationRequests);
+
             this.$router.push({ name: 'Audit details',  params: { audit: audit_id }});
         }
     }
