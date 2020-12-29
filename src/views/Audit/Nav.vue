@@ -5,6 +5,10 @@
             <icon value="phase" />
             <span class="ml-4 text-sm">Audit details</span>
         </router-link>
+        <router-link :to="{ name: 'Audit recipients' }" tag="a" class="link" exact>
+            <icon value="arrow-fat-right" />
+            <span class="ml-4 text-sm">Recipients</span>
+        </router-link>
 
         <div class="flex items-center py-2 mt-2">
             <span class="text-xs font-medium mr-2 text-gray-500">Planning</span>
