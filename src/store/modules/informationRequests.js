@@ -29,6 +29,18 @@ export default {
         },
     },
     getters: {
+        informationRequestDisabled: state => informationRequest => {
+           for(const criteria of state.criterias) {
+                for(const period of criteria.data.periods) {
+                    for(const ir of period.data.informationRequests) {
+                        if(ir.data.id === informationRequest.value.id) {
+                            return true;
+                        }
+                    }
+                }
+           }
+           return false;
+        },
         /**
          * Check if user has activities on the given date that are being edited
          * This is to hide the addActivity button for a user on a given date
