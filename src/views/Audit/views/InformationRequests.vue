@@ -222,7 +222,7 @@
 
 <script>
 import { DATE } from "~/utils/input-formatting.js";
-import { INFORMATION_REQUEST_CRITERIAS } from '~/constants';
+import { INFORMATION_REQUEST_CRITERIAS } from '~/enums';
 import informationRequestsTable from '~/../demo/data/information_requests';
 import BaseButton from '~/components/BaseButton';
 import DatePicker from '~/components/DatePicker/main';
