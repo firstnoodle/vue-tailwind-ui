@@ -2,7 +2,7 @@
     <view-content title="Information Requests" icon="information">
         <!-- Criterias -->
         <div 
-            class="pb-4 mb-8 border-b border-subtle"
+            class="pb-4"
             v-for="criteria in $store.state.audits[audit_id].informationRequests.criterias" 
             :key="criteria.uiState.listId"
             >
@@ -73,7 +73,7 @@
             <div
                 v-for="period in criteria.data.periods"
                 :key="period.uiState.listId"
-                class="pl-4 md:pl-8 py-2 "
+                class="pl-4 md:pl-8 py-2"
                 >
                 <list-item 
                     deletable
@@ -129,38 +129,37 @@
                         v-for="informationRequest in period.data.informationRequests"
                         :key="informationRequest.uiState.listId"
                         deletable
-                        editable
-                        selectable
                         :edit="informationRequest.uiState.edit"
                         :selected="informationRequest.uiState.selected"
-                        @edit="onInformationRequestEdit(informationRequest)"
                         @delete="onInformationRequestDelete(criteria, period, informationRequest)"
                         >
                         {{ informationRequest.data.description }}
                         <template #edit>
-                            <fn-select 
-                                v-model="selectedInformationRequest" 
-                                filterable
-                                :focus-after-select="false"
-                                initial-text="Enter information request"
-                                :loading="informationRequestsSelectLoading"
-                                loading-text="Searching.."
-                                no-match-option
-                                no-match-option-text="Create information request"
-                                placeholder="Select information request"
-                                ref="informationRequestSelect"
-                                :remoteMethod="fetchInformationRequests"
-                                @createNew="onCreateNewInformationRequest"
-                                @select="onSelectInformationRequest"
-                                >
-                                    <fn-select-option 
-                                        v-for="informationRequest in informationRequestOptions" 
-                                        :key="informationRequest.id" 
-                                        :label="informationRequest.label" 
-                                        :value="informationRequest"
-                                        :disabled="getInformationRequestDisabledState(informationRequest)"
-                                    />
-                            </fn-select>
+                            <div class="flex w-full pr-0 md:pr-16 mb-2">
+                                <fn-select 
+                                    v-model="selectedInformationRequest" 
+                                    filterable
+                                    :focus-after-select="false"
+                                    initial-text="Enter information request"
+                                    :loading="informationRequestsSelectLoading"
+                                    loading-text="Searching.."
+                                    no-match-option
+                                    no-match-option-text="Create information request"
+                                    placeholder="Select information request"
+                                    ref="informationRequestSelect"
+                                    :remoteMethod="fetchInformationRequests"
+                                    @createNew="onCreateNewInformationRequest"
+                                    @select="onSelectInformationRequest"
+                                    >
+                                        <fn-select-option 
+                                            v-for="informationRequest in informationRequestOptions" 
+                                            :key="informationRequest.id" 
+                                            :label="informationRequest.label" 
+                                            :value="informationRequest"
+                                            :disabled="$store.getters[`audits/${audit_id}/informationRequests/informationRequestDisabled`](informationRequest)"
+                                        />
+                                </fn-select>
+                            </div>
                             <div class="flex items-center space-x-2">
                                 <base-button 
                                     ref="saveInformationRequestButton"
@@ -177,27 +176,29 @@
                         </template>
                     </list-item>
                 </div>
-                <div class="py-2 pl-4 md:pl-8" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaPeriodAddInformationRequestButton`](criteria, period)">
+                <div class="pt-2 pb-4 pl-4 md:pl-8 border-b border-subtle" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaPeriodAddInformationRequestButton`](criteria, period)">
                     <base-button 
                         icon="plus"
                         plain 
+                        text
                         ref="addNewInformationRequestButton"
                         type="primary" 
                         @click.stop.prevent="onAddNewInformationRequest(criteria, period)"
                         >
-                        Add information request
+                        Add information request to period
                     </base-button>
                 </div>
             </div>
-            <div class="py-2 pl-4 md:pl-8" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaAddPeriodButton`](criteria)">
+            <div class="pt-2 pb-4 pl-4 md:pl-8 border-b border-subtle" v-if="$store.getters[`audits/${audit_id}/informationRequests/showCriteriaAddPeriodButton`](criteria)">
                 <base-button 
                     icon="plus"
                     plain 
+                    text
                     ref="addNewPeriodButton"
                     type="primary" 
                     @click.stop.prevent="onAddNewCriteriaPeriod(criteria)"
                     >
-                    Add period
+                    Add period to criteria group
                 </base-button>
             </div>
         </div>
@@ -206,11 +207,12 @@
             v-if="showAddNewCriteriaButton"
             icon="plus"
             plain 
+            text
             ref="addNewCriteriaButton"
             type="primary" 
             @click.stop.prevent="onAddNewCriteria" 
             >
-            Add criteria
+            Add new criteria group
         </base-button>
 
         <template #footer>
@@ -324,9 +326,6 @@ export default {
 
             this.informationRequestsSelectLoading = true;
             setTimeout(this.fakeApiCall.bind(null, value), 500);
-        },
-        getInformationRequestDisabledState(/* informationRequest */) {
-            return false;
         },
         onAddNewCriteria() {
             this.$store.commit(
