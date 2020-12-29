@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { SEVERITY_LEVELS } from '~/constants';
+import { SEVERITY_LEVELS } from '~/enums';
 import BaseButton from '~/components/BaseButton';
 import Icon from '~/components/Icon';
 import SeverityTag from '~/components/SeverityTag';

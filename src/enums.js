@@ -8,6 +8,7 @@ export const AUDIT_RATINGS = {
 };
 
 export const CRITERIAS = {
+    BEFORE_THE_AUDIT: 'The following items should be forwarded to the Lead Auditor BEFORE the audit',
     AFTER_OPENING_MEETING: 'The following items should be available AFTER the opening meeting',
     AT_THE_OPENING_MEETING: 'The following items should be available AT the opening meeting',
     BEGINNING_OF_THE_AUDIT: 'The following items should be available at the beginning of the audit of each department',
@@ -16,6 +17,10 @@ export const CRITERIAS = {
 };
 
 export const INFORMATION_REQUEST_CRITERIAS = [
+    {
+        description: CRITERIAS.BEFORE_THE_AUDIT,
+        requiresDate: false
+    },
     {
         description: CRITERIAS.AFTER_OPENING_MEETING,
         requiresDate: false

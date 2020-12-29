@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { AUDIT_RATINGS, SEVERITY_LEVELS } from '~/constants';
+import { AUDIT_RATINGS, SEVERITY_LEVELS } from '~/enums';
 import RatingButton from './RatingButton';
 import RatingLabel from './RatingLabel';
 
