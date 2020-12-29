@@ -46,7 +46,7 @@
         &.is-plain {
             @apply bg-default border-subtle text-secondary;
 
-            &:hover {
+            &:hover:not(.is-text) {
                 @apply text-blue-800 bg-gray-100;
             }
             &:focus {
@@ -68,7 +68,7 @@
         &.is-plain {
             @apply bg-default border-subtle text-red-600;
 
-            &:hover {
+            &:hover:not(.is-text) {
                 @apply text-red-800 bg-gray-100;
             }
             &:focus {
@@ -90,7 +90,7 @@
         &.is-plain {
             @apply bg-default border-subtle text-blue-600;
 
-            &:hover {
+            &:hover:not(.is-text) {
                 @apply text-blue-800 bg-gray-100;
             }
             &:focus {
@@ -112,7 +112,7 @@
         &.is-plain {
             @apply bg-default border-subtle text-green-600;
 
-            &:hover {
+            &:hover:not(.is-text) {
                 @apply text-green-800 bg-gray-100;
             }
             &:focus {
@@ -145,7 +145,7 @@
         &.is-plain {
             @apply bg-default border-subtle text-yellow-600;
 
-            &:hover {
+            &:hover:not(.is-text) {
                 @apply text-yellow-800 bg-gray-100;
             }
             &:focus {
@@ -162,7 +162,13 @@
     }
 
     &.is-text {
-        @apply border-none shadow-none;
+        @apply border-none bg-none shadow-none px-0 rounded-none;
+
+        &:hover {
+            & > .label {
+                @apply underline;
+            }
+        }
     }
 
     &.is-disabled {

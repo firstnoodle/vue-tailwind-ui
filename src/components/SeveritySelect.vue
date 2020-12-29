@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { SEVERITY_LEVELS } from '~/constants';
+import { SEVERITY_LEVELS } from '~/enums';
 import Clickoutside from '~/utils/click-outside';
 import BasePopper from '~/components/BasePopper';
 import Icon from '~/components/Icon';

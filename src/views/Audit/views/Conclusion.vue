@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { SEVERITY_LEVELS } from '~/constants';
+import { SEVERITY_LEVELS } from '~/enums';
 import AuditRating from '~/components/AuditRating/main';
 import FocusAreaStatus from '~/components/application/FocusAreaStatus';
 import TextEditor from '~/components/TextEditor';

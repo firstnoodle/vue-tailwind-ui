@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { SEVERITY_LEVELS } from '~/constants';
+import { SEVERITY_LEVELS } from '~/enums';
 import Icon from '~/components/Icon';
 
 export default {

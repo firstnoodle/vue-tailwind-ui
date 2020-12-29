@@ -3,6 +3,7 @@
         ref="input"
         slot="reference"
         :content="value"
+        :disabled="disabled"
         placeholder="2019-01-01 00:00"
         @deleteSelection="onDeleteSelection"
         @focus="$emit('focus')"
@@ -21,6 +22,10 @@ export default {
     props: {
         value: {
             type: String,
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
         format: {
             type: Object,

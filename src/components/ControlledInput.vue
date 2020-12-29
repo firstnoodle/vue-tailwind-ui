@@ -3,6 +3,7 @@
         v-model="inputValue"
         ref="input"
         class="py-2 text-sm text-primary leading-tight bg-transparent focus:outline-none"
+        :disabled="disabled"
         :placeholder="placeholder"
         @focus="$emit('focus')"
         @input="onInput"
@@ -19,6 +20,10 @@ export default {
         content: {
             type: String,
             default: ""
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
         placeholder: {
             type: String,

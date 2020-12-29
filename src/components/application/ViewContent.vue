@@ -16,10 +16,12 @@
             <slot />
         </main>
         <footer 
-            class="flex items-center justify-between mt-auto py-2 border-t border-subtle" 
+            class="mt-auto" 
             :class="{ 'flex-0 min-h-0' : fitToViewHeight }"
             >
-            <slot name="footer" />
+            <div class="flex items-center justify-between py-2 border-t border-subtle">
+                <slot name="footer" />
+            </div>
         </footer>
     </section>
 </template>

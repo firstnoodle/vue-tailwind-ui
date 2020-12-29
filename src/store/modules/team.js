@@ -3,7 +3,7 @@ import crud from './crud';
 import { dateIsAfter, dateIsBefore, stringifyDate } from '~/utils/time/dates';
 import { timeToDecimal } from '~/utils/time/time';
 import { setNestedProp } from '~/utils/vue';
-import { ROLES } from '~/constants';
+import { ROLES } from '~/enums';
 
 export default {
     namespaced: true,

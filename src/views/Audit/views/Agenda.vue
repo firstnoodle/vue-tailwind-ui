@@ -38,7 +38,7 @@
                                 ref="datepicker"
                                 type="date"
                                 :value="selectedDate" 
-                                :options="options" 
+                                :options="datePickerOptions" 
                                 @change="onDateChange" 
                                 />
                         </div>
@@ -191,7 +191,7 @@ export default {
             audit_id: this.$route.params.audit,
             activityDescription: '',
             activityTimeRange: this.getEmptyActivityTimeRange(),
-            options: {
+            datePickerOptions: {
                 format: DATE,
                 weekStart: 1,
                 disabledDate: date => {

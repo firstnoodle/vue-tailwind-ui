@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import crud from './crud.js';
 import { setNestedProp } from '~/utils/vue';
-import { SEVERITY_LEVELS } from '~/constants';
+import { SEVERITY_LEVELS } from '~/enums';
 
 export default {
     namespaced: true,
