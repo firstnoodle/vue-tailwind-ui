@@ -207,6 +207,9 @@ export default {
                     }
                 }
             )
+        },
+        UPDATE_CRITERIAS(state, criterias) {
+            state.criterias = criterias;
         }
     },
     state: () => ({
