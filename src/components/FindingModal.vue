@@ -179,7 +179,7 @@
                                 deletable
                                 editable
                                 draggable
-                                class="last:mb-4"
+                                class="last:mb-2"
                                 @delete="onReferenceDelete(item)"
                                 @edit="onReferenceEdit(item)"
                                 >

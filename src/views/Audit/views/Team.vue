@@ -16,7 +16,7 @@
                     :edit="item.uiState.edit"
                     @edit="onItemEdit(item)"
                     @delete="$store.commit(`audits/${audit_id}/team/DELETE_ITEM`, item.id)"
-                    class="last:mb-4"
+                    class="last:mb-2"
                     >
                     <div class="inline-flex w-2/3 md:w-1/2">{{ item.data.initials + ' (' + item.data.name + ')' }}</div>
                     <div class="inline-flex w-1/3 md:w-1/2">{{ item.data.role }}</div>

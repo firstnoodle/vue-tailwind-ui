@@ -15,7 +15,7 @@
                     :edit="item.uiState.edit"
                     @delete="$store.commit(`audits/${audit_id}/focusAreas/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"
-                    class="last:mb-4"
+                    class="last:mb-2"
                     >
                     <div class="inline-flex w-full">{{ item.data.name }}</div>
 

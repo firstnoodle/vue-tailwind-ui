@@ -16,7 +16,7 @@
                     :edit="item.uiState.edit"
                     @edit="onItemEdit(item)"
                     @delete="$store.commit(`audits/${audit_id}/suggestions/DELETE_ITEM`, item.id)"
-                    class="last:mb-4"
+                    class="last:mb-2"
                     >
                     <div class="css-rich-text w-full" v-html="item.data.description"></div>
 
