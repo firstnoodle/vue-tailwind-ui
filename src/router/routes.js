@@ -10,7 +10,7 @@ import AuditDetails from '~/views/Audit/views/Details';
 import AuditFindings from '~/views/Audit/views/Findings';
 import AuditFocusAreas from '~/views/Audit/views/FocusAreas';
 import AuditInformationRequests from '~/views/Audit/views/InformationRequests';
-import AuditRecipients from '~/views/Audit/views/Recipients';
+import AuditDistribution from '~/views/Audit/views/Distribution';
 import AuditRequirements from '~/views/Audit/views/Requirements';
 import AuditScope from '~/views/Audit/views/Scope';
 import AuditSuggestions from '~/views/Audit/views/Suggestions';
@@ -116,11 +116,11 @@ export default [
                 }
             },
             {
-                path: 'recipients',
-                component: AuditRecipients,
-                name: 'Audit recipients',
+                path: 'distribution',
+                component: AuditDistribution,
+                name: 'Audit distribution',
                 meta: {
-                    title: 'Recipients',
+                    title: 'Distribution',
                     requiresAuth: true,
                 }
             },

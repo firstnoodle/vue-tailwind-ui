@@ -1,5 +1,5 @@
 <template>
-    <view-content title="Recipients" icon="arrow-fat-right">
+    <view-content title="Distribution" icon="arrow-fat-right">
 
         <div class="w-full my-8">
             <header class="w-full border-b border-subtle text-sm text-brand">
@@ -35,7 +35,7 @@ import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
-    name: 'Recipients',
+    name: 'Distribution',
     components: { ViewContent, ViewContentFooterLink },
     data() {
         return {

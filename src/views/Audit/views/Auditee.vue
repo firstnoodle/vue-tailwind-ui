@@ -4,7 +4,7 @@
         Content
 
         <template #footer>
-            <view-content-footer-link :to="{ name: 'Audit recipients' }" icon="arrow-fat-right" label="Recipients" placement="left" />
+            <view-content-footer-link :to="{ name: 'Audit distribution' }" icon="arrow-fat-right" label="Distribution" placement="left" />
             <view-content-footer-link :to="{ name: 'Audit team' }" icon="team" label="Audit team" placement="right" />
         </template>
     </view-content>

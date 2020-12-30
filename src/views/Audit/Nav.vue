@@ -5,9 +5,9 @@
             <icon value="phase" />
             <span class="ml-4 text-sm">Audit details</span>
         </router-link>
-        <router-link :to="{ name: 'Audit recipients' }" tag="a" class="link" exact>
+        <router-link :to="{ name: 'Audit distribution' }" tag="a" class="link" exact>
             <icon value="arrow-fat-right" />
-            <span class="ml-4 text-sm">Recipients</span>
+            <span class="ml-4 text-sm">Distribution</span>
         </router-link>
 
         <div class="flex items-center py-2 mt-2">
