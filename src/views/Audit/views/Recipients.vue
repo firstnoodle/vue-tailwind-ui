@@ -1,6 +1,26 @@
 <template>
     <view-content title="Recipients" icon="arrow-fat-right">
-        Recipients
+
+        <div class="w-full my-8">
+            <header class="w-full border-b border-subtle text-sm text-brand">
+                {{ 'Plan distribution date' }}
+            </header>
+        </div>
+        <div class="w-full my-8">
+            <header class="w-full border-b border-subtle text-sm text-brand">
+                {{ 'Plan recipients' }}
+            </header>
+        </div>
+        <div class="w-full my-8">
+            <header class="w-full border-b border-subtle text-sm text-brand">
+                {{ 'Report distribution date' }}
+            </header>
+        </div>
+        <div class="w-full my-8">
+            <header class="w-full border-b border-subtle text-sm text-brand">
+                {{ 'Report recipients' }}
+            </header>
+        </div>
 
         <template #footer>
             <view-content-footer-link :to="{ name: 'Audit details' }" icon="phase" label="Audit details" placement="left" />
