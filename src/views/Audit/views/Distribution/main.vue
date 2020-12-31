@@ -59,43 +59,56 @@
                 {{ 'Plan recipients' }}
             </header>
 
-            <list-item
-                v-for="recipient in $store.state.audits[audit_id].distribution.plan.recipients"
-                :key="recipient.uiState.listId"
-                deletable
-                editable
-                :edit="recipient.uiState.edit"
-                @edit="editPlanRecipient(recipient)"
-                @delete="$store.dispatch(`audits/${this.audit_id}/distribution/deletePlanRecipient`, recipient)"
+            <draggable 
+                v-model="planRecipients" 
+                v-bind="dragOptions"
+                handle=".drag-handle"
                 >
-
-                <template #edit>
-                    <div class="flex pr-0 md:pr-16 mb-2">
-                        Add Recipient UI
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <base-button 
-                            ref="saveDateButton"
-                            icon="plus"
-                            type="primary"
-                            :disabled="computedSaveDateButtonDisabled"
-                            :loading="savingDate" 
-                            @click.stop.prevent="saveDate(date)" 
+                <transition-group type="transition">
+                    <list-item
+                        v-for="recipient in planRecipients"
+                        :key="recipient.uiState.listId"
+                        deletable
+                        draggable
+                        editable
+                        :edit="recipient.uiState.edit"
+                        @edit="editPlanRecipient(recipient)"
+                        @delete="$store.dispatch(`audits/${audit_id}/distribution/deleteRecipient`, { target: 'plan', recipient })"
                         >
-                            {{ date.id ? 'Update date' : 'Add date' }}
-                        </base-button>
-                        <base-button @click="cancelEditDate(date)" plain type="primary">Cancel</base-button>
-                    </div>
-                </template>
-            </list-item>
+
+                        <div class="inline-flex w-2/3 md:w-1/2">{{ recipient.data.initials + ' (' + recipient.data.name + ')' }}</div>
+                        <div v-if="recipient.data.copy" class="inline-flex w-1/3 md:w-1/2">{{ 'CC' }}</div>
+                        
+                        <template #edit>
+                            <div class="flex pr-0 md:pr-16 mb-2">
+                                Add Recipient UI
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <base-button 
+                                    ref="savePlanRecipientButton"
+                                    icon="plus"
+                                    type="primary"
+                                    :disabled="computedSavePlanRecipientButtonDisabled"
+                                    :loading="savingPlanRecipient" 
+                                    @click.stop.prevent="savePlanRecipient(recipient)" 
+                                >
+                                    {{ recipient.id ? 'Update recipient' : 'Add recipient' }}
+                                </base-button>
+                                <base-button @click="cancelEditPlanRecipient(recipient)" plain type="primary">Cancel</base-button>
+                            </div>
+                        </template>
+                    </list-item>
+                </transition-group>
+            </draggable>
 
             <base-button 
+                v-if="showAddPlanRecipientButton"
                 icon="plus"
                 plain 
                 ref="addPlanRecipientButton"
                 type="primary" 
                 class="mt-2"
-                @click.stop.prevent="addPlanRecipient" 
+                @click.stop.prevent="addRecipient('plan')" 
                 >
                 Add recipient
             </base-button>
@@ -182,13 +195,14 @@
 import { DATE } from "~/utils/input-formatting.js";
 import BaseButton from '~/components/BaseButton';
 import DatePicker from '~/components/DatePicker/main';
+import draggable from 'vuedraggable';
 import ListItem from '~/components/ListItem';
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Distribution',
-    components: { BaseButton, DatePicker, ListItem, ViewContent, ViewContentFooterLink },
+    components: { BaseButton, DatePicker, draggable, ListItem, ViewContent, ViewContentFooterLink },
     data() {
         return {
             audit_id: this.$route.params.audit,
@@ -196,23 +210,48 @@ export default {
                 format: DATE,
                 weekStart: 1,
             },
+            dragOptions: {
+                animation: 200,
+                group: "description",
+                disabled: false,
+                ghostClass: "drag-ghost"
+            },
             savingPlanDate: false,
+            savingPlanRecipient: false,
             savingReportDate: false,
             selectedPlanDate: null,
             selectedReportDate: null,
+            showAddPlanRecipientButton: true,
+            showAddReportRecipientButton: true,
         }
     },
     computed: {
         computedSavePlanDateButtonDisabled() {
             return !this.selectedPlanDate;
         },
+        computedSavePlanRecipientButtonDisabled() {
+            return false;
+        },
         computedSaveReportDateButtonDisabled() {
             return !this.selectedReportDate;
+        },
+        planRecipients: {
+            get() {
+                return this.$store.state.audits[this.audit_id].distribution.plan.recipients;
+            },
+            set(value) {
+                this.$store.commit(`audits/${this.audit_id}/distribution/UPDATE_PLAN_RECIPIENTS`, value)
+            }
         }
     },
     methods: {
-        addPlanRecipient() {
-            console.log('new plan recipient');
+        addRecipient(target) {
+            this.$store.commit(`audits/${this.audit_id}/distribution/ADD_RECIPIENT`, target);
+            if(target === 'plan') {
+                this.showAddPlanRecipientButton = false;
+            } else {
+                this.showAddReportRecipientButton = false;
+            }
         },
         addReportRecipient() {
             console.log('new report recipient');
@@ -220,6 +259,16 @@ export default {
         cancelEditPlanDate() {
             this.$store.dispatch(`audits/${this.audit_id}/distribution/cancelEditPlanDate`);
             this.selectedPlanDate = null;
+        },
+        cancelEditPlanRecipient(recipient) {
+            this.$store.dispatch(
+                `audits/${this.audit_id}/distribution/cancelEditRecipient`,
+                {
+                    target: 'plan',
+                    recipient
+                }
+            );
+            this.showAddPlanRecipientButton = true;
         },
         cancelEditReportDate() {
             this.$store.dispatch(`audits/${this.audit_id}/distribution/cancelEditReportDate`);
@@ -247,6 +296,9 @@ export default {
         },
         savePlanDate() {
             this.$store.commit(`audits/${this.audit_id}/distribution/SAVE_PLAN_DATE`, this.selectedPlanDate);
+        },
+        savePlanRecipient(recipient) {
+            console.log('save plan recipient', recipient);
         },
         saveReportDate() {
             this.$store.commit(`audits/${this.audit_id}/distribution/SAVE_REPORT_DATE`, this.selectedReportDate);
