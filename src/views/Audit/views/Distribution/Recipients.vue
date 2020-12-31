@@ -27,14 +27,38 @@
                     
                     <template #edit>
                         <div class="flex pr-0 md:pr-16 mb-2">
-                            Add Recipient UI
+                            <div class="w-2/3 md:w-1/2 mr-2">
+                                <fn-select 
+                                    v-model="selectedUserOption" 
+                                    filterable
+                                    :focus-after-select="false"
+                                    initial-text="Enter initials or name"
+                                    :loading="userSelectLoading"
+                                    loading-text="Searching.."
+                                    placeholder="Select user"
+                                    ref="userSelect"
+                                    :remoteMethod="fetchUsers"
+                                    @select="onSelectUser"
+                                    >
+                                        <fn-select-option 
+                                            v-for="user in userOptions" 
+                                            :key="user.id" 
+                                            :label="user.label" 
+                                            :value="user"
+                                            :disabled="getUserDisabledState(user)"
+                                        />
+                                </fn-select>
+                            </div>
+                            <div class="w-1/3 md:w-1/2">
+                                CC
+                            </div>
                         </div>
                         <div class="flex items-center space-x-2">
                             <base-button 
-                                ref="savePlanRecipientButton"
+                                ref="saveButton"
                                 icon="plus"
                                 type="primary"
-                                :disabled="computedSaveRecipientButtonDisabled"
+                                :disabled="computedSaveButtonDisabled"
                                 :loading="savingRecipient" 
                                 @click.stop.prevent="saveRecipient(recipient)" 
                             >
@@ -53,7 +77,6 @@
             plain 
             ref="addPlanRecipientButton"
             type="primary" 
-            class="mt-2"
             @click.stop.prevent="addRecipient" 
             >
             Add recipient
@@ -65,11 +88,14 @@
 <script>
 import BaseButton from '~/components/BaseButton';
 import draggable from 'vuedraggable';
+import FnSelect from '~/components/Select.js';
+import FnSelectOption from '~/components/SelectOption';
 import ListItem from '~/components/ListItem';
+import usersTable from '~/../demo/data/users.js';
 
 export default {
     name: 'Recipients',
-    components: { BaseButton, draggable, ListItem },
+    components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem },
     props: {
         target: {
             type: String,
@@ -89,11 +115,15 @@ export default {
                 ghostClass: "drag-ghost"
             },
             savingRecipient: false,
+            selectedUserOption: null,
             showAddRecipientButton: true,
+            userSelectLoading: false,
+            userOptions: null,
         }
     },
     computed: {
-        computedSaveRecipientButtonDisabled() {
+        computedSaveButtonDisabled() {
+            if(!this.selectedRoleOption || !this.selectedUserOption) return true;
             return false;
         },
         recipients: {
@@ -123,6 +153,45 @@ export default {
         editRecipient(recipient) {
             console.log(recipient);
         },
+        fakeApiCall(query) {
+            this.userOptions = usersTable
+                .filter(user => {
+                    const targetName = user.name.toLowerCase();
+                    const targetInitials = user.initials.toLowerCase();
+                    const queryString = query.toLowerCase();
+                    return targetName.includes(queryString) || targetInitials.includes(queryString);
+                })
+                .map(user => {
+                    return { 
+                        label: `${user.initials} (${user.name})`, 
+                        value: user 
+                    }
+                });
+
+            this.userSelectLoading = false;
+        },
+
+        fetchUsers(value, charsAdded) {
+            if(this.userOptions !== null) { // did we make an API call ?
+                if(this.userOptions.length === 0 && charsAdded > 0) { // do we have any results ?
+                    return;
+                }
+            }
+
+            this.userSelectLoading = true;
+            setTimeout(this.fakeApiCall.bind(null, value), 500);
+        },
+
+        getUserDisabledState(option) {
+            const ids = this.$store.state.audits[this.audit_id].distribution[this.target].recipients.map(r => r.data.id);
+            const result = ids.includes(option.value.id);
+            return result;
+        },
+
+        onSelectUser(option) {
+            this.selectedUserOption = option;
+        },
+
         saveRecipient(recipient) {
             console.log('save recipient', recipient);
         },
