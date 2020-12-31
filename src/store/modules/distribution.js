@@ -3,48 +3,41 @@ import Vue from 'vue';
 export default {
     namespaced: true,
     actions: {
-        cancelEditPlanDate({state, commit}) {
-            if(!state.plan.date.id) {
-                commit('DELETE_PLAN_DATE');
-            } else {
-                commit('CANCEL_EDIT_PLAN_DATE');
+        cancelEditDate({state, commit}, target) {
+            if(target in state) {
+                if(!state[target].date.id) {
+                    commit('DELETE_DATE', target);
+                } else {
+                    commit('CANCEL_EDIT_DATE', target);
+                }
             }
         },
-        cancelEditReportDate({state, commit}) {
-            if(!state.report.date.id) {
-                commit('DELETE_REPORT_DATE');
-            } else {
-                commit('CANCEL_EDIT_REPORT_DATE');
+        cancelEditRecipient({state, commit}, { target, recipient }) {
+            if(target in state) {
+                if(recipient.id) {
+                    commit('CANCEL_EDIT_RECIPIENT', recipient);
+                } else {
+                    commit('DELETE_RECIPIENT', {target, recipient});
+                }
             }
-        }
+        },
     },
     getters: {},
     mutations: {
-        ADD_PLAN_DATE(state) {
-            state.plan.date = {
-                id: null,
-                data: {
-                    date: null
-                },
-                uiState: {
-                    edit: true,
-                    listId: Date.now(),
-                    selected: false
-                }
-            };
-        },
-        ADD_REPORT_DATE(state) {
-            state.report.date = {
-                id: null,
-                data: {
-                    date: null
-                },
-                uiState: {
-                    edit: true,
-                    listId: Date.now(),
-                    selected: false
-                }
-            };
+        ADD_DATE(state, target) {
+            if(target in state) {
+                state[target].date = {
+                    id: null,
+                    data: {
+                        date: null
+                    },
+                    uiState: {
+                        edit: true,
+                        listId: Date.now(),
+                        selected: false
+                    }
+                };
+            }
         },
         ADD_RECIPIENT(state, target) {
             if(target in state) {
@@ -52,6 +45,7 @@ export default {
                     id: null,
                     data: {
                         initials: null,
+                        name: null
                     },
                     uiState: {
                         edit: true,
@@ -61,17 +55,18 @@ export default {
                 })
             }
         },
-        CANCEL_EDIT_PLAN_DATE(state) {
-            state.plan.date.uiState.edit = false;
+        CANCEL_EDIT_DATE(state, target) {
+            if(target in state) {
+                state[target].date.uiState.edit = false;
+            }
         },
-        CANCEL_EDIT_REPORT_DATE(state) {
-            state.report.date.uiState.edit = false;
+        CANCEL_EDIT_RECIPIENT(state, recipient) {
+            recipient.uiState.edit = false;
         },
-        DELETE_PLAN_DATE(state) {
-            state.plan.date = null;
-        },
-        DELETE_REPORT_DATE(state) {
-            state.report.date = null;
+        DELETE_DATE(state, target) {
+            if(target in state) {
+                state[target].date = null;
+            }
         },
         DELETE_RECIPIENT(state, {target, recipient}) {
             if(target in state) {
@@ -81,31 +76,21 @@ export default {
                 );
             }
         },
-        EDIT_PLAN_DATE(state) {
-            state.plan.date.uiState.edit = true;
-        },
-        EDIT_REPORT_DATE(state) {
-            state.report.date.uiState.edit = true;
-        },
-        SAVE_PLAN_DATE(state, date) {
-            state.plan.date = {
-                id: state.plan.date.id || Date.now(),
-                data: { date },
-                uiState: {
-                    edit: false,
-                    listId: state.plan.date.uiState.listId,
-                    selected: false
-                }
+        EDIT_DATE(state, target) {
+            if(target in state) {
+                state[target].date.uiState.edit = true;
             }
         },
-        SAVE_REPORT_DATE(state, date) {
-            state.report.date = {
-                id: state.report.date.id || Date.now(),
-                data: { date },
-                uiState: {
-                    edit: false,
-                    listId: state.report.date.uiState.listId,
-                    selected: false
+        SAVE_DATE(state, {target, date}) {
+            if(target in state) {
+                state[target].date = {
+                    id: state[target].date.id || Date.now(),
+                    data: { date },
+                    uiState: {
+                        edit: false,
+                        listId: state[target].date.uiState.listId,
+                        selected: false
+                    }
                 }
             }
         },
