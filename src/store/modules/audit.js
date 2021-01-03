@@ -1,4 +1,5 @@
 import crudModule from '~/store/modules/crud.js';
+import distribution from '~/store/modules/distribution.js';
 import findings from '~/store/modules/findings.js';
 import informationRequests from '~/store/modules/informationRequests.js';
 import team from '~/store/modules/team.js';
@@ -26,6 +27,7 @@ export default {
         scope: '<p>The audit covers the Quality Management System and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
     }),
     modules: { 
+        distribution,
         findings,
         focusAreas: crudModule, 
         informationRequests,

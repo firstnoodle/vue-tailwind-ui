@@ -185,7 +185,7 @@
                         type="primary" 
                         @click.stop.prevent="onAddNewInformationRequest(criteria, period)"
                         >
-                        Add information request to period
+                        Add information request
                     </base-button>
                 </div>
             </div>
@@ -198,7 +198,7 @@
                     type="primary" 
                     @click.stop.prevent="onAddNewCriteriaPeriod(criteria)"
                     >
-                    Add period to criteria group
+                    Add period
                 </base-button>
             </div>
         </div>

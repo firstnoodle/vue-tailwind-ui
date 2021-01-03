@@ -40,7 +40,7 @@
                     :selected="item.uiState.selected"
                     @delete="$store.commit(`audits/${audit_id}/requirements/DELETE_ITEM`, item.id)"
                     @select="onItemSelect(item.id)"
-                    class="last:mb-4"
+                    class="last:mb-2"
                     >
                     <div class="inline-flex w-full">{{ item.data.description }}</div>
 
@@ -95,6 +95,7 @@
             <base-button 
                 icon="plus"
                 plain 
+                text
                 ref="addNewButton"
                 type="primary" 
                 @click.stop.prevent="onOpenNewItem" 

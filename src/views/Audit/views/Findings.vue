@@ -14,7 +14,7 @@
                     draggable
                     :edit="item.uiState.edit"
                     @delete="$store.dispatch(`audits/${audit_id}/findings/deleteFinding`, item.id)"
-                    class="last:mb-4"
+                    class="last:mb-2"
                     >
 
                     <!-- Title, severity, department, open in popup -->
@@ -65,6 +65,7 @@
             <base-button 
                 icon="plus"
                 plain 
+                text
                 ref="addNewButton"
                 type="primary" 
                 @click.stop.prevent="onOpenNewItem" 
