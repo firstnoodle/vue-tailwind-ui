@@ -44,6 +44,7 @@ export default {
                 state[target].recipients.push({
                     id: null,
                     data: {
+                        cc: false,
                         initials: null,
                         name: null
                     },
