@@ -118,6 +118,11 @@ export default {
                 state[target].date = date;
             }
         },
+        UPDATE_RECIPIENTS(state, {target, recipients}) {
+            if(target in state) {
+                state[target].recipients = recipients;
+            }
+        }
     },
     state: () => ({
         plan: {
