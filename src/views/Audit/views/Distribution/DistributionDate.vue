@@ -1,18 +1,21 @@
 <template>
-    <div class="w-full my-8">
-        <header class="w-full border-b border-subtle text-sm text-brand">
+    <div class="w-full mt-8">
+        <header class="w-full border-b border-subtle text-sm text-brand font-bold">
             <span class="capitalize">{{ target }}</span>
-            {{ ' distribution date' }}
+            {{ ' distribution date and recipients' }}
         </header>
         <list-item
             v-if="$store.state.audits[audit_id].distribution[target].date"
             editable
-            singleton
             :edit="$store.state.audits[audit_id].distribution[target].date.uiState.edit"
             @edit="editDate"
             >
-
-            {{ $store.state.audits[audit_id].distribution[target].date.data.date }}
+            <div class="flex items-center space-x-2">
+                <icon value="calendar" />
+                <span class="font-medium">
+                    {{ $store.state.audits[audit_id].distribution[target].date.data.date }}
+                </span>
+            </div>
 
             <template #edit>
                 <div class="flex pr-0 md:pr-16 mb-2">
@@ -43,10 +46,11 @@
             v-else
             icon="plus"
             plain 
+            text
             ref="addPlanDateButton"
             type="primary" 
             class="mt-2"
-            @click.stop.prevent="$store.commit(`audits/${audit_id}/distribution/ADD_DATE`, target)" 
+            @click.stop.prevent="addDate" 
             >
             Add date
         </base-button>
@@ -88,6 +92,10 @@ export default {
         }
     },
     methods: {
+        addDate() {
+            this.$store.commit(`audits/${this.audit_id}/distribution/ADD_DATE`, this.target);
+            this.$nextTick(() => this.$refs.datepicker.focus());
+        },
         cancelEditDate() {
             this.$store.dispatch(`audits/${this.audit_id}/distribution/cancelEditDate`, this.target);
             this.selectedDate = null;
