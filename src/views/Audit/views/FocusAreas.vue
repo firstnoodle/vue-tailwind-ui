@@ -66,6 +66,7 @@
             <base-button 
                 icon="plus"
                 plain 
+                text
                 ref="addNewButton"
                 type="primary" 
                 @click.stop.prevent="onOpenNewItem" 

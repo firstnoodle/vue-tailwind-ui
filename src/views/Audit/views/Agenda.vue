@@ -153,6 +153,7 @@
                 <base-button 
                     icon="plus"
                     plain 
+                    text
                     ref="addNewDateButton"
                     type="primary" 
                     @click.stop.prevent="onAddNewDate" 
