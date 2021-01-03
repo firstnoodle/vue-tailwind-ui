@@ -1,9 +1,5 @@
 <template>
-    <div class="w-full my-8">
-        <header class="w-full border-b border-subtle text-sm text-brand">
-            <span class="capitalize">{{ target }}</span>
-            {{ ' recipients' }}
-        </header>
+    <div class="w-full mb-8">
 
         <draggable 
             v-model="recipients" 
@@ -19,14 +15,18 @@
                     editable
                     :edit="recipient.uiState.edit"
                     @edit="editRecipient(recipient)"
-                    @delete="$store.dispatch(`audits/${audit_id}/distribution/deleteRecipient`, { target, recipient })"
+                    @delete="$store.commit(`audits/${audit_id}/distribution/DELETE_RECIPIENT`, { target, recipient })"
+                    class="last:mb-2"
                     >
 
                     <div class="inline-flex w-2/3 md:w-1/2">{{ recipient.data.initials + ' (' + recipient.data.name + ')' }}</div>
-                    <div v-if="recipient.data.copy" class="inline-flex w-1/3 md:w-1/2">{{ 'CC' }}</div>
+                    <div v-if="recipient.data.cc" class="inline-flex items-center space-x-2 w-1/3 md:w-1/2">
+                        <icon value="copy" />
+                        <span>{{ 'Copy' }}</span>
+                    </div>
                     
                     <template #edit>
-                        <div class="flex pr-0 md:pr-16 mb-2">
+                        <div class="flex items-center pr-0 md:pr-16 mb-2">
                             <div class="w-2/3 md:w-1/2 mr-2">
                                 <fn-select 
                                     v-model="selectedUserOption" 
@@ -50,7 +50,13 @@
                                 </fn-select>
                             </div>
                             <div class="w-1/3 md:w-1/2">
-                                CC
+                                <checkbox 
+                                    :value="selectedCC" 
+                                    ref="checkbox"
+                                    label="Copy" 
+                                    button
+                                    @click="onCheckboxClick"
+                                    /> 
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -75,6 +81,7 @@
             v-if="showAddRecipientButton"
             icon="plus"
             plain 
+            text
             ref="addPlanRecipientButton"
             type="primary" 
             @click.stop.prevent="addRecipient" 
@@ -87,15 +94,17 @@
 
 <script>
 import BaseButton from '~/components/BaseButton';
+import Checkbox from '~/components/Checkbox';
 import draggable from 'vuedraggable';
 import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
+import Icon from '~/components/Icon';
 import ListItem from '~/components/ListItem';
 import usersTable from '~/../demo/data/users.js';
 
 export default {
     name: 'Recipients',
-    components: { BaseButton, draggable, FnSelect, FnSelectOption, ListItem },
+    components: { BaseButton, Checkbox, draggable, FnSelect, FnSelectOption, Icon, ListItem },
     props: {
         target: {
             type: String,
@@ -115,6 +124,7 @@ export default {
                 ghostClass: "drag-ghost"
             },
             savingRecipient: false,
+            selectedCC: false,
             selectedUserOption: null,
             showAddRecipientButton: true,
             userSelectLoading: false,
@@ -123,15 +133,14 @@ export default {
     },
     computed: {
         computedSaveButtonDisabled() {
-            if(!this.selectedRoleOption || !this.selectedUserOption) return true;
-            return false;
+            return this.selectedUserOption ? false : true;
         },
         recipients: {
             get() {
                 return this.$store.state.audits[this.audit_id].distribution[this.target].recipients;
             },
             set(value) {
-                this.$store.commit(`audits/${this.audit_id}/distribution/UPDATE_PLAN_RECIPIENTS`, value)
+                this.$store.commit(`audits/${this.audit_id}/distribution/UPDATE_RECIPIENTS`, { target: this.target, recipients: value })
             }
         }
     },
@@ -139,6 +148,7 @@ export default {
         addRecipient() {
             this.$store.commit(`audits/${this.audit_id}/distribution/ADD_RECIPIENT`, this.target);
             this.showAddRecipientButton = false;
+            this.$nextTick(() => this.$refs.userSelect[0].focus());
         },
         cancelEditRecipient(recipient) {
             this.$store.dispatch(
@@ -148,10 +158,21 @@ export default {
                     recipient
                 }
             );
+            this.selectedUserOption = null;
+            this.selectedCC = false;
             this.showAddRecipientButton = true;
         },
         editRecipient(recipient) {
-            console.log(recipient);
+            this.selectedUserOption = {
+                label: `${recipient.data.initials} (${recipient.data.name})`,
+                value: {
+                    id: recipient.data.id,
+                    initials: recipient.data.initials,
+                    name: recipient.data.name,
+                }
+            };
+            this.selectedCC = recipient.data.cc;
+            recipient.uiState.edit = true;
         },
         fakeApiCall(query) {
             this.userOptions = usersTable
@@ -188,12 +209,42 @@ export default {
             return result;
         },
 
+        onCheckboxClick() {
+            this.selectedCC = !this.selectedCC;
+        },
+
         onSelectUser(option) {
             this.selectedUserOption = option;
+            this.$nextTick(() => this.$refs.checkbox[0].focus());
         },
 
         saveRecipient(recipient) {
-            console.log('save recipient', recipient);
+            this.savingRecipient = true;
+
+            setTimeout(() => {
+                this.$store.commit(
+                    `audits/${this.audit_id}/distribution/SAVE_RECIPIENT`,
+                    {
+                        target: this.target,
+                        recipient: {
+                            id: recipient.id || Date.now(),
+                            data: { 
+                                cc: this.selectedCC, 
+                                ...this.selectedUserOption.value 
+                            },
+                            uiState: {
+                                edit: false,
+                                listId: recipient.uiState.listId,
+                                selected: false
+                            }
+                        }
+                    }
+                );
+                this.savingRecipient = false;
+                this.showAddRecipientButton = true;
+                this.selectedUserOption = null;
+                this.selectedCC = false;
+            }, 500);
         },
     }
 }
