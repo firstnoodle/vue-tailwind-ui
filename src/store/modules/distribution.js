@@ -99,18 +99,9 @@ export default {
             if(target in state) {
                 const recipientIndex = state[target].recipients.findIndex(r => r.uiState.edit);
                 Vue.set(
-                    state[target].recipients[recipientIndex],
-                    {
-                        id: Date.now(),
-                        data: {
-                            initials: recipient.data.initials,
-                        },
-                        uiState: {
-                            edit: false,
-                            listId: recipient.uiState.listId,
-                            selected: false
-                        }
-                    }
+                    state[target].recipients,
+                    recipientIndex,
+                    recipient
                 )
             }
         },
