@@ -21,6 +21,13 @@ export default {
                 commit('DELETE_METHOD');
             }
         },
+        cancelEditNovoglowId({state, commit}) {
+            if(state.novoglowId.data.id) {
+                commit('CANCEL_EDIT_NOVOGLOW_ID');
+            } else {
+                commit('DELETE_NOVOGLOW_ID');
+            }
+        },
         cancelEditType({state, commit}) {
             if(state.type.data.name) {
                 commit('CANCEL_EDIT_TYPE');
@@ -50,6 +57,16 @@ export default {
                 }
             }
         },
+        ADD_NOVOGLOW_ID(state) {
+            state.novoglowId = {
+                data: { id: null },
+                uiState: {
+                    edit: true,
+                    listId: null,
+                    selected: false
+                }
+            }
+        },
         ADD_TYPE(state) {
             state.type = {
                 data: { name: null },
@@ -66,6 +83,9 @@ export default {
         CANCEL_EDIT_METHOD(state) {
             state.method.uiState.edit = false;
         },
+        CANCEL_EDIT_NOVOGLOW_ID(state) {
+            state.novoglowId.uiState.edit = false;
+        },
         CANCEL_EDIT_TYPE(state) {
             state.type.uiState.edit = false;
         },
@@ -74,6 +94,9 @@ export default {
         },
         DELETE_METHOD(state) {
             state.method = null;
+        },
+        DELETE_NOVOGLOW_ID(state) {
+            state.novoglowId = null;
         },
         DELETE_TYPE(state) {
             state.type = null;
@@ -95,6 +118,18 @@ export default {
             state.method = {
                 data: {
                     name: method
+                }, 
+                uiState: {
+                    edit: false,
+                    listId: null,
+                    selected: false
+                }
+            }
+        }, 
+        SAVE_NOVOGLOW_ID(state, id) {
+            state.novoglowId = {
+                data: {
+                    id
                 }, 
                 uiState: {
                     edit: false,
