@@ -93,7 +93,7 @@ export default {
     methods: {
         addMethod() {
             this.$store.commit(`audits/${this.audit_id}/ADD_METHOD`);
-            this.$nextTick(() => console.log(this.$refs.methodSelect.focus()));
+            this.$nextTick(() => this.$refs.methodSelect.focus());
         },
         onSelectMethod(option) {
             this.selectedMethodOption = option;
