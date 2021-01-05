@@ -6,7 +6,44 @@ import team from '~/store/modules/team.js';
 
 export default {
     namespaced: true,
+    actions: {
+        cancelEditMethod({state, commit}) {
+            if(state.method.data.name) {
+                commit('CANCEL_EDIT_METHOD');
+            } else {
+                commit('DELETE_METHOD');
+            }
+        },
+    },
     mutations: {
+        ADD_METHOD(state) {
+            state.method = {
+                data: { name: null },
+                uiState: {
+                    edit: true,
+                    listId: null,
+                    selected: false
+                }
+            }
+        },
+        CANCEL_EDIT_METHOD(state) {
+            state.method.uiState.edit = false;
+        },
+        DELETE_METHOD(state) {
+            state.method = null;
+        },
+        SAVE_METHOD(state, method) {
+            state.method = {
+                data: {
+                    name: method
+                }, 
+                uiState: {
+                    edit: false,
+                    listId: null,
+                    selected: false
+                }
+            }
+        }, 
         SET_ID(state, id) {
             state.id = id;
         },
@@ -21,10 +58,15 @@ export default {
         }
     },
     state: () => ({
-        id: null,
+        announced: null,
         conclusion: '',
+        domain: null,
+        id: null,
+        method: null,
+        novoglowId: null,
         rating: null,
         scope: '<p>The audit covers the Quality Management System and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
+        type: null,
     }),
     modules: { 
         distribution,
