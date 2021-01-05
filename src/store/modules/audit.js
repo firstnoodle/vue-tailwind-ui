@@ -14,6 +14,13 @@ export default {
                 commit('DELETE_METHOD');
             }
         },
+        cancelEditType({state, commit}) {
+            if(state.type.data.name) {
+                commit('CANCEL_EDIT_TYPE');
+            } else {
+                commit('DELETE_TYPE');
+            }
+        },
     },
     mutations: {
         ADD_METHOD(state) {
@@ -26,16 +33,44 @@ export default {
                 }
             }
         },
+        ADD_TYPE(state) {
+            state.type = {
+                data: { name: null },
+                uiState: {
+                    edit: true,
+                    listId: null,
+                    selected: false
+                }
+            }
+        },
         CANCEL_EDIT_METHOD(state) {
             state.method.uiState.edit = false;
         },
+        CANCEL_EDIT_TYPE(state) {
+            state.type.uiState.edit = false;
+        },
         DELETE_METHOD(state) {
             state.method = null;
+        },
+        DELETE_TYPE(state) {
+            state.type = null;
         },
         SAVE_METHOD(state, method) {
             state.method = {
                 data: {
                     name: method
+                }, 
+                uiState: {
+                    edit: false,
+                    listId: null,
+                    selected: false
+                }
+            }
+        }, 
+        SAVE_TYPE(state, type) {
+            state.type = {
+                data: {
+                    name: type
                 }, 
                 uiState: {
                     edit: false,
