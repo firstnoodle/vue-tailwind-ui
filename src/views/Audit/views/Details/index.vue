@@ -5,12 +5,12 @@
             <header class="w-full border-b border-subtle text-sm text-brand font-bold">
                 {{ 'Domain' }}
             </header>
-            <main>
+            <main class="text-sm">
                 {{ 'ISO/GMP' }}
             </main>
         </div>
 
-        <novo-glow-id />
+        <novoglow-id />
         <audit-type />
         <audit-announced />
         <audit-method />
@@ -25,12 +25,12 @@
 import AuditAnnounced from './AuditAnnounced.vue';
 import AuditMethod from './AuditMethod.vue';
 import AuditType from './AuditType.vue';
-import NovoGlowId from './NovoGlowId.vue';
+import NovoglowId from './NovoglowId.vue';
 import ViewContent from '~/components/application/ViewContent';
 import ViewContentFooterLink from '~/components/application/ViewContentFooterLink';
 
 export default {
     name: 'Details',
-    components: { AuditAnnounced, AuditMethod, AuditType, NovoGlowId, ViewContent, ViewContentFooterLink },
+    components: { AuditAnnounced, AuditMethod, AuditType, NovoglowId, ViewContent, ViewContentFooterLink },
 }
 </script>
