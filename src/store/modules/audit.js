@@ -7,6 +7,13 @@ import team from '~/store/modules/team.js';
 export default {
     namespaced: true,
     actions: {
+        cancelEditAnnounced({state, commit}) {
+            if(state.announced.data.name) {
+                commit('CANCEL_EDIT_ANNOUNCED');
+            } else {
+                commit('DELETE_ANNOUNCED');
+            }
+        },
         cancelEditMethod({state, commit}) {
             if(state.method.data.name) {
                 commit('CANCEL_EDIT_METHOD');
@@ -23,6 +30,16 @@ export default {
         },
     },
     mutations: {
+        ADD_ANNOUNCED(state) {
+            state.announced = {
+                data: { value: null },
+                uiState: {
+                    edit: true,
+                    listId: null,
+                    selected: false
+                }
+            }
+        },
         ADD_METHOD(state) {
             state.method = {
                 data: { name: null },
@@ -43,11 +60,17 @@ export default {
                 }
             }
         },
+        CANCEL_EDIT_ANNOUNCED(state) {
+            state.announced.uiState.edit = false;
+        },
         CANCEL_EDIT_METHOD(state) {
             state.method.uiState.edit = false;
         },
         CANCEL_EDIT_TYPE(state) {
             state.type.uiState.edit = false;
+        },
+        DELETE_ANNOUNCED(state) {
+            state.announced = null;
         },
         DELETE_METHOD(state) {
             state.method = null;
@@ -55,6 +78,19 @@ export default {
         DELETE_TYPE(state) {
             state.type = null;
         },
+        SAVE_ANNOUNCED(state, value) {
+            console.log('save announced');
+            state.announced = {
+                data: {
+                    value
+                }, 
+                uiState: {
+                    edit: false,
+                    listId: null,
+                    selected: false
+                }
+            }
+        }, 
         SAVE_METHOD(state, method) {
             state.method = {
                 data: {
