@@ -58,8 +58,6 @@ export default {
             const slicedInput = this.inputValue.slice(0, this.inputValue.length - 1);
 
             if (this.lastKeyPressed === 8 && slicedContent === this.inputValue) {
-                //console.log("DELETE");
-
                 // allow delete key to repeat when deleteRepeatCount > 0
                 // this is to avoid delete to trigger twice when it is just
                 // pressed once
@@ -72,10 +70,8 @@ export default {
                 }
                 this.deleteRepeatCount++;
             } else if (slicedInput === this.content) {
-                //console.log("KEY");
                 this.deleteRepeatCount = 0;
             } else {
-                //console.log("PASTE");
                 this.$emit("paste", this.inputValue, this.content);
             }
 

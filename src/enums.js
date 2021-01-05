@@ -1,4 +1,19 @@
 
+export const AUDIT_METHODS = {
+    REMOTE: 'Remote',
+    ON_SITE: 'On site',
+    OTHER: 'Other',
+};
+
+export const AUDIT_TYPES = {
+    CLOSEDOWN: 'Closedown',
+    FOR_CAUSE: 'For cause',
+    OTHER: 'Other',
+    QUALIFICATION: 'Qualification',
+    RE_AUDIT: 'Re-audit',
+    ROUTINE: 'Routine',
+};
+
 export const AUDIT_RATINGS = {
     NOT_MEETING_STANDARDS: "Not meeting standards",
     LOW: "Low",
