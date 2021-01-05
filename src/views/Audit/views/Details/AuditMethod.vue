@@ -18,18 +18,18 @@
                 <div class="flex pr-0 md:pr-16 mb-2">
                     <div class="w-2/3 md:w-1/2 mr-2">
                         <fn-select 
-                            v-model="selectedMethodOption" 
+                            v-model="selectedOption" 
                             :focus-after-select="false"
-                            initial-text="Enter initials or name"
+                            initial-text="Select method"
                             placeholder="Select method"
-                            ref="methodSelect"
-                            @select="onSelectMethod"
+                            ref="select"
+                            @select="onSelect"
                             >
                                 <fn-select-option 
-                                    v-for="method in methodOptions" 
-                                    :key="method.label" 
-                                    :label="method.label" 
-                                    :value="method"
+                                    v-for="option in options" 
+                                    :key="option.label" 
+                                    :label="option.label" 
+                                    :value="option"
                                 />
                         </fn-select>
                     </div>
@@ -43,7 +43,7 @@
                         :loading="saving" 
                         @click.stop.prevent="save" 
                     >
-                        {{ $store.state.audits[audit_id].method.data.method ? 'Update date' : 'Save date' }}
+                        {{ $store.state.audits[audit_id].method.data.method ? 'Update method' : 'Save method' }}
                     </base-button>
                     <base-button @click="$store.dispatch(`audits/${audit_id}/cancelEditMethod`)" plain type="primary">Cancel</base-button>
                 </div>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { AUDIT_METHODS } from '~/enums';
 import BaseButton from '~/components/BaseButton';
 import FnSelect from '~/components/Select.js';
 import FnSelectOption from '~/components/SelectOption';
@@ -76,38 +77,42 @@ export default {
     data() {
         return {
             audit_id: this.$route.params.audit,
-            methodOptions: [
-                { label: 'Remote', value: 'Remote' },
-                { label: 'On site', value: 'On site' },
-                { label: 'Other', value: 'Other' },
-            ],
+            options: [],
             saving: false,
-            selectedMethodOption: null
+            selectedOption: null
         }
     },
     computed: {
         computedSaveButtonDisabled() {
-            return this.selectedMethodOption ? false : true;
+            return this.selectedOption ? false : true;
         },
+    },
+    created() {
+        for(const method in AUDIT_METHODS) {
+            this.options.push({
+                label: AUDIT_METHODS[method],
+                value: AUDIT_METHODS[method],
+            })
+        }
     },
     methods: {
         addMethod() {
             this.$store.commit(`audits/${this.audit_id}/ADD_METHOD`);
-            this.$nextTick(() => this.$refs.methodSelect.focus());
+            this.$nextTick(() => this.$refs.select.focus());
         },
         editMethod() {
-            this.selectedMethodOption = {
+            this.selectedOption = {
                 label: this.$store.state.audits[this.audit_id].method.data.name,
                 value: this.$store.state.audits[this.audit_id].method.data.name,
             }
             this.$store.state.audits[this.audit_id].method.uiState.edit = true
         },
-        onSelectMethod(option) {
-            this.selectedMethodOption = option;
+        onSelect(option) {
+            this.selectedOption = option;
             this.$refs.saveButton.$el.focus();
         },
         save() {
-            this.$store.commit(`audits/${this.audit_id}/SAVE_METHOD`, this.selectedMethodOption.value);
+            this.$store.commit(`audits/${this.audit_id}/SAVE_METHOD`, this.selectedOption.value);
         }
     }
 }
