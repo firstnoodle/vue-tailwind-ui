@@ -8,7 +8,7 @@
             editable
             singleton
             :edit="$store.state.audits[audit_id].method.uiState.edit"
-            @edit="$store.state.audits[audit_id].method.uiState.edit = true"
+            @edit="editMethod"
             >
             <span class="font-medium">
                 {{ $store.state.audits[audit_id].method.data.name }}
@@ -94,6 +94,13 @@ export default {
         addMethod() {
             this.$store.commit(`audits/${this.audit_id}/ADD_METHOD`);
             this.$nextTick(() => this.$refs.methodSelect.focus());
+        },
+        editMethod() {
+            this.selectedMethodOption = {
+                label: this.$store.state.audits[this.audit_id].method.data.name,
+                value: this.$store.state.audits[this.audit_id].method.data.name,
+            }
+            this.$store.state.audits[this.audit_id].method.uiState.edit = true
         },
         onSelectMethod(option) {
             this.selectedMethodOption = option;
