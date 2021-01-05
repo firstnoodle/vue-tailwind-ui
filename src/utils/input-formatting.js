@@ -5,6 +5,11 @@ export const DATE = {
     format: "xxxx-xx-xx",
     regex: /^\d{0,4}-?$|^\d{0,4}-[01]$|^\d{0,4}-(0[1-9]|1[0-2])-?$|^\d{0,4}-(0[1-9]|1[0-2])-[0-3]$|^\d{0,4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])$/
 };
+
+export const NOVOGLOW_ID = {
+    format: "xxxxxxxxx",
+    regex: /^(?:A|AU|AU1|AU1\d{0,6})?$/
+}
   
 // TODO: regex seems to not work
 export const TIME = {
