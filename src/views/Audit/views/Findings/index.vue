@@ -88,7 +88,7 @@
 <script>
 import BaseButton from '~/components/BaseButton.js';
 import draggable from 'vuedraggable';
-import FindingModal from '~/components/FindingModal';
+import FindingModal from './FindingModal';
 import ListItem from '~/components/ListItem';
 import SeveritySelect from '~/components/SeveritySelect';
 import SeverityTag from '~/components/SeverityTag';
