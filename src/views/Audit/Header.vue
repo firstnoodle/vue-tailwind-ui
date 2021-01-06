@@ -31,13 +31,14 @@
                         </div>
                     </tooltip>
                 </div>
-                <base-button plain type="primary" icon="document" class="self-end" />
+                <base-button plain type="primary" icon="document" class="self-end" @click="exportDocx" />
             </div>
         </template>
     </view-header>
 </template>
 
 <script>
+import { exportPlan } from '~/utils/docx';
 import BaseButton from '~/components/BaseButton';
 import Icon from '~/components/Icon';
 import Tooltip from '~/components/Tooltip';
@@ -57,6 +58,11 @@ export default {
                 return this.$store.getters[`audits/${this.audit_id}/team/getAllDatesChronologically`][0].data.date;
             }
             return 'none';
+        }
+    },
+    methods: {
+        exportDocx() {
+            exportPlan();
         }
     }
 }
