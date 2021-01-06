@@ -36,6 +36,13 @@ export default {
             }
         },
     },
+    getters: {
+        novoglowId: (state) => {
+            return state.novoglowId 
+                ? state.novoglowId.data.id || 'none'
+                : 'none';
+        }
+    },
     mutations: {
         ADD_ANNOUNCED(state) {
             state.announced = {
