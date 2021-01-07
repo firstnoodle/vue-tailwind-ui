@@ -1,4 +1,5 @@
 import { Paragraph, TextRun } from "docx";
+import { sourceTemplates } from '../sources';
 
 export default [
     // Title
@@ -15,6 +16,10 @@ export default [
     new Paragraph({
         style: 'heading',
         text: 'Routine audit of'
+    }),
+    new Paragraph({
+        style: 'heading',
+        text: ''
     }),
     new Paragraph({
         style: 'heading',
@@ -43,31 +48,21 @@ export default [
             }
         },
         spacing: {
-            after: 400
+            after: 800
         }
     }),
 
     // Recipients
-    new Paragraph({
-        style: 'bodyBold',
-        text: 'Recipient(s):',
-    }),
-    new Paragraph({
-        style: 'body',
-        text: 'Name (Init.)',
-    }),
-    new Paragraph({
-        style: 'bodyBold',
-        text: 'Copy:',
-    }),
-    new Paragraph({
-        style: 'body',
-        text: 'Name (Init.)',
-    }),
+    ...sourceTemplates.planRecipients.render([
+        { name: 'Susan Barnkopf', initials: 'SNBN', copy: false },
+        { name: 'Vanya Daghat', initials: 'VYDT', copy: false },
+        { name: 'Sebastian Thielke', initials: 'NSTQ', copy: true },
+    ]),
+    new Paragraph({ style: 'body', text: '', spacing: { after: 3000 } }),
 
     new Paragraph({
         children: [
-            new TextRun({ style: 'bodyBold', text: 'Audit date(s):\t\t'}),
+            new TextRun({ style: 'bodyBold', text: 'Audit date(s): '}),
             new TextRun({ style: 'body', text: 'DD-MM-20YY to DD-MM-20YY'}),
         ]
     })
