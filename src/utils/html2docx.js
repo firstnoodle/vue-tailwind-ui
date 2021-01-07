@@ -1,15 +1,11 @@
-
+// import { Paragraph, TextRun } from "docx";
 export default htmlString => {
     const parsedHtml = new DOMParser().parseFromString(htmlString, 'text/html');
     const htmlObject = walkTree(parsedHtml.body);
-    console.log(htmlObject.children);
-
-    // const walker = parsedHtml.createTreeWalker(parsedHtml.body, NodeFilter.SHOW_ELEMENT, null, false);
-    // let node = walker.nextNode();
-    // while(node) {
-    //     console.log(node);
-    //     node = walker.nextNode();
-    // }
+    
+    for(const item of htmlObject.children) {
+        console.log(item);
+    }
 };
 
 const walkTree = rootNode => {
@@ -28,18 +24,21 @@ const walkTree = rootNode => {
 };
 
 
-// const renderNode = node => {
-//     if(node.nodeName === 'P') {
+// const renderNode = item => {
+//     if(item.tag === 'P') {
 //         return new Paragraph();
 //     }
-//     if(node.nodeName === '#text') {
-//         return new TextRun(node.data);
+//     if(item.tag === 'STRONG') {
+//         return new TextRun(item.data);
 //     }
-//     if(node.nodeName === 'UL') {
+//     if(item.tag === '#text') {
+//         return new TextRun(item.data);
+//     }
+//     if(item.tag === 'UL') {
 //         return new Paragraph({ text: 'testing '});
 //     }
-//     if(node.nodeName === 'LI') {
-//         return new TextRun(node.data)
+//     if(item.tag === 'LI') {
+//         return new TextRun(item.data)
 //     }
 //     return null;
 // }
