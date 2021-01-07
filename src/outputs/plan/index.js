@@ -1,9 +1,11 @@
 import { Document, Packer, Paragraph } from "docx";
 import { saveAs } from 'file-saver';
+
 import styles from '../styles';
 import { getHeader, getFooter } from './pageFurniture';
 import frontPage from './frontPage';
-import { sourceTemplates } from './structure';
+import { sourceTemplates } from '../sources';
+
 
 export const exportPlan = () => {
     const defaultHeader = getHeader('AU100XXXX');
@@ -14,6 +16,7 @@ export const exportPlan = () => {
         styles 
     });
 
+    // FRONT PAGE
     doc.addSection({
         headers: { default: defaultHeader },
         footers: { default: defaultFooter },
@@ -28,14 +31,30 @@ export const exportPlan = () => {
                 style: 'heading',
                 text: 'Introduction to the audit'
             }),
+            new Paragraph({ style: 'heading', text: '' }),
+            new Paragraph({
+                style: 'body',
+                text: 'This document serves as the Audit Plan for the Audit of {unit.name}. The Audit Plan is used to give both the unit and the audit team an overview of the audit activities to be performed during the audit. More information on the objective, methodology and the compliance requirements of the audit is available in Appendix 1.',
+            }),
+            new Paragraph({
+                style: 'heading',
+                text: 'Unit representatives and main contacts for the audit',
+                spacing: { before: 800 }
+            }),
+            new Paragraph({ style: 'heading', text: '' }),
+            ...sourceTemplates.unitRepresentatives.render({
+                head: { name: 'Maria Minare', initials: 'MMNR' },
+                coordinator: { name: 'Claus Jensen', initials: 'CLJS', email: 'cljs@novonordisk.com' },
+            }),
+            new Paragraph({
+                style: 'heading',
+                text: 'Unit representatives and main contacts for the audit',
+                spacing: { before: 800 }
+            }),
+            new Paragraph({ style: 'heading', text: '' }),
             ...sourceTemplates.auditTeam.render([
                 { name: 'Susan Barnkopf', initials: 'SNBN', role: 'Lead Auditor' },
                 { name: 'Vanya Daghat', initials: 'VYDT', role: 'Auditor' },
-            ]),
-            ...sourceTemplates.planRecipients.render([
-                { name: 'Susan Barnkopf', initials: 'SNBN', copy: false },
-                { name: 'Vanya Daghat', initials: 'VYDT', copy: false },
-                { name: 'Sebastian Thielke', initials: 'NSTQ', copy: true },
             ]),
         ]
     });
