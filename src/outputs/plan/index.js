@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph } from "docx";
+import { AlignmentType, Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType } from "docx";
 import { saveAs } from 'file-saver';
 
 import styles from '../styles';
@@ -6,6 +6,26 @@ import { getHeader, getFooter } from './pageFurniture';
 import frontPage from './frontPage';
 import { sourceTemplates } from '../sources';
 
+
+const blankLine = new Paragraph({ style: 'heading', text: '' });
+
+const sectionTitle = (text, spaceBefore=null) => {
+    const options = { style: 'heading', text };
+    if(spaceBefore) options.spacing = { before: 800 };
+    return new Paragraph(options);
+};
+
+const centeredTitle = text => {
+    return new Paragraph({
+        style: 'heading',
+        alignment: AlignmentType.CENTER,
+        text
+    })
+}
+
+const paragraph = text => {
+    return new Paragraph({ style: 'body', text });
+};
 
 export const exportPlan = () => {
     const defaultHeader = getHeader('AU100XXXX');
