@@ -178,7 +178,7 @@ export default {
         method: null,
         novoglowId: null,
         rating: null,
-        scope: '<p>The audit covers the Quality Management System and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
+        scope: '<p>The audit covers the <strong>Quality Management System</strong> and ISO/GMP processes applicable for:</p><p><ul><li>Dept. name, dept. no</li></ul></p>',
         type: null,
     }),
     modules: { 
