@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import { exportPlan } from '~/utils/docx';
+import { exportPlan } from '~/outputs/plan';
+// import html2docx from '~/utils/html2docx';
 import BaseButton from '~/components/BaseButton';
 import Icon from '~/components/Icon';
 import Tooltip from '~/components/Tooltip';
@@ -63,6 +64,7 @@ export default {
     methods: {
         exportDocx() {
             exportPlan();
+            // html2docx(this.$store.state.audits[this.audit_id].scope);
         }
     }
 }
