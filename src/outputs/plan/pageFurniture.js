@@ -1,4 +1,4 @@
-import { Footer, Header, Paragraph } from "docx";
+import { AlignmentType, Footer, Header, Paragraph } from "docx";
 
 export const getHeader = novoglowId => {
     return new Header({
@@ -15,9 +15,15 @@ export const getFooter = () => {
     return new Footer({
         children: [
             new Paragraph({
+                alignment: AlignmentType.START,
                 style: 'headerFooter',
-                text: '1 of 9'
-            })
+                text: 'ISO/GMP'
+            }),
+            new Paragraph({
+                alignment: AlignmentType.END,
+                style: 'headerFooter',
+                text: 'Page 1 of 9'
+            }),
         ],
     })
 };
