@@ -74,19 +74,13 @@ export const sourceTemplates = {
     requirements: {
         name: 'Requirements',
         render: requirements => {
-            return [
-                new Paragraph({
-                    style: 'bodyBold',
-                    text: 'Requirements'
-                }),
-                ...requirements.map(requirement => {
-                    return new Paragraph({
-                        style: 'body',
-                        text: requirement.description,
-                        bullet: 0
-                    });
-                })
-            ]
+            return requirements.map(requirement => {
+                return new Paragraph({
+                    style: 'body',
+                    text: requirement.description,
+                    bullet: 0
+                });
+            })
         }
     },
     scope: {
